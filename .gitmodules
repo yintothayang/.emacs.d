@@ -93,6 +93,9 @@
 [submodule "ivy"]
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
+[submodule "ivy-posframe"]
+	path = lib/ivy-posframe
+	url = git@github.com:tumashu/ivy-posframe.git
 [submodule "ivy-rich"]
 	path = lib/ivy-rich
 	url = git@github.com:Yevgnen/ivy-rich.git
@@ -122,6 +125,9 @@
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
+[submodule "posframe"]
+	path = lib/posframe
+	url = git@github.com:tumashu/posframe.git
 [submodule "projectile"]
 	path = lib/projectile
 	url = git@github.com:bbatsov/projectile.git

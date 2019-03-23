@@ -15,7 +15,6 @@
   (setq inhibit-startup-screen t)
   (setq inhibit-startup-echo-area-message "locutus")
   (setq initial-buffer-choice t)
-  (setq initial-scratch-message "")
   (setq load-prefer-newer t)
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
@@ -63,7 +62,6 @@
                                       before-user-init-time))))
 
 ;;; Long tail
-
 (use-package dash
   :config (dash-enable-font-lock))
 
@@ -106,10 +104,6 @@
                           'magit-insert-stashes
                           'append))
 
-(use-package man
-  :defer t
-  :config (setq Man-width 80))
-
 (use-package paren
   :config (show-paren-mode))
 
@@ -133,17 +127,6 @@
 (use-package simple
   :config (column-number-mode))
 
-(progn ;    `text-mode'
-  (add-hook 'text-mode-hook #'indicate-buffer-boundaries-left))
-
-(use-package tramp
-  :defer t
-  :config
-  (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
-  (add-to-list 'tramp-default-proxies-alist '("localhost" nil nil))
-  (add-to-list 'tramp-default-proxies-alist
-               (list (regexp-quote (system-name)) nil nil)))
-
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
            (float-time (time-subtract (current-time)
@@ -156,44 +139,342 @@
                                           before-user-init-time))))
             t))
 
-(progn ;     personalize
-  (let ((file (expand-file-name (concat (user-real-login-name) ".el")
-                                user-emacs-directory)))
-    (when (file-exists-p file)
-      (message "so personal")
-      (load file))))
-
-
 
 ;; Load custom modules
-(add-to-list 'load-path (expand-file-name "modules" user-emacs-directory))
 
-(load "+smex")
-(load "+ivy")
-(load "+projectile")
-;; ;; (load "+flycheck")
-;; ;; (load "+eglot")
-(load "+company")
-(load "+lsp")
-(load "+undo-tree")
-(load "+eshell")
-(load "+kubernetes")
+(use-package smex)
 
-;; Langs
-;; (load "+python")
-(load "+javascript")
-(load "+typescript")
-;; ;; (load "+solidity")
-(load "+pug")
-(load "+stylus")
-(load "+vue")
-(load "+yaml")
-;; (load "+org")
-;; (load "+magit")
-(load "+csv")
+;; ivy
+;; https://github.com/abo-abo/swiper
+(use-package ivy
+  :requires smex
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-ignore-order)))
+  (setq ivy-initial-inputs-alist nil)
+  (setq projectile-completion-system 'ivy)
+  (setq counsel-async-filter-update-time 10000)
+  (setq ivy-dynamic-exhibit-delay-ms 20)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-t") 'complete-symbol)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
 
-;; Looks
-(load "+ui")
-(load "+theme")
-(load "+keybindings")
-(load "+spotify")
+;; (use-package posframe)
+;; (use-package ivy-posframe
+;;   :requires posframe
+;;   :config
+;;   (setq ivy-display-function #'ivy-posframe-display-at-point)
+;;   (setq ivy-posframe-border-width 1)
+;;   (setq ivy-posframe-parameters
+;;         '((left-fringe . 10)))
+;;   (ivy-posframe-enable))
+;; (setq ivy-display-function #'ivy-posframe-display)
+;; (setq ivy-display-function #'ivy-posframe-display-at-frame-center)
+;; (setq ivy-display-function #'ivy-posframe-display-at-window-center)
+;; (setq ivy-display-function #'ivy-posframe-display-at-frame-bottom-left)
+;; (setq ivy-display-function #'ivy-posframe-display-at-window-bottom-left)
+
+(use-package counsel-projectile
+  :defines personal-keybindings
+  :bind ("C-x f" . counsel-projectile-find-file)
+  :bind ("C-x p" . projectile-switch-open-project))
+
+;; https://github.com/Yevgnen/ivy-rich
+(use-package ivy-rich
+  :requires ivy
+  :config
+  (setq ivy-format-function #'ivy-format-function-line)
+  (ivy-rich-mode 1))
+
+;; projectile
+(use-package projectile
+  :config
+  (setq projectile-enable-caching t)
+  (setq projectile-require-project-root nil)
+  (setq projectile-globally-ignored-directories
+        (append '(
+                  ".git"
+                  ".svn"
+                  "out"
+                  "repl"
+                  "target"
+                  "venv"
+                  "node_modules"
+                  "dist"
+                  "lib"
+                  )
+                projectile-globally-ignored-directories))
+  (setq projectile-globally-ignored-files
+        (append '(
+                  ".DS_Store"
+                  "*.gz"
+                  "*.pyc"
+                  "*.jar"
+                  "*.tar.gz"
+                  "*.tgz"
+                  "*.zip"
+                  "*.elc"
+                  "*-autoloads.el"
+                  )
+                projectile-globally-ignored-files))
+  (projectile-global-mode))
+
+;; Flycheck
+;; (use-package flycheck
+;;   :ensure t
+;;   :init (global-flycheck-mode))
+
+;; Company
+(use-package company
+  :config
+  (setq company-backends
+        '(company-elisp
+          company-semantic
+          company-capf
+          (company-dabbrev-code company-gtags company-etags
+                                company-keywords)
+          company-files
+          company-dabbrev))
+  (setq company-minimum-prefix-length 2)
+  (setq company-idle-delay .2)
+  (setq company-dabbrev-other-buffers t)
+  (setq company-auto-complete nil)
+  (setq company-dabbrev-code-other-buffers 'all)
+  (setq company-dabbrev-code-everywhere t)
+  (setq company-dabbrev-code-ignore-case t)
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-p") #'company-select-previous)))
+;; (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package lsp-mode
+  :commands lsp)
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+
+;; Eshell
+;; requires magit and all-the-icons
+(require 'eshell)
+(require 'magit)
+(setq eshell-prompt-function
+      (lambda ()
+        (concat
+         (propertize (concat (abbreviate-file-name (eshell/pwd))) 'face `(:foreground "#a991f1" :weight bold))
+         (propertize " ")
+         (if (magit-get-current-branch)
+             (propertize (all-the-icons-octicon "git-branch")
+                         'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
+                         'display '(raise -0.1)))
+         (propertize " ")
+         (if (magit-get-current-branch)
+             (propertize (magit-get-current-branch) 'face `(:foreground "#7bc275" :weight bold)))
+         ;;   (propertize "z" 'face `(:foreground "yellow")))
+         ;; (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground "yellow"))
+         (propertize "\n" 'face `(:foreground "#7bc275"))
+         (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground "#7bc275" :weight bold))
+         )))
+
+
+(use-package xterm-color
+  :config
+  (setq comint-output-filter-functions
+        (remove 'ansi-color-process-output comint-output-filter-functions))
+
+  (add-hook 'shell-mode-hook
+            (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+  (add-hook 'eshell-before-prompt-hook
+            (lambda ()
+              (setq xterm-color-preserve-properties t)))
+
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (setenv "TERM" "xterm-256color")))
+
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
+
+(use-package kubernetes
+  :commands (kubernetes-overview))
+
+;; Python
+;; (use-package virtualenvwrapper)
+;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+
+
+;; Javascript
+(setq js-indent-level 2)
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :defer 10
+  :config
+  (setq js2-basic-offset 2)
+  (setq-default js2-show-parse-errors nil)
+  (setq-default js2-strict-missing-semi-warning nil)
+  (setq-default js2-strict-trailing-comma-warning nil)
+  :hook (('js2-mode . 'highlight-symbol-mode)
+	       ('js2-mode . 'highlight-indent-guides-mode)))
+
+;; Typescript
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :init (setq typescript-indent-level 2)
+  :hook (('typescript-mode . 'highlight-symbol-mode)
+	       ('typescript-mode . 'highlight-indent-guides-mode)))
+
+
+;; Pug
+(use-package pug-mode
+  :config
+  (setq pug-tab-width 2))
+
+;; Stylus
+(use-package sws-mode)
+
+;; Vue
+(use-package mmm-mode)
+(use-package vue-mode
+  :requires mmm-mode
+  :mode "\\.vue\\'"
+  :config
+  (setq mmm-submode-decoration-level 0)
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+
+
+
+;; YAML
+(use-package yaml-mode
+  :mode "\\.yaml\\'"
+  :hook (('yaml-mode . 'highlight-indent-guides-mode)))
+
+;; CSV
+(use-package csv-mode
+  :mode "\\.csv\\'")
+
+
+;; UI
+;; Full screen
+(set-frame-parameter nil 'fullscreen 'fullboth)
+
+;; Font
+(set-face-attribute 'default nil :height 124)
+(set-frame-font "Office Code Pro")
+
+;; Don't truncate lines
+(setq-default truncate-lines t)
+(setq tab-width 2)
+
+;; Needed for hi-dpi scrolling
+(pixel-scroll-mode)
+
+;; Icons
+;; Must install fonts ->  M-x all-the-icons-install-fonts
+(use-package all-the-icons)
+(use-package all-the-icons-ivy
+  :config
+  (all-the-icons-ivy-setup))
+
+(use-package all-the-icons-dired
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
+;; Display Line Numbers
+(setq-default display-line-numbers t)
+
+;; Delete trailing whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; hl-line
+(global-hl-line-mode 1)
+
+;; indent
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+(setq default-tab-width 2)
+
+;; Shutup
+(setq ring-bell-function 'ignore)
+
+;; smartparens
+(use-package smartparens
+  :config
+  (require 'smartparens-config)
+  (smartparens-global-mode t)
+  (show-smartparens-global-mode t))
+
+;; indent
+(use-package aggressive-indent
+  :config
+  (global-aggressive-indent-mode 1))
+
+;; ;; (use-package dimmer
+;; ;;   :config
+;; ;;   (dimmer-mode 1))
+
+;; Doom modeline
+(use-package doom-modeline
+  :config
+  (setq doom-modeline-icon t)
+  :hook
+  (after-init . doom-modeline-init))
+
+
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode t))
+
+(use-package highlight-symbol
+  :init
+  (setq highlight-symbol-idle-delay .2))
+
+;; https://github.com/DarthFennec/highlight-indent-guides
+(use-package highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-method 'character)
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+
+;; Theme
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-vibrant t)
+  (doom-themes-org-config))
+
+;; Keybindings
+(setq x-meta-keysym 'super)
+(setq x-super-keysym 'meta)
+
+(global-set-key (kbd "C--") 'undo)
+(global-set-key (kbd "C-r") 'redo)
+
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+
+(global-set-key (kbd "C-,") 'other-window)
+(global-set-key (kbd "C-.") 'previous-buffer)
+(global-set-key (kbd "C-x 1") 'split-window-right)
+
+(global-set-key (kbd "M-p") 'beginning-of-buffer)
+(global-set-key (kbd "M-n") 'end-of-buffer)
+
+(global-set-key (kbd "s-c") 'kill-ring-save)
+
+(keyboard-translate ?\C-i ?\H-i)
+(global-set-key [?\H-i] 'hippie-expand)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(use-package counsel-spotify
+  :config
+  (setq counsel-spotify-client-id "c490bbbcd29a44f2ac727f5fbfed86a5")
+  (setq counsel-spotify-client-secret "8a64340b996145868a65bee52ed06271"))

@@ -1,4 +1,0 @@
-(use-package undo-tree
-  :straight (undo-tree :type git :host github :repo "martijnvermaat/undo-tree")
-  :config
-  (global-undo-tree-mode))

@@ -1,4 +1,0 @@
-;; Pug
-(use-package pug-mode
-  :init
-  (setq tab-width 2))

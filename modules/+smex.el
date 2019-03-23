@@ -1,2 +1,0 @@
-;; smex
-(use-package smex)

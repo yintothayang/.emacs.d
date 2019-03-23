@@ -1,6 +1,0 @@
-;; Stylus
-(use-package sws-mode)
-
-(use-package stylus-mode
-  :requires sws-mode
-  :config)
