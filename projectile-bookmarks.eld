@@ -1,0 +1,1 @@
+("~/repos/innervate/gamesight-console-www/" "~/.emacs.d/" "~/repos/innervate/k8s-grafana/" "~/repos/innervate/gscol/" "~/.emacs.d/lib/vue-mode/" "~/repos/ludic/ein/")

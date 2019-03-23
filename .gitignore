@@ -3,3 +3,11 @@
 /custom.el
 /elpa
 /var
+auto-save-list/
+history
+init.elc
+places
+transient/
+*.elc
+*-autoloads.el
+dir

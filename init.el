@@ -19,7 +19,8 @@
   (setq load-prefer-newer t)
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
-  (menu-bar-mode 0))
+  (menu-bar-mode 0)
+  (tooltip-mode 0))
 
 (progn ;    `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
@@ -97,7 +98,7 @@
 
 (use-package magit
   :defer t
-  :bind (("C-x g"   . magit-status)
+  :bind (("C-x m"   . magit-status)
          ("C-x M-g" . magit-dispatch))
   :config
   (magit-add-section-hook 'magit-status-sections-hook
@@ -159,9 +160,40 @@
   (let ((file (expand-file-name (concat (user-real-login-name) ".el")
                                 user-emacs-directory)))
     (when (file-exists-p file)
+      (message "so personal")
       (load file))))
 
-;; Local Variables:
-;; indent-tabs-mode: nil
-;; End:
-;;; init.el ends here
+
+
+;; Load custom modules
+(add-to-list 'load-path (expand-file-name "modules" user-emacs-directory))
+
+(load "+smex")
+(load "+ivy")
+(load "+projectile")
+;; ;; (load "+flycheck")
+;; ;; (load "+eglot")
+(load "+company")
+(load "+lsp")
+(load "+undo-tree")
+(load "+eshell")
+(load "+kubernetes")
+
+;; Langs
+;; (load "+python")
+(load "+javascript")
+(load "+typescript")
+;; ;; (load "+solidity")
+(load "+pug")
+(load "+stylus")
+(load "+vue")
+(load "+yaml")
+;; (load "+org")
+;; (load "+magit")
+(load "+csv")
+
+;; Looks
+(load "+ui")
+(load "+theme")
+(load "+keybindings")
+(load "+spotify")

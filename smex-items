@@ -1,0 +1,50 @@
+
+;; ----- smex-history -----
+(
+ animate-birthday-present
+ magit-pull
+ counsel-spotify-next
+ typescript-mode
+ counsel-spotify-toggle-play-pause
+ completion-at-point
+ xwidget-webkit-browse-url
+)
+
+;; ----- smex-data -----
+(
+ (borg-assimilate . 57)
+ (eval-buffer . 33)
+ (company-mode . 4)
+ (eshell . 22)
+ (load-theme . 54)
+ (all-the-icons-install-fonts . 1)
+ (display-line-numbers-mode . 1)
+ (kubernetes-overview . 3)
+ (kubernetes-set-namespace . 1)
+ (projectile-switch-project . 5)
+ (lsp . 4)
+ (shell . 4)
+ (toggle-frame-fullscreen . 5)
+ (lsp-shutdown-workspace . 4)
+ (borg-build . 5)
+ (vue-mode . 10)
+ (projectile-grep . 3)
+ (epkg-update . 1)
+ (epkg-describe-package . 1)
+ (magit . 10)
+ (borg-remove . 1)
+ (magit-pull . 8)
+ (describe-key . 1)
+ (stylus-mode . 2)
+ (typescript-mode . 8)
+ (counsel-spotify-next . 10)
+ (magit-pull\.rebase . 1)
+ (projectile-invalidate-cache . 1)
+ (magit-checkout . 1)
+ (magit-merge . 1)
+ (kubernetes-use-context . 1)
+ (xwidget-webkit-browse-url . 1)
+ (completion-at-point . 1)
+ (counsel-spotify-toggle-play-pause . 1)
+ (animate-birthday-present . 1)
+)
