@@ -1,1 +1,0 @@
-("~/.emacs.d/lib/yaml-mode/" "~/.emacs.d/" "~/repos/innervate/gamesight-console-www/" "~/repos/innervate/k8s-grafana/" "~/repos/innervate/gscol/" "~/.emacs.d/lib/vue-mode/" "~/repos/ludic/ein/")

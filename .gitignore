@@ -11,3 +11,8 @@ transient/
 *.elc
 *-autoloads.el
 dir
+.lsp-session-v1
+projectile.cache
+projectile-bookmarks*
+custom.el*
+recentf*
