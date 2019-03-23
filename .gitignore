@@ -10,6 +10,7 @@ places
 transient/
 *.elc
 *-autoloads.el
+**/**/*-autoloads.el
 dir
 .lsp-session-v1
 projectile.cache
