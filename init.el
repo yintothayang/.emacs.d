@@ -142,7 +142,13 @@
 
 ;; Load custom modules
 
+;; smex
 (use-package smex)
+
+;; flycheck
+(use-package flycheck
+  :config
+  (global-flycheck-mode t))
 
 ;; ivy
 ;; https://github.com/abo-abo/swiper
@@ -222,12 +228,7 @@
                   "*-autoloads.el"
                   )
                 projectile-globally-ignored-files))
-  (projectile-global-mode))
-
-;; Flycheck
-;; (use-package flycheck
-;;   :ensure t
-;;   :init (global-flycheck-mode))
+  (projectile-mode))
 
 ;; Company
 (use-package company
@@ -254,15 +255,15 @@
     (define-key company-active-map (kbd "C-p") #'company-select-previous)))
 ;; (add-hook 'after-init-hook 'global-company-mode))
 
-(use-package lsp-mode
-  :commands lsp)
+;; LSP mode
+(use-package lsp-mode)
+(use-package company-lsp)
 
 (use-package undo-tree
   :config
   (global-undo-tree-mode))
 
 ;; Eshell
-;; requires magit and all-the-icons
 (require 'eshell)
 (require 'magit)
 (setq eshell-prompt-function
@@ -302,6 +303,42 @@
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
+
+;; (defvar-local eshell-hist-dirs nil)
+;; (defvar-local eshell-hist-index 0)
+
+;; (defun etc-eshell-update-hist-dir ()
+;;   ;; prevent "cd /tmp" over and over from making new entries
+;;   (when (not (equal (car (last eshell-hist-dirs)) (eshell/pwd)))
+;;     (push (eshell/pwd) eshell-hist-dirs)))
+
+;; (add-hook 'eshell-directory-change-hook #'etc-eshell-update-hist-dir)
+
+;; (defun eshell-forward (n)
+;;   (unless eshell-hist-dirs
+;;     (user-error "eshell-hist-dirs is empty, cd a few times"))
+;;   (let ((dirs eshell-hist-dirs))
+;;     (prog1 (eshell/cd (nth (setq eshell-hist-index
+;;                                  ;; ensure we don't go outside list bounds
+;;                                  (if (> n 0)
+;;                                      (min (- (length eshell-hist-dirs) 1) (+ eshell-hist-index n))
+;;                                    (max 0 (+ eshell-hist-index n))))
+;;                            dirs))
+;;       (setq eshell-hist-dirs dirs))))
+
+;; (defun eshell/b ()
+;;   (eshell-forward 1))
+
+;; (defun eshell/f ()
+;;   (eshell-forward -1))
+
+;; (defun etc-eshell-mode-hook ()
+;;   ;; make sure starting directory is in history
+;;   (push (eshell/pwd) eshell-hist-dirs))
+
+;; (add-hook 'eshell-mode-hook #'etc-eshell-mode-hook)
+
+;; Kubernetes
 (use-package kubernetes
   :commands (kubernetes-overview))
 
@@ -313,8 +350,8 @@
 ;; Javascript
 (setq js-indent-level 2)
 (use-package js2-mode
+  :defer t
   :mode "\\.js\\'"
-  :defer 10
   :config
   (setq js2-basic-offset 2)
   (setq-default js2-show-parse-errors nil)
@@ -325,30 +362,64 @@
 
 ;; Typescript
 (use-package typescript-mode
+  :defer t
   :mode "\\.ts\\'"
   :init (setq typescript-indent-level 2)
   :hook (('typescript-mode . 'highlight-symbol-mode)
-	       ('typescript-mode . 'highlight-indent-guides-mode)))
+	       ('typescript-mode . 'highlight-indent-guides-mode)
+         ('typescript-mode . 'flycheck-mode)
+         ('typescript-mode .  #'lsp)
+         ('typescript-mode . 'subword-mode)))
 
+;; SQL
+;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))
+(setq sql-connection-alist
+      '((redshift-gs_prod (sql-product 'postgres)
+                          (sql-port 5439)
+                          (sql-server "gamesight.cixsp8xnn5rk.us-west-2.redshift.amazonaws.com")
+                          (sql-user "gs_prod")
+                          (sql-database "gamesight_prod"))))
+
+
+
+;; Org
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-,") nil))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (sql . t)
+   (R . t)))
+
+;; (global-set-key "\C-cl" 'org-store-link)
+;; (global-set-key "\C-ca" 'org-agenda)
+;; (global-set-key "\C-cc" 'org-capture)
+;; (global-set-key "\C-cb" 'org-switchb)
 
 ;; Pug
 (use-package pug-mode
+  :defer t
   :config
   (setq pug-tab-width 2))
 
 ;; Stylus
-(use-package sws-mode)
+(use-package sws-mode
+  :defer t)
 
 ;; Vue
-(use-package mmm-mode)
+(use-package mmm-mode
+  :defer t
+  :config
+  (setq mmm-submode-decoration-level 0))
+
 (use-package vue-mode
+  :defer t
   :requires mmm-mode
   :mode "\\.vue\\'"
-  :config
-  (setq mmm-submode-decoration-level 0)
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
-
-
+  :hook (('vue-mode . 'highlight-symbol-mode)
+	       ('vue-mode . 'highlight-indent-guides-mode)
+         ('vue-mode . 'flycheck-mode)))
 
 ;; YAML
 (use-package yaml-mode
@@ -358,7 +429,6 @@
 ;; CSV
 (use-package csv-mode
   :mode "\\.csv\\'")
-
 
 ;; UI
 ;; Full screen
@@ -424,7 +494,7 @@
   :config
   (setq doom-modeline-icon t)
   :hook
-  (after-init . doom-modeline-init))
+  (after-init . doom-modeline-mode))
 
 
 (use-package git-gutter
@@ -450,6 +520,9 @@
   (doom-themes-org-config))
 
 ;; Keybindings
+;;(setq x-meta-keysym 'meta)
+;;(setq x-super-keysym 'super)
+
 (setq x-meta-keysym 'super)
 (setq x-super-keysym 'meta)
 
@@ -478,3 +551,5 @@
   :config
   (setq counsel-spotify-client-id "c490bbbcd29a44f2ac727f5fbfed86a5")
   (setq counsel-spotify-client-secret "8a64340b996145868a65bee52ed06271"))
+
+(setq backup-directory-alist `(("." . "~/.saves")))
