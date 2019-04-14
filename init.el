@@ -234,13 +234,19 @@
 (use-package company
   :config
   (setq company-backends
-        '(company-elisp
-          company-semantic
-          company-capf
-          (company-dabbrev-code company-gtags company-etags
-                                company-keywords)
-          company-files
-          company-dabbrev))
+        '((company-files          ; files & directory
+           company-keywords       ; keywords
+           )
+          (company-abbrev company-dabbrev company-ctags company-capf)
+          ))
+  ;; (setq company-backends
+  ;;       '(company-elisp
+  ;;         company-semantic
+  ;;         company-capf
+  ;;         (company-dabbrev-code company-gtags company-etags
+  ;;                               company-keywords)
+  ;;         company-files
+  ;;         company-dabbrev))
   (setq company-minimum-prefix-length 2)
   (setq company-idle-delay .2)
   (setq company-dabbrev-other-buffers t)
@@ -383,6 +389,9 @@
 
 
 ;; Org
+(use-package ob-rust)
+(use-package gnuplot)
+(use-package gnuplot-mode)
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-,") nil))
 
@@ -390,7 +399,12 @@
  'org-babel-load-languages
  '((emacs-lisp . t)
    (sql . t)
+   (js . t)
+   (rust . t)
+   (gnuplot . t)
    (R . t)))
+
+(use-package htmlize)
 
 ;; (global-set-key "\C-cl" 'org-store-link)
 ;; (global-set-key "\C-ca" 'org-agenda)
@@ -506,10 +520,10 @@
   (setq highlight-symbol-idle-delay .2))
 
 ;; https://github.com/DarthFennec/highlight-indent-guides
-(use-package highlight-indent-guides
-  :config
-  (setq highlight-indent-guides-method 'character)
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+;; (use-package highlight-indent-guides
+;;   :config
+;;   (setq highlight-indent-guides-method 'character)
+;;   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 
 ;; Theme
 (use-package doom-themes
@@ -520,8 +534,8 @@
   (doom-themes-org-config))
 
 ;; Keybindings
-;;(setq x-meta-keysym 'meta)
-;;(setq x-super-keysym 'super)
+(setq x-meta-keysym 'meta)
+(setq x-super-keysym 'super)
 
 (setq x-meta-keysym 'super)
 (setq x-super-keysym 'meta)

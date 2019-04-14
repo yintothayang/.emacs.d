@@ -81,6 +81,12 @@
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
+[submodule "gnuplot"]
+	path = lib/gnuplot
+	url = git@github.com:bruceravel/gnuplot-mode.git
+[submodule "gnuplot-mode"]
+	path = lib/gnuplot-mode
+	url = git@github.com:mkmcc/gnuplot-mode.git
 [submodule "graphql"]
 	path = lib/graphql
 	url = git@github.com:vermiculus/graphql.el.git
@@ -93,6 +99,9 @@
 [submodule "ht"]
 	path = lib/ht
 	url = git@github.com:Wilfred/ht.el.git
+[submodule "htmlize"]
+	path = lib/htmlize
+	url = git@github.com:hniksic/emacs-htmlize.git
 [submodule "hydra"]
 	path = lib/hydra
 	url = git@github.com:abo-abo/hydra.git
@@ -128,6 +137,9 @@
 [submodule "mmm-mode"]
 	path = lib/mmm-mode
 	url = git@github.com:purcell/mmm-mode.git
+[submodule "ob-rust"]
+	path = lib/ob-rust
+	url = git@github.com:micanzhang/ob-rust.git
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
