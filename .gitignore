@@ -19,3 +19,7 @@ custom.el*
 recentf*
 smex-items
 .org-id-locations
+session*
+tramp
+bookmarks
+eshell/lastdir

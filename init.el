@@ -1,3 +1,19 @@
+(defmacro k-time (&rest body)
+  "Measure and return the time it takes evaluating BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (float-time (time-since time))))
+
+;; Set garbage collection threshold to 1GB.
+(setq gc-cons-threshold #x40000000)
+
+;; When idle for 15sec run the GC no matter what.
+(defvar k-gc-timer
+  (run-with-idle-timer 15 t
+                       (lambda ()
+                         (message "Garbage Collector has run for %.06fsec"
+                                  (k-time (garbage-collect))))))
+
 ;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
 ;;; Early birds
 (progn ;     startup
@@ -309,6 +325,25 @@
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
+(defun eshell-up ()
+  (interactive)
+  (with-current-buffer "*eshell*"
+    (eshell-return-to-prompt)
+    (insert "cd ..")
+    (eshell-send-input)))
+
+(defun eshell-down ()
+  (interactive)
+  (with-current-buffer "*eshell*"
+    (eshell-return-to-prompt)
+    (insert "cd -")
+    (eshell-send-input)))
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (define-key eshell-mode-map (kbd "C-/") #'eshell-up)
+            (define-key eshell-mode-map (kbd "C-@") #'eshell-down)))
+
 
 ;; (defvar-local eshell-hist-dirs nil)
 ;; (defvar-local eshell-hist-index 0)
@@ -392,8 +427,18 @@
 (use-package ob-rust)
 (use-package gnuplot)
 (use-package gnuplot-mode)
+(use-package htmlize)
+(use-package org-bullets)
+(add-hook 'org-mode-hook 'org-bullets-mode)
+
+(setq org-link-file-path-type 'relative)
+(setq org-startup-with-inline-images t)
+(setq org-default-notes-file "~/notes.org")
+
 (with-eval-after-load 'org
-  (define-key org-mode-map (kbd "C-,") nil))
+  (define-key org-mode-map (kbd "C-,") nil)
+  (define-key org-mode-map (kbd "M-h") nil)
+  (define-key org-mode-map (kbd "<C-tab>") 'org-global-cycle))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -402,14 +447,35 @@
    (js . t)
    (rust . t)
    (gnuplot . t)
+   (ditaa . t)
    (R . t)))
 
-(use-package htmlize)
 
-;; (global-set-key "\C-cl" 'org-store-link)
-;; (global-set-key "\C-ca" 'org-agenda)
-;; (global-set-key "\C-cc" 'org-capture)
-;; (global-set-key "\C-cb" 'org-switchb)
+
+
+;; ;; TRAMP
+;; (defconst my-tramp-prompt-regexp "Verification code: ")
+
+;; ;; (setq verification-code (read-string "Verification code: "))
+
+;; (defun my-tramp-action (proc vec)
+;;   (save-window-excursion
+;;     (with-current-buffer (tramp-get-connection-buffer vec)
+;;       (message "1")
+;;       (tramp-message vec 6 "\n%s" (buffer-string))
+;;       (message "2")
+;;       (tramp-send-string vec "390244")
+;;       (message "3")
+;;       )))
+
+;; (setq tramp-actions-before-shell nil)
+;; (add-to-list 'tramp-actions-before-shell
+;;              '(my-tramp-prompt-regexp my-tramp-action))
+
+;; (defadvice sql-mysql (around sql-mysql-around activate)
+;;   "SSH to linux, then connect"
+;;   (let ((default-directory "/ssh:gsjumpbox:"))
+;;     ad-do-it))
 
 ;; Pug
 (use-package pug-mode
@@ -534,11 +600,15 @@
   (doom-themes-org-config))
 
 ;; Keybindings
-(setq x-meta-keysym 'meta)
-(setq x-super-keysym 'super)
-
-(setq x-meta-keysym 'super)
-(setq x-super-keysym 'meta)
+(if (= (display-pixel-width) 2560)
+    (progn
+      (message "small screen")
+      (setq x-meta-keysym 'meta)
+      (setq x-super-keysym 'super))
+  (progn
+    (message "big screen")
+    (setq x-meta-keysym 'super)
+    (setq x-super-keysym 'meta)))
 
 (global-set-key (kbd "C--") 'undo)
 (global-set-key (kbd "C-r") 'redo)
@@ -566,4 +636,6 @@
   (setq counsel-spotify-client-id "c490bbbcd29a44f2ac727f5fbfed86a5")
   (setq counsel-spotify-client-secret "8a64340b996145868a65bee52ed06271"))
 
-(setq backup-directory-alist `(("." . "~/.saves")))
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
+(setq create-lockfiles nil)  ; stop creating .# files
