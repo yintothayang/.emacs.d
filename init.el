@@ -423,15 +423,20 @@
 
 
 
-;; Org
+;; Org-Mode
 (use-package ob-rust)
+(use-package org-yaml)
+(use-package ob-typescript)
+(use-package ob-restclient)
 (use-package gnuplot)
 (use-package gnuplot-mode)
 (use-package htmlize)
 (use-package org-bullets)
 (add-hook 'org-mode-hook 'org-bullets-mode)
+(url-handler-mode 1)
+(defun org-babel-execute:yaml (body params) body)
 
-(setq org-link-file-path-type 'relative)
+(setq org-confirm-babel-evaluate nil)
 (setq org-startup-with-inline-images t)
 (setq org-default-notes-file "~/notes.org")
 
@@ -446,11 +451,22 @@
    (sql . t)
    (js . t)
    (rust . t)
+   (typescript . t)
    (gnuplot . t)
    (ditaa . t)
+   (latex . t)
+   (shell . t)
+   (restclient .t)
    (R . t)))
 
+;; LaTex
+(add-to-list 'org-latex-packages-alist '("" "listings" nil))
+(setq org-latex-listings t)
 
+(setq org-latex-listings-options '(("breaklines" "true")))
+
+(setq initial-buffer-choice t)
+(setq initial-buffer-choice (concat user-emacs-directory "notes.org"))
 
 
 ;; ;; TRAMP
@@ -515,7 +531,7 @@
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
 ;; Font
-(set-face-attribute 'default nil :height 124)
+(set-face-attribute 'default nil :height 134)
 (set-frame-font "Office Code Pro")
 
 ;; Don't truncate lines
@@ -563,7 +579,7 @@
 ;; indent
 (use-package aggressive-indent
   :config
-  (global-aggressive-indent-mode 1))
+  (global-aggressive-indent-mode t))
 
 ;; ;; (use-package dimmer
 ;; ;;   :config
@@ -597,6 +613,7 @@
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme 'doom-vibrant t)
+  ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config))
 
 ;; Keybindings
@@ -609,6 +626,12 @@
     (message "big screen")
     (setq x-meta-keysym 'super)
     (setq x-super-keysym 'meta)))
+
+;; expand-region
+(use-package expand-region
+  :config
+  (global-set-key (kbd "C-o") 'er/expand-region))
+
 
 (global-set-key (kbd "C--") 'undo)
 (global-set-key (kbd "C-r") 'redo)

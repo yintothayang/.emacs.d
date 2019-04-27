@@ -66,6 +66,9 @@
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
+[submodule "expand-region"]
+	path = lib/expand-region
+	url = git@github.com:magnars/expand-region.el.git
 [submodule "f"]
 	path = lib/f
 	url = git@github.com:rejeep/f.el.git
@@ -137,12 +140,21 @@
 [submodule "mmm-mode"]
 	path = lib/mmm-mode
 	url = git@github.com:purcell/mmm-mode.git
+[submodule "ob-restclient"]
+	path = lib/ob-restclient
+	url = git@github.com:alf/ob-restclient.el.git
 [submodule "ob-rust"]
 	path = lib/ob-rust
 	url = git@github.com:micanzhang/ob-rust.git
+[submodule "ob-typescript"]
+	path = lib/ob-typescript
+	url = git@github.com:lurdan/ob-typescript.git
 [submodule "org-bullets"]
 	path = lib/org-bullets
 	url = git@github.com:emacsorphanage/org-bullets.git
+[submodule "org-yaml"]
+	path = lib/org-yaml
+	url = git@github.com:Neil-Smithline/org-yaml.git
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
@@ -155,6 +167,9 @@
 [submodule "pug-mode"]
 	path = lib/pug-mode
 	url = git@github.com:hlissner/emacs-pug-mode.git
+[submodule "restclient"]
+	path = lib/restclient
+	url = git@github.com:pashky/restclient.el.git
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
