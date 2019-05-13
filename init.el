@@ -1,44 +1,26 @@
+;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
 (defun tangle-init ()
-  "If the current buffer is 'init.org' the code-blocks are
-tangled, and the tangled file is compiled."
   (when (equal (buffer-file-name)
-               (expand-file-name (concat user-emacs-directory "init.org")))
-    ;; Avoid running hooks when tangling.
+               (expand-file-name (concat user-emacs-directory "README.org")))
     (let ((prog-mode-hook nil))
       (org-babel-tangle)
-      (byte-compile-file (concat user-emacs-directory "init.el")))))
+      (byte-compile-file (concat user-emacs-directory "init.el"))
+      (load-file (concat user-emacs-directory "init.el")))))
 
 (add-hook 'after-save-hook 'tangle-init)
 
-(defmacro k-time (&rest body)
-  "Measure and return the time it takes evaluating BODY."
-  `(let ((time (current-time)))
-     ,@body
-     (float-time (time-since time))))
-
-;; Set garbage collection threshold to 1GB.
 (setq gc-cons-threshold #x40000000)
 
-;; When idle for 15sec run the GC no matter what.
 (defvar k-gc-timer
   (run-with-idle-timer 15 t
                        (lambda ()
                          (message "Garbage Collector has run for %.06fsec"
                                   (k-time (garbage-collect))))))
 
-;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
-;;; Early birds
 (progn ;     startup
-  (defvar before-user-init-time (current-time)
-    "Value of `current-time' when Emacs begins loading `user-init-file'.")
-  (message "Loading Emacs...done (%.3fs)"
-           (float-time (time-subtract before-user-init-time
-                                      before-init-time)))
   (setq user-init-file (or load-file-name buffer-file-name))
   (setq user-emacs-directory (file-name-directory user-init-file))
-  (message "Loading %s..." user-init-file)
   (setq package-enable-at-startup nil)
-  ;; (package-initialize)
   (setq inhibit-startup-buffer-menu t)
   (setq inhibit-startup-screen t)
   (setq inhibit-startup-echo-area-message "locutus")
@@ -84,12 +66,6 @@ tangled, and the tangled file is compiled."
 (use-package server
   :config (or (server-running-p) (server-mode)))
 
-(progn ;     startup
-  (message "Loading early birds...done (%.3fs)"
-           (float-time (time-subtract (current-time)
-                                      before-user-init-time))))
-
-;;; Long tail
 (use-package dash
   :config (dash-enable-font-lock))
 
@@ -155,31 +131,12 @@ tangled, and the tangled file is compiled."
 (use-package simple
   :config (column-number-mode))
 
-(progn ;     startup
-  (message "Loading %s...done (%.3fs)" user-init-file
-           (float-time (time-subtract (current-time)
-                                      before-user-init-time)))
-  (add-hook 'after-init-hook
-            (lambda ()
-              (message
-               "Loading %s...done (%.3fs) [after-init]" user-init-file
-               (float-time (time-subtract (current-time)
-                                          before-user-init-time))))
-            t))
-
-
-;; Load custom modules
-
-;; smex
 (use-package smex)
 
-;; flycheck
 (use-package flycheck
   :config
   (global-flycheck-mode t))
 
-;; ivy
-;; https://github.com/abo-abo/swiper
 (use-package ivy
   :requires smex
   :config
@@ -198,34 +155,6 @@ tangled, and the tangled file is compiled."
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
 
-;; (use-package posframe)
-;; (use-package ivy-posframe
-;;   :requires posframe
-;;   :config
-;;   (setq ivy-display-function #'ivy-posframe-display-at-point)
-;;   (setq ivy-posframe-border-width 1)
-;;   (setq ivy-posframe-parameters
-;;         '((left-fringe . 10)))
-;;   (ivy-posframe-enable))
-;; (setq ivy-display-function #'ivy-posframe-display)
-;; (setq ivy-display-function #'ivy-posframe-display-at-frame-center)
-;; (setq ivy-display-function #'ivy-posframe-display-at-window-center)
-;; (setq ivy-display-function #'ivy-posframe-display-at-frame-bottom-left)
-;; (setq ivy-display-function #'ivy-posframe-display-at-window-bottom-left)
-
-(use-package counsel-projectile
-  :defines personal-keybindings
-  :bind ("C-x f" . counsel-projectile-find-file)
-  :bind ("C-x p" . projectile-switch-open-project))
-
-;; https://github.com/Yevgnen/ivy-rich
-(use-package ivy-rich
-  :requires ivy
-  :config
-  (setq ivy-format-function #'ivy-format-function-line)
-  (ivy-rich-mode 1))
-
-;; projectile
 (use-package projectile
   :config
   (setq projectile-enable-caching t)
@@ -258,6 +187,19 @@ tangled, and the tangled file is compiled."
                 projectile-globally-ignored-files))
   (projectile-mode))
 
+(use-package counsel-projectile
+  :defines personal-keybindings
+  :bind ("C-x f" . counsel-projectile-find-file)
+  :bind ("C-x p" . projectile-switch-open-project))
+
+;; https://github.com/Yevgnen/ivy-rich
+(use-package ivy-rich
+  :requires ivy
+  :config
+  (setq ivy-format-function #'ivy-format-function-line)
+  (ivy-rich-mode 1))
+
+;; projectile
 ;; Company
 (use-package company
   :config
@@ -460,7 +402,6 @@ tangled, and the tangled file is compiled."
 
 (add-hook 'org-mode-hook 'org-bullets-mode)
 (url-handler-mode 1)
-(defun org-babel-execute:yaml (body params) body)
 
 (setq org-confirm-babel-evaluate nil)
 (setq org-startup-with-inline-images t)
