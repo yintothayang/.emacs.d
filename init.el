@@ -1,3 +1,15 @@
+(defun tangle-init ()
+  "If the current buffer is 'init.org' the code-blocks are
+tangled, and the tangled file is compiled."
+  (when (equal (buffer-file-name)
+               (expand-file-name (concat user-emacs-directory "init.org")))
+    ;; Avoid running hooks when tangling.
+    (let ((prog-mode-hook nil))
+      (org-babel-tangle)
+      (byte-compile-file (concat user-emacs-directory "init.el")))))
+
+(add-hook 'after-save-hook 'tangle-init)
+
 (defmacro k-time (&rest body)
   "Measure and return the time it takes evaluating BODY."
   `(let ((time (current-time)))
@@ -406,7 +418,7 @@
   (setq-default js2-strict-missing-semi-warning nil)
   (setq-default js2-strict-trailing-comma-warning nil)
   :hook (('js2-mode . 'highlight-symbol-mode)
-	       ('js2-mode . 'highlight-indent-guides-mode)))
+         ('js2-mode . 'highlight-indent-guides-mode)))
 
 ;; Typescript
 (use-package typescript-mode
@@ -414,7 +426,7 @@
   :mode "\\.ts\\'"
   :init (setq typescript-indent-level 2)
   :hook (('typescript-mode . 'highlight-symbol-mode)
-	       ('typescript-mode . 'highlight-indent-guides-mode)
+         ('typescript-mode . 'highlight-indent-guides-mode)
          ('typescript-mode . 'flycheck-mode)
          ;; ('typescript-mode .  #'lsp)
          ('typescript-mode . 'subword-mode)))
@@ -428,6 +440,9 @@
                           (sql-user "gs_prod")
                           (sql-database "gamesight_prod"))))
 
+;; Markdown
+(use-package markdown-mode
+  :mode "\\.ts\\'")
 
 
 ;; Org-Mode
@@ -525,7 +540,7 @@
   :requires mmm-mode
   :mode "\\.vue\\'"
   :hook (('vue-mode . 'highlight-symbol-mode)
-	       ('vue-mode . 'highlight-indent-guides-mode)
+         ('vue-mode . 'highlight-indent-guides-mode)
          ('vue-mode . 'flycheck-mode)))
 
 ;; YAML
