@@ -4,6 +4,9 @@
 [submodule "aggressive-indent"]
 	path = lib/aggressive-indent
 	url = git@github.com:Malabarba/aggressive-indent-mode.git
+[submodule "alert"]
+	path = lib/alert
+	url = git@github.com:jwiegley/alert.git
 [submodule "all-ext"]
 	path = lib/all-ext
 	url = git@github.com:rubikitch/all-ext.git
@@ -22,6 +25,9 @@
 [submodule "borg"]
 	path = lib/borg
 	url = git@github.com:emacscollective/borg.git
+[submodule "circe"]
+	path = lib/circe
+	url = git@github.com:jorgenschaefer/circe.git
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
@@ -63,9 +69,15 @@
 	path = lib/emacsql
 	url = git@github.com:skeeto/emacsql.git
 	no-byte-compile = emacsql-pg.el
+[submodule "emojify"]
+	path = lib/emojify
+	url = git@github.com:iqbalansari/emacs-emojify.git
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
+[submodule "exec-path-from-shell"]
+	path = lib/exec-path-from-shell
+	url = git@github.com:purcell/exec-path-from-shell.git
 [submodule "expand-region"]
 	path = lib/expand-region
 	url = git@github.com:magnars/expand-region.el.git
@@ -140,6 +152,9 @@
 [submodule "mmm-mode"]
 	path = lib/mmm-mode
 	url = git@github.com:purcell/mmm-mode.git
+[submodule "oauth2"]
+	path = lib/oauth2
+	url = git@github.com:emacsmirror/oauth2.git
 [submodule "ob-restclient"]
 	path = lib/ob-restclient
 	url = git@github.com:alf/ob-restclient.el.git
@@ -155,6 +170,12 @@
 [submodule "org-yaml"]
 	path = lib/org-yaml
 	url = git@github.com:Neil-Smithline/org-yaml.git
+[submodule "ox-gfm"]
+	path = lib/ox-gfm
+	url = git@github.com:larstvei/ox-gfm.git
+[submodule "ox-pandoc"]
+	path = lib/ox-pandoc
+	url = git@github.com:kawabata/ox-pandoc.git
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
@@ -167,6 +188,9 @@
 [submodule "pug-mode"]
 	path = lib/pug-mode
 	url = git@github.com:hlissner/emacs-pug-mode.git
+[submodule "request"]
+	path = lib/request
+	url = git@github.com:tkf/emacs-request.git
 [submodule "restclient"]
 	path = lib/restclient
 	url = git@github.com:pashky/restclient.el.git
@@ -176,6 +200,9 @@
 [submodule "shrink-path"]
 	path = lib/shrink-path
 	url = git@gitlab.com:bennya/shrink-path.el.git
+[submodule "slack"]
+	path = lib/slack
+	url = git@github.com:yuya373/emacs-slack.git
 [submodule "smartparens"]
 	path = lib/smartparens
 	url = git@github.com:Fuco1/smartparens.git
@@ -213,6 +240,9 @@
 [submodule "vue-mode"]
 	path = lib/vue-mode
 	url = git@github.com:AdamNiederer/vue-mode.git
+[submodule "websocket"]
+	path = lib/websocket
+	url = git@github.com:ahyatt/emacs-websocket.git
 [submodule "with-editor"]
 	path = lib/with-editor
 	url = git@github.com:magit/with-editor.git

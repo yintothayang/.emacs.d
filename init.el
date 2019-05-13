@@ -389,6 +389,13 @@
 
 
 ;; Javascript
+(setenv "NODE_PATH"
+        (concat
+         "/home/yin/.node/lib/node_modules" ":"
+         (getenv "NODE_PATH")
+         )
+        )
+
 (setq js-indent-level 2)
 (use-package js2-mode
   :defer t
@@ -409,7 +416,7 @@
   :hook (('typescript-mode . 'highlight-symbol-mode)
 	       ('typescript-mode . 'highlight-indent-guides-mode)
          ('typescript-mode . 'flycheck-mode)
-         ('typescript-mode .  #'lsp)
+         ;; ('typescript-mode .  #'lsp)
          ('typescript-mode . 'subword-mode)))
 
 ;; SQL
@@ -432,6 +439,10 @@
 (use-package gnuplot-mode)
 (use-package htmlize)
 (use-package org-bullets)
+(use-package ox-gfm)
+
+(setq org-startup-folded 'showall)
+
 (add-hook 'org-mode-hook 'org-bullets-mode)
 (url-handler-mode 1)
 (defun org-babel-execute:yaml (body params) body)
@@ -632,6 +643,32 @@
   :config
   (global-set-key (kbd "C-o") 'er/expand-region))
 
+;; ;; Slack
+;; (use-package alert)
+;; (use-package circe)
+;; (use-package emojify)
+;; (use-package oauth2)
+;; (use-package request)
+;; (use-package websocket)
+;; (use-package slack
+;;   :commands (slack-start)
+;;   :init
+;;   (setq slack-buffer-emojify nil) ;; if you want to enable emoji, default nil
+;;   (setq slack-prefer-current-team t)
+;;   :config
+;;   (slack-register-team
+;;    :name "Innervate"
+;;    :default t
+;;    :client-id "92edb89a-1556557059.187"
+;;    :client-secret ""
+;;    :token "xoxs-2151853922-3973305712-477415368855-b2464de6b77a5d12740d130bdfd8bd6cd78e38a1629861d79f796db3fd1cd77f"
+;;    :subscribed-channels '(test-rename rrrrr)
+;;    :full-and-display-names t))
+
+;; (use-package alert
+;;   :commands (alert)
+;;   :init
+;;   (setq alert-default-style 'notifier))
 
 (global-set-key (kbd "C--") 'undo)
 (global-set-key (kbd "C-r") 'redo)
