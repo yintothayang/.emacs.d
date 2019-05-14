@@ -78,6 +78,9 @@
 [submodule "highlight-symbol"]
 	path = lib/highlight-symbol
 	url = git@github.com:nschum/highlight-symbol.el.git
+[submodule "ht"]
+	path = lib/ht
+	url = git@github.com:Wilfred/ht.el.git
 [submodule "hydra"]
 	path = lib/hydra
 	url = git@github.com:abo-abo/hydra.git
@@ -94,6 +97,9 @@
 	path = lib/libgit
 	url = git@github.com:magit/libegit2.git
 	build-step = make
+[submodule "lsp-mode"]
+	path = lib/lsp-mode
+	url = git@github.com:emacs-lsp/lsp-mode.git
 [submodule "magit"]
 	path = lib/magit
 	url = git@github.com:magit/magit.git
@@ -138,6 +144,9 @@
 [submodule "smex"]
 	path = lib/smex
 	url = git@github.com:nonsequitur/smex.git
+[submodule "spinner"]
+	path = lib/spinner
+	url = git@github.com:Malabarba/spinner.el.git
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git

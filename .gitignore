@@ -12,3 +12,6 @@ projectile-bookmarks.eld
 projectile.cache
 recentf
 smex-items
+*.elc
+*-autoloads.el
+dir
