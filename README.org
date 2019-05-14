@@ -345,65 +345,65 @@
         (global-undo-tree-mode))
    #+END_SRC
 
-** eshell
+** TODO eshell
    #+BEGIN_SRC emacs-lisp
-      (require 'eshell)
-      ;; (require 'magit)
-      (setq eshell-prompt-function
-      (lambda ()
-        (concat
-         (propertize (concat (abbreviate-file-name (eshell/pwd))) 'face `(:foreground "#a991f1" :weight bold))
-         (propertize " ")
-         (if (magit-get-current-branch)
-       (propertize (all-the-icons-octicon "git-branch")
-             'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
-             'display '(raise -0.1)))
-         (propertize " ")
-         (if (magit-get-current-branch)
-       (propertize (magit-get-current-branch) 'face `(:foreground "#7bc275" :weight bold)))
-         ;;   (propertize "z" 'face `(:foreground "yellow")))
-         ;; (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground "yellow"))
-         (propertize "\n" 'face `(:foreground "#7bc275"))
-         (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground "#7bc275" :weight bold))
-         )))
+     ;;      (require 'eshell)
+     ;;      ;; (require 'magit)
+     ;;      (setq eshell-prompt-function
+     ;;      (lambda ()
+     ;;  (concat
+     ;; 	(propertize (concat (abbreviate-file-name (eshell/pwd))) 'face `(:foreground "#a991f1" :weight bold))
+     ;; 	(propertize " ")
+     ;; 	(if (magit-get-current-branch)
+     ;; (propertize (all-the-icons-octicon "git-branch")
+     ;; 	    'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
+     ;; 	    'display '(raise -0.1)))
+     ;; 	(propertize " ")
+     ;; 	(if (magit-get-current-branch)
+     ;; (propertize (magit-get-current-branch) 'face `(:foreground "#7bc275" :weight bold)))
+     ;; 	;;   (propertize "z" 'face `(:foreground "yellow")))
+     ;; 	;; (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground "yellow"))
+     ;; 	(propertize "\n" 'face `(:foreground "#7bc275"))
+     ;; 	(propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground "#7bc275" :weight bold))
+     ;; 	)))
 
 
-      (use-package xterm-color
-        :config
-        (setq comint-output-filter-functions
-        (remove 'ansi-color-process-output comint-output-filter-functions))
+     (use-package xterm-color
+       :config
+       (setq comint-output-filter-functions
+             (remove 'ansi-color-process-output comint-output-filter-functions))
 
-        (add-hook 'shell-mode-hook
-      (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
-        (add-hook 'eshell-before-prompt-hook
-      (lambda ()
-        (setq xterm-color-preserve-properties t)))
+       (add-hook 'shell-mode-hook
+                 (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+       (add-hook 'eshell-before-prompt-hook
+                 (lambda ()
+                   (setq xterm-color-preserve-properties t)))
 
-        (add-hook 'eshell-mode-hook
-      (lambda ()
-        (setenv "TERM" "xterm-256color")))
+       (add-hook 'eshell-mode-hook
+                 (lambda ()
+                   (setenv "TERM" "xterm-256color")))
 
-        (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-        (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
+       (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+       (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
-      (defun eshell-up ()
-        (interactive)
-        (with-current-buffer "*eshell*"
-    (eshell-return-to-prompt)
-    (insert "cd ..")
-    (eshell-send-input)))
+     (defun eshell-up ()
+       (interactive)
+       (with-current-buffer "*eshell*"
+         (eshell-return-to-prompt)
+         (insert "cd ..")
+         (eshell-send-input)))
 
-      (defun eshell-down ()
-        (interactive)
-        (with-current-buffer "*eshell*"
-    (eshell-return-to-prompt)
-    (insert "cd -")
-    (eshell-send-input)))
+     (defun eshell-down ()
+       (interactive)
+       (with-current-buffer "*eshell*"
+         (eshell-return-to-prompt)
+         (insert "cd -")
+         (eshell-send-input)))
 
-      (add-hook 'eshell-mode-hook
-          (lambda ()
-      (define-key eshell-mode-map (kbd "C-/") #'eshell-up)
-      (define-key eshell-mode-map (kbd "C-@") #'eshell-down)))
+     (add-hook 'eshell-mode-hook
+               (lambda ()
+                 (define-key eshell-mode-map (kbd "C-/") #'eshell-up)
+                 (define-key eshell-mode-map (kbd "C-@") #'eshell-down)))
    #+END_SRC
 
 ** kubernetes
