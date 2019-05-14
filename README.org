@@ -168,11 +168,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package magit
        :bind ("C-x m"   . magit-status)
-       :config
-       (magit-add-section-hook 'magit-status-sections-hook
-                               'magit-insert-modules
-                               'magit-insert-stashes
-                               'append))
+       :config)
    #+END_SRC
 
 ** TODO paren
@@ -347,7 +343,7 @@
 
 ** TODO eshell
    #+BEGIN_SRC emacs-lisp
-     ;;      (require 'eshell)
+     (require 'eshell)
      ;;      ;; (require 'magit)
      ;;      (setq eshell-prompt-function
      ;;      (lambda ()

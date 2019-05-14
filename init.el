@@ -106,11 +106,7 @@
 
 (use-package magit
   :bind ("C-x m"   . magit-status)
-  :config
-  (magit-add-section-hook 'magit-status-sections-hook
-                          'magit-insert-modules
-                          'magit-insert-stashes
-                          'append))
+  :config)
 
 (use-package paren
   :config (show-paren-mode))
@@ -236,7 +232,7 @@
   :config
   (global-undo-tree-mode))
 
-;;      (require 'eshell)
+(require 'eshell)
 ;;      ;; (require 'magit)
 ;;      (setq eshell-prompt-function
 ;;      (lambda ()
