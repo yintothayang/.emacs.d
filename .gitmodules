@@ -1,51 +1,15 @@
 [borg]
 	pushDefault = locutus
 	collective = emacsg
-[submodule "aggressive-indent"]
-	path = lib/aggressive-indent
-	url = git@github.com:Malabarba/aggressive-indent-mode.git
-[submodule "alert"]
-	path = lib/alert
-	url = git@github.com:jwiegley/alert.git
-[submodule "all-ext"]
-	path = lib/all-ext
-	url = git@github.com:rubikitch/all-ext.git
-[submodule "all-the-icons"]
-	path = lib/all-the-icons
-	url = git@github.com:domtronn/all-the-icons.el.git
-[submodule "all-the-icons-dired"]
-	path = lib/all-the-icons-dired
-	url = git@github.com:jtbm37/all-the-icons-dired.git
-[submodule "all-the-icons-ivy"]
-	path = lib/all-the-icons-ivy
-	url = git@github.com:asok/all-the-icons-ivy.git
 [submodule "auto-compile"]
 	path = lib/auto-compile
 	url = git@github.com:emacscollective/auto-compile.git
 [submodule "borg"]
 	path = lib/borg
 	url = git@github.com:emacscollective/borg.git
-[submodule "circe"]
-	path = lib/circe
-	url = git@github.com:jorgenschaefer/circe.git
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
-[submodule "company"]
-	path = lib/company
-	url = git@github.com:company-mode/company-mode.git
-[submodule "company-lsp"]
-	path = lib/company-lsp
-	url = git@github.com:tigersoldier/company-lsp.git
-[submodule "counsel-projectile"]
-	path = lib/counsel-projectile
-	url = git@github.com:ericdanan/counsel-projectile.git
-[submodule "counsel-spotify"]
-	path = lib/counsel-spotify
-	url = https://github.com/Lautaro-Garcia/counsel-spotify
-[submodule "csv-mode"]
-	path = lib/csv-mode
-	url = git@github.com:emacsmirror/csv-mode.git
 [submodule "dash"]
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
@@ -53,169 +17,34 @@
 [submodule "diff-hl"]
 	path = lib/diff-hl
 	url = git@github.com:dgutov/diff-hl.git
-[submodule "doom-modeline"]
-	path = lib/doom-modeline
-	url = git@github.com:seagle0128/doom-modeline.git
-[submodule "doom-themes"]
-	path = lib/doom-themes
-	url = git@github.com:hlissner/emacs-doom-themes.git
-[submodule "edit-indirect"]
-	path = lib/edit-indirect
-	url = git@github.com:Fanael/edit-indirect.git
-[submodule "eldoc-eval"]
-	path = lib/eldoc-eval
-	url = git@github.com:thierryvolpiatto/eldoc-eval.git
 [submodule "emacsql"]
 	path = lib/emacsql
 	url = git@github.com:skeeto/emacsql.git
 	no-byte-compile = emacsql-pg.el
-[submodule "emojify"]
-	path = lib/emojify
-	url = git@github.com:iqbalansari/emacs-emojify.git
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
-[submodule "exec-path-from-shell"]
-	path = lib/exec-path-from-shell
-	url = git@github.com:purcell/exec-path-from-shell.git
-[submodule "expand-region"]
-	path = lib/expand-region
-	url = git@github.com:magnars/expand-region.el.git
-[submodule "f"]
-	path = lib/f
-	url = git@github.com:rejeep/f.el.git
-[submodule "flycheck"]
-	path = lib/flycheck
-	url = git@github.com:flycheck/flycheck.git
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
-[submodule "git-gutter"]
-	path = lib/git-gutter
-	url = git@github.com:syohex/emacs-git-gutter.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
-[submodule "gnuplot"]
-	path = lib/gnuplot
-	url = git@github.com:bruceravel/gnuplot-mode.git
-[submodule "gnuplot-mode"]
-	path = lib/gnuplot-mode
-	url = git@github.com:mkmcc/gnuplot-mode.git
 [submodule "graphql"]
 	path = lib/graphql
 	url = git@github.com:vermiculus/graphql.el.git
-[submodule "highlight-indent-guides"]
-	path = lib/highlight-indent-guides
-	url = git@github.com:DarthFennec/highlight-indent-guides.git
-[submodule "highlight-symbol"]
-	path = lib/highlight-symbol
-	url = git@github.com:nschum/highlight-symbol.el.git
-[submodule "ht"]
-	path = lib/ht
-	url = git@github.com:Wilfred/ht.el.git
-[submodule "htmlize"]
-	path = lib/htmlize
-	url = git@github.com:hniksic/emacs-htmlize.git
-[submodule "hydra"]
-	path = lib/hydra
-	url = git@github.com:abo-abo/hydra.git
-[submodule "ivy"]
-	path = lib/ivy
-	url = git@github.com:abo-abo/swiper.git
-[submodule "ivy-posframe"]
-	path = lib/ivy-posframe
-	url = git@github.com:tumashu/ivy-posframe.git
-[submodule "ivy-rich"]
-	path = lib/ivy-rich
-	url = git@github.com:Yevgnen/ivy-rich.git
-[submodule "js2-mode"]
-	path = lib/js2-mode
-	url = git@github.com:mooz/js2-mode.git
-[submodule "kubernetes"]
-	path = lib/kubernetes
-	url = git@github.com:chrisbarrett/kubernetes-el.git
-[submodule "lsp-mode"]
-	path = lib/lsp-mode
-	url = git@github.com:emacs-lsp/lsp-mode.git
+[submodule "libgit"]
+	path = lib/libgit
+	url = git@github.com:magit/libegit2.git
+	build-step = make
 [submodule "magit"]
 	path = lib/magit
 	url = git@github.com:magit/magit.git
-[submodule "markdown-mode"]
-	path = lib/markdown-mode
-	url = git@github.com:jrblevin/markdown-mode.git
-[submodule "memoize"]
-	path = lib/memoize
-	url = git@github.com:skeeto/emacs-memoize.git
-[submodule "mmm-mode"]
-	path = lib/mmm-mode
-	url = git@github.com:purcell/mmm-mode.git
-[submodule "oauth2"]
-	path = lib/oauth2
-	url = git@github.com:emacsmirror/oauth2.git
-[submodule "ob-restclient"]
-	path = lib/ob-restclient
-	url = git@github.com:alf/ob-restclient.el.git
-[submodule "ob-rust"]
-	path = lib/ob-rust
-	url = git@github.com:micanzhang/ob-rust.git
-[submodule "ob-typescript"]
-	path = lib/ob-typescript
-	url = git@github.com:lurdan/ob-typescript.git
-[submodule "org-bullets"]
-	path = lib/org-bullets
-	url = git@github.com:emacsorphanage/org-bullets.git
-[submodule "org-yaml"]
-	path = lib/org-yaml
-	url = git@github.com:Neil-Smithline/org-yaml.git
-[submodule "ox-gfm"]
-	path = lib/ox-gfm
-	url = git@github.com:larstvei/ox-gfm.git
-[submodule "ox-pandoc"]
-	path = lib/ox-pandoc
-	url = git@github.com:kawabata/ox-pandoc.git
+	recursive-byte-compile = true
+	info-path = Documentation
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
-[submodule "posframe"]
-	path = lib/posframe
-	url = git@github.com:tumashu/posframe.git
-[submodule "projectile"]
-	path = lib/projectile
-	url = git@github.com:bbatsov/projectile.git
-[submodule "pug-mode"]
-	path = lib/pug-mode
-	url = git@github.com:hlissner/emacs-pug-mode.git
-[submodule "request"]
-	path = lib/request
-	url = git@github.com:tkf/emacs-request.git
-[submodule "restclient"]
-	path = lib/restclient
-	url = git@github.com:pashky/restclient.el.git
-[submodule "s"]
-	path = lib/s
-	url = git@github.com:magnars/s.el.git
-[submodule "shrink-path"]
-	path = lib/shrink-path
-	url = git@gitlab.com:bennya/shrink-path.el.git
-[submodule "slack"]
-	path = lib/slack
-	url = git@github.com:yuya373/emacs-slack.git
-[submodule "smartparens"]
-	path = lib/smartparens
-	url = git@github.com:Fuco1/smartparens.git
-[submodule "smex"]
-	path = lib/smex
-	url = git@github.com:nonsequitur/smex.git
-[submodule "spinner"]
-	path = lib/spinner
-	url = git@github.com:Malabarba/spinner.el.git
-[submodule "ssass-mode"]
-	path = lib/ssass-mode
-	url = git@github.com:AdamNiederer/ssass-mode.git
-[submodule "sws-mode"]
-	path = lib/sws-mode
-	url = https://github.com/brianc/jade-mode
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git
@@ -223,30 +52,9 @@
 [submodule "treepy"]
 	path = lib/treepy
 	url = git@github.com:volrath/treepy.el.git
-[submodule "typescript-mode"]
-	path = lib/typescript-mode
-	url = git@github.com:emacs-typescript/typescript.el.git
-[submodule "undo-tree"]
-	path = lib/undo-tree
-	url = git@github.com:emacsorphanage/undo-tree.git
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
-[submodule "vue-html-mode"]
-	path = lib/vue-html-mode
-	url = git@github.com:AdamNiederer/vue-html-mode.git
-[submodule "vue-mode"]
-	path = lib/vue-mode
-	url = git@github.com:AdamNiederer/vue-mode.git
-[submodule "websocket"]
-	path = lib/websocket
-	url = git@github.com:ahyatt/emacs-websocket.git
 [submodule "with-editor"]
 	path = lib/with-editor
 	url = git@github.com:magit/with-editor.git
-[submodule "xterm-color"]
-	path = lib/xterm-color
-	url = git@github.com:atomontage/xterm-color.git
-[submodule "yaml-mode"]
-	path = lib/yaml-mode
-	url = git@github.com:yoshiki/yaml-mode.git
