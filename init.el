@@ -1,25 +1,41 @@
 ;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
-;;; Early birds
+(defun tangle-init ()
+  (when (equal (buffer-file-name)
+               (expand-file-name (concat user-emacs-directory "README.org")))
+    (let ((prog-mode-hook nil))
+      (org-babel-tangle)
+      (byte-compile-file (concat user-emacs-directory "init.el"))
+      (load-file (concat user-emacs-directory "init.el")))))
+
+(add-hook 'after-save-hook 'tangle-init)
+
+(setq gc-cons-threshold #x40000000)
+
+(defmacro k-time (&rest body)
+  "Measure and return the time it takes evaluating BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (float-time (time-since time))))
+
+(defvar k-gc-timer
+  (run-with-idle-timer 15 t
+                       (lambda ()
+                         (message "Garbage Collector has run for %.06fsec"
+                                  (k-time (garbage-collect))))))
+
 (progn ;     startup
-  (defvar before-user-init-time (current-time)
-    "Value of `current-time' when Emacs begins loading `user-init-file'.")
-  (message "Loading Emacs...done (%.3fs)"
-           (float-time (time-subtract before-user-init-time
-                                      before-init-time)))
   (setq user-init-file (or load-file-name buffer-file-name))
   (setq user-emacs-directory (file-name-directory user-init-file))
-  (message "Loading %s..." user-init-file)
   (setq package-enable-at-startup nil)
-  ;; (package-initialize)
   (setq inhibit-startup-buffer-menu t)
   (setq inhibit-startup-screen t)
   (setq inhibit-startup-echo-area-message "locutus")
   (setq initial-buffer-choice t)
-  (setq initial-scratch-message "")
   (setq load-prefer-newer t)
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
-  (menu-bar-mode 0))
+  (menu-bar-mode 0)
+  (tooltip-mode 0))
 
 (progn ;    `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
@@ -56,13 +72,6 @@
 (use-package server
   :config (or (server-running-p) (server-mode)))
 
-(progn ;     startup
-  (message "Loading early birds...done (%.3fs)"
-           (float-time (time-subtract (current-time)
-                                      before-user-init-time))))
-
-;;; Long tail
-
 (use-package dash
   :config (dash-enable-font-lock))
 
@@ -96,18 +105,8 @@
   (add-hook 'lisp-interaction-mode-hook #'indent-spaces-mode))
 
 (use-package magit
-  :defer t
-  :bind (("C-x g"   . magit-status)
-         ("C-x M-g" . magit-dispatch))
-  :config
-  (magit-add-section-hook 'magit-status-sections-hook
-                          'magit-insert-modules
-                          'magit-insert-stashes
-                          'append))
-
-(use-package man
-  :defer t
-  :config (setq Man-width 80))
+  :bind ("C-x m"   . magit-status)
+  :config)
 
 (use-package paren
   :config (show-paren-mode))
@@ -132,36 +131,324 @@
 (use-package simple
   :config (column-number-mode))
 
-(progn ;    `text-mode'
-  (add-hook 'text-mode-hook #'indicate-buffer-boundaries-left))
+(use-package smex)
 
-(use-package tramp
+(use-package ivy
+  :requires smex
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-ignore-order)))
+  (setq ivy-initial-inputs-alist nil)
+  (setq projectile-completion-system 'ivy)
+  (setq counsel-async-filter-update-time 10000)
+  (setq ivy-dynamic-exhibit-delay-ms 20)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-t") 'complete-symbol)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
+
+  ;; https://github.com/Yevgnen/ivy-rich
+  (use-package ivy-rich
+    :requires ivy
+    :config
+    (setq ivy-format-function #'ivy-format-function-line)
+    (ivy-rich-mode 1))
+
+(use-package projectile
+  :config
+  (setq projectile-enable-caching t)
+  (setq projectile-require-project-root nil)
+  (setq projectile-globally-ignored-directories
+        (append '(
+                  ".git"
+                  ".svn"
+                  "out"
+                  "repl"
+                  "target"
+                  "venv"
+                  "node_modules"
+                  "dist"
+                  "lib"
+                  )
+                projectile-globally-ignored-directories))
+  (setq projectile-globally-ignored-files
+        (append '(
+                  ".DS_Store"
+                  "*.gz"
+                  "*.pyc"
+                  "*.jar"
+                  "*.tar.gz"
+                  "*.tgz"
+                  "*.zip"
+                  "*.elc"
+                  "*-autoloads.el"
+                  )
+                projectile-globally-ignored-files))
+  (projectile-mode))
+
+(use-package counsel-projectile
+  :defines personal-keybindings
+  :bind ("C-x f" . counsel-projectile-find-file)
+  :bind ("C-x p" . projectile-switch-open-project))
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+
+(require 'eshell)
+(require 'magit)
+(setq eshell-prompt-function
+      (lambda ()
+        (concat
+         (propertize (concat (abbreviate-file-name (eshell/pwd))) 'face `(:foreground "#a991f1" :weight bold))
+         (propertize " ")
+         (if (magit-get-current-branch)
+             (propertize (all-the-icons-octicon "git-branch")
+                         'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
+                         'display '(raise -0.1)))
+         (propertize " ")
+         (if (magit-get-current-branch)
+             (propertize (magit-get-current-branch) 'face `(:foreground "#7bc275" :weight bold)))
+         ;;   (propertize "z" 'face `(:foreground "yellow")))
+         ;; (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground "yellow"))
+         (propertize "\n" 'face `(:foreground "#7bc275"))
+         (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground "#7bc275" :weight bold))
+         )))
+
+
+(use-package xterm-color
+  :config
+  (setq comint-output-filter-functions
+        (remove 'ansi-color-process-output comint-output-filter-functions))
+
+  (add-hook 'shell-mode-hook
+            (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+  (add-hook 'eshell-before-prompt-hook
+            (lambda ()
+              (setq xterm-color-preserve-properties t)))
+
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (setenv "TERM" "xterm-256color")))
+
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
+
+(defun eshell-up ()
+  (interactive)
+  (with-current-buffer "*eshell*"
+    (eshell-return-to-prompt)
+    (insert "cd ..")
+    (eshell-send-input)))
+
+(defun eshell-down ()
+  (interactive)
+  (with-current-buffer "*eshell*"
+    (eshell-return-to-prompt)
+    (insert "cd -")
+    (eshell-send-input)))
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (define-key eshell-mode-map (kbd "C-/") #'eshell-up)
+            (define-key eshell-mode-map (kbd "C-@") #'eshell-down)))
+
+(setenv "NODE_PATH"
+  (concat "/home/yin/.node/lib/node_modules" ":" (getenv "NODE_PATH")))
+
+(setq js-indent-level 2)
+(use-package js2-mode
+  :defer t
+  :mode "\\.js\\'"
+  :config
+  (setq js2-basic-offset 2)
+  (setq-default js2-show-parse-errors nil)
+  (setq-default js2-strict-missing-semi-warning nil)
+  (setq-default js2-strict-trailing-comma-warning nil)
+  :hook ('js2-mode . 'highlight-symbol-mode))
+
+(use-package typescript-mode
+  :defer t
+  :mode "\\.ts\\'"
+  :init (setq typescript-indent-level 2)
+  :hook (('typescript-mode . 'highlight-symbol-mode)
+   ;; ('typescript-mode . 'highlight-indent-guides-mode)
+   ;; ('typescript-mode . 'flycheck-mode)
+   ;; ('typescript-mode .  #'lsp)
+   ('typescript-mode . 'subword-mode)))
+
+;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))
+(setq sql-connection-alist
+'((redshift-gs_prod (sql-product 'postgres)
+        (sql-port 5439)
+        (sql-server "gamesight.cixsp8xnn5rk.us-west-2.redshift.amazonaws.com")
+        (sql-user "gs_prod")
+        (sql-database "gamesight_prod"))))
+
+(use-package markdown-mode
+  :mode "\\.ts\\'")
+
+(use-package org-bullets)
+(use-package org-yaml)
+(use-package ob-typescript)
+(use-package gnuplot)
+(use-package gnuplot-mode)
+
+(setq org-startup-folded 'showall)
+
+(add-hook 'org-mode-hook 'org-bullets-mode)
+(url-handler-mode 1)
+
+(setq org-confirm-babel-evaluate nil)
+(setq org-startup-with-inline-images t)
+(setq org-default-notes-file "~/notes.org")
+
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-,") nil)
+  (define-key org-mode-map (kbd "M-h") nil)
+  (define-key org-mode-map (kbd "<C-tab>") 'org-global-cycle))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (sql . t)
+   (js . t)
+   (typescript . t)
+   (gnuplot . t)
+   (ditaa . t)
+   (latex . t)
+   (shell . t)
+   (R . t)))
+
+;; LaTex
+(add-to-list 'org-latex-packages-alist '("" "listings" nil))
+(setq org-latex-listings t)
+
+(setq org-latex-listings-options '(("breaklines" "true")))
+
+(setq initial-buffer-choice t)
+(setq initial-buffer-choice (concat user-emacs-directory "notes.org"))
+
+(use-package pug-mode
   :defer t
   :config
-  (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
-  (add-to-list 'tramp-default-proxies-alist '("localhost" nil nil))
-  (add-to-list 'tramp-default-proxies-alist
-               (list (regexp-quote (system-name)) nil nil)))
+  (setq pug-tab-width 2))
 
-(progn ;     startup
-  (message "Loading %s...done (%.3fs)" user-init-file
-           (float-time (time-subtract (current-time)
-                                      before-user-init-time)))
-  (add-hook 'after-init-hook
-            (lambda ()
-              (message
-               "Loading %s...done (%.3fs) [after-init]" user-init-file
-               (float-time (time-subtract (current-time)
-                                          before-user-init-time))))
-            t))
+(use-package sws-mode
+  :defer t)
 
-(progn ;     personalize
-  (let ((file (expand-file-name (concat (user-real-login-name) ".el")
-                                user-emacs-directory)))
-    (when (file-exists-p file)
-      (load file))))
+(use-package mmm-mode
+  :defer t
+  :config
+  (setq mmm-submode-decoration-level 0))
 
-;; Local Variables:
-;; indent-tabs-mode: nil
-;; End:
-;;; init.el ends here
+(use-package yaml-mode
+  :mode "\\.yaml\\'"
+  :hook (('yaml-mode . 'highlight-indent-guides-mode)))
+
+(use-package csv-mode
+  :mode "\\.csv\\'")
+
+(if (= (display-pixel-width) 2560)
+    (progn
+      (message "small screen")
+      (setq x-meta-keysym 'meta)
+      (setq x-super-keysym 'super))
+  (progn
+    (message "big screen")
+    (setq x-meta-keysym 'super)
+    (setq x-super-keysym 'meta)))
+
+ (set-frame-parameter nil 'fullscreen 'fullboth)
+
+(set-face-attribute 'default nil :height 134)
+(set-frame-font "Office Code Pro")
+
+(setq-default truncate-lines t)
+
+(pixel-scroll-mode)
+
+(use-package all-the-icons)
+(use-package all-the-icons-ivy
+  :config
+  (all-the-icons-ivy-setup))
+
+(use-package all-the-icons-dired
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
+(setq-default display-line-numbers t)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(global-hl-line-mode 1)
+
+(use-package aggressive-indent
+  :config
+  (global-aggressive-indent-mode t))
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+(setq default-tab-width 2)
+
+(setq ring-bell-function 'ignore)
+
+(use-package smartparens
+  :config
+  (require 'smartparens-config)
+  (smartparens-global-mode t)
+  (show-smartparens-global-mode t))
+
+(use-package doom-modeline
+  :config
+  (setq doom-modeline-icon t)
+  :hook
+  (after-init . doom-modeline-mode))
+
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode t))
+
+(use-package highlight-symbol
+  :init
+  (setq highlight-symbol-idle-delay .2))
+
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+  doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-vibrant t)
+  ;; (load-theme 'doom-one-light t)
+  (doom-themes-org-config))
+
+(use-package expand-region
+  :config
+  (global-set-key (kbd "C-o") 'er/expand-region))
+
+(global-set-key (kbd "C--") 'undo)
+(global-set-key (kbd "C-r") 'redo)
+
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+
+(global-set-key (kbd "C-,") 'other-window)
+(global-set-key (kbd "C-.") 'previous-buffer)
+(global-set-key (kbd "C-x 1") 'split-window-right)
+
+(global-set-key (kbd "M-p") 'beginning-of-buffer)
+(global-set-key (kbd "M-n") 'end-of-buffer)
+
+(global-set-key (kbd "s-c") 'kill-ring-save)
+
+(keyboard-translate ?\C-i ?\H-i)
+(global-set-key [?\H-i] 'hippie-expand)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
+(setq create-lockfiles nil)  ; stop creating .# files

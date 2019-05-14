@@ -1,0 +1,51 @@
+* TODO
+** Innervate
+   [[file:~/repos/innervate/research/README.org::*Gamesight%20Pipeline%20Overview][Research]]
+*** TODO Replace 9volt
+*** TODO Team integration into Org
+
+** Ludic
+
+* Emacs
+  [[file:init.el::(defmacro%20k-time%20(&rest%20body)][init.el]]
+* Org
+** [[https://orgmode.org/worg/org-contrib/babel/uses.html][Use Cases]]
+
+* SQL
+** ex
+   #+name: total_videos
+   #+BEGIN_SRC sql :tangle "./sql/total_videos.sql" :var game="'Hearthstone'"
+     SELECT count(distinct youtube_videos.video_id) as total_videos, date_trunc('month', bucket_start_time) as date_bucket,
+     FROM youtube_videos INNER JOIN game ON (youtube_videos.game_id = game.id)
+     WHERE published_at => '2018-01-00 00:00:00' and game.name = $game
+     GROUP BY game.name, date_bucket
+   #+END_SRC
+
+* Tables
+  #+name: directories
+  #+begin_src shell :results replace
+  cd ~ && du -sc * |grep -v total
+  #+end_src
+
+  #+RESULTS: directories
+  |   510536 | Books                 |
+  |        4 | Calibre Library       |
+  |        4 | Desktop               |
+  |    78224 | Documents             |
+  |        4 | Downloads             |
+  |    17172 | Firefox_wallpaper.png |
+  |  4872068 | Games                 |
+  |       28 | GNUstep               |
+  |    87988 | kafka                 |
+  |        4 | Music                 |
+  |        8 | old_settings          |
+  |        8 | org.emacs             |
+  |   151420 | Pictures              |
+  |        8 | Public                |
+  |  6294564 | repos                 |
+  | 10819716 | snap                  |
+  |    18492 | SqlWorkbench          |
+  |   225864 | TeamSQL               |
+  |        4 | Templates             |
+  | 12705536 | Videos                |
+  |        4 | zsh                   |
