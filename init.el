@@ -1,14 +1,3 @@
-;;; -*- lexical-binding: t -*-
-(defun tangle-init ()
-  (when (equal (buffer-file-name)
-               (expand-file-name (concat user-emacs-directory "README.org")))
-    (let ((prog-mode-hook nil))
-      (org-babel-tangle)
-      (byte-compile-file (concat user-emacs-directory "init.el"))
-      (load-file (concat user-emacs-directory "init.el")))))
-
-(add-hook 'after-save-hook 'tangle-init)
-
 (setq gc-cons-threshold #x40000000)
 
 (defmacro k-time (&rest body)
@@ -32,6 +21,7 @@
   (setq inhibit-startup-echo-area-message "locutus")
   (setq initial-buffer-choice t)
   (setq load-prefer-newer t)
+  (setq auto-window-vscroll nil)
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
   (menu-bar-mode 0)
@@ -195,6 +185,43 @@
   :bind ("C-x f" . counsel-projectile-find-file)
   :bind ("C-x p" . projectile-switch-open-project))
 
+(use-package company
+    :config
+    (setq company-backends
+    '((company-files          ; files & directory
+       company-keywords       ; keywords
+       )
+      (company-abbrev company-dabbrev company-ctags company-capf)
+      ))
+    ;; (setq company-backends
+    ;;       '(company-elisp
+    ;;         company-semantic
+    ;;         company-capf
+    ;;         (company-dabbrev-code company-gtags company-etags
+    ;;                               company-keywords)
+    ;;         company-files
+    ;;         company-dabbrev))
+    (setq company-minimum-prefix-length 2)
+    (setq company-idle-delay .2)
+    (setq company-dabbrev-other-buffers t)
+    (setq company-auto-complete nil)
+    (setq company-dabbrev-code-other-buffers 'all)
+    (setq company-dabbrev-code-everywhere t)
+    (setq company-dabbrev-code-ignore-case t)
+    (with-eval-after-load 'company
+(define-key company-active-map (kbd "M-n") nil)
+(define-key company-active-map (kbd "M-p") nil)
+(define-key company-active-map (kbd "C-n") #'company-select-next)
+(define-key company-active-map (kbd "C-p") #'company-select-previous)))
+  ;; (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package lsp-mode
+  :commands lsp
+  :init
+  (setq lsp-enable-snippet nil))
+
+(use-package company-lsp)
+
 (use-package undo-tree
   :config
   (global-undo-tree-mode))
@@ -290,7 +317,7 @@
         (sql-database "gamesight_prod"))))
 
 (use-package markdown-mode
-  :mode "\\.ts\\'")
+  :mode "\\.md\\'")
 
 (use-package org-bullets)
 (use-package org-yaml)
@@ -401,12 +428,6 @@
   (require 'smartparens-config)
   (smartparens-global-mode t)
   (show-smartparens-global-mode t))
-
-(use-package doom-modeline
-  :config
-  (setq doom-modeline-icon t)
-  :hook
-  (after-init . doom-modeline-mode))
 
 (use-package git-gutter
   :config

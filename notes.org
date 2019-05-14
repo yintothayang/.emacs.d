@@ -7,7 +7,12 @@
 ** Ludic
 
 * Emacs
-  [[file:init.el::(defmacro%20k-time%20(&rest%20body)][init.el]]
+  [[file:README.org][README.org]]
+
+** Performance Profiling
+   ~profiler-start~
+   ~profiler-stop~
+
 * Org
 ** [[https://orgmode.org/worg/org-contrib/babel/uses.html][Use Cases]]
 

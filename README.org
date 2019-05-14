@@ -8,17 +8,16 @@
 * TODO Tangle and Compile on Save
    - Tangle code from README.org to init.el
    - byte-compile init.el
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      ;;; -*- lexical-binding: t -*-
      (defun tangle-init ()
+     (interactive)
        (when (equal (buffer-file-name)
                     (expand-file-name (concat user-emacs-directory "README.org")))
          (let ((prog-mode-hook nil))
            (org-babel-tangle)
            (byte-compile-file (concat user-emacs-directory "init.el"))
            (load-file (concat user-emacs-directory "init.el")))))
-
-     (add-hook 'after-save-hook 'tangle-init)
    #+END_SRC
 
 * TODO Garbage Collection
@@ -51,6 +50,7 @@
        (setq inhibit-startup-echo-area-message "locutus")
        (setq initial-buffer-choice t)
        (setq load-prefer-newer t)
+       (setq auto-window-vscroll nil)
        (scroll-bar-mode 0)
        (tool-bar-mode 0)
        (menu-bar-mode 0)
@@ -294,8 +294,8 @@
         :bind ("C-x p" . projectile-switch-open-project))
    #+END_SRC
 
-* TODO company
-   #+BEGIN_SRC emacs-lisp :tangle no
+* DONE company
+   #+BEGIN_SRC emacs-lisp
        (use-package company
          :config
          (setq company-backends
@@ -328,9 +328,13 @@
    #+END_SRC
 
 * TODO lsp
-   #+BEGIN_SRC emacs-lisp :tangle no
-      (use-package lsp-mode)
-      (use-package company-lsp)
+   #+BEGIN_SRC emacs-lisp
+     (use-package lsp-mode
+       :commands lsp
+       :init
+       (setq lsp-enable-snippet nil))
+
+     (use-package company-lsp)
    #+END_SRC
 
 * undo-tree
@@ -457,7 +461,7 @@
 * markdown
    #+BEGIN_SRC emacs-lisp
       (use-package markdown-mode
-        :mode "\\.ts\\'")
+        :mode "\\.md\\'")
    #+END_SRC
 
 * org-mode
@@ -650,8 +654,8 @@
         (smartparens-global-mode t)
         (show-smartparens-global-mode t))
     #+END_SRC
-** modeline
-    #+BEGIN_SRC emacs-lisp
+** TODO modeline
+    #+BEGIN_SRC emacs-lisp :tangle no
       (use-package doom-modeline
         :config
         (setq doom-modeline-icon t)
