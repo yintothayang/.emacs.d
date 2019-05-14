@@ -5,8 +5,7 @@
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
 #+PROPERTY: header-args :tangle init.el :results silent
 
-* Emacs
-** TODO Tangle and Compile on Save
+* TODO Tangle and Compile on Save
    - Tangle code from README.org to init.el
    - byte-compile init.el
    #+BEGIN_SRC emacs-lisp
@@ -22,7 +21,7 @@
      (add-hook 'after-save-hook 'tangle-init)
    #+END_SRC
 
-** TODO Garbage Collection
+* TODO Garbage Collection
    - Increase GC threshold to 1GB
    - Run GC after 15sec of idle time
    #+BEGIN_SRC emacs-lisp
@@ -41,7 +40,7 @@
                                        (k-time (garbage-collect))))))
    #+END_SRC
 
-** TODO Init
+* TODO Init
    #+BEGIN_SRC emacs-lisp
      (progn ;     startup
        (setq user-init-file (or load-file-name buffer-file-name))
@@ -58,7 +57,7 @@
        (tooltip-mode 0))
    #+END_SRC
 
-** TODO borg
+* TODO borg
    #+BEGIN_SRC emacs-lisp
      (progn ;    `borg'
        (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
@@ -66,14 +65,14 @@
        (borg-initialize))
    #+END_SRC
 
-** TODO use-package
+* TODO use-package
    #+BEGIN_SRC emacs-lisp
      (progn ;    `use-package'
        (require  'use-package)
        (setq use-package-verbose t))
    #+END_SRC
 
-** TODO auto-compile
+* TODO auto-compile
    #+BEGIN_SRC emacs-lisp
      (use-package auto-compile
        :demand t
@@ -87,7 +86,7 @@
        (setq auto-compile-update-autoloads             t))
    #+END_SRC
 
-** TODO epkg
+* TODO epkg
    #+BEGIN_SRC emacs-lisp
      (use-package epkg
        :defer t
@@ -95,7 +94,7 @@
                    (expand-file-name "var/epkgs/" user-emacs-directory)))
    #+END_SRC
 
-** TODO custom
+* TODO custom
    #+BEGIN_SRC emacs-lisp
      (use-package custom
        :no-require t
@@ -105,19 +104,19 @@
          (load custom-file)))
    #+END_SRC
 
-** TODO server
+* TODO server
    #+BEGIN_SRC emacs-lisp
      (use-package server
        :config (or (server-running-p) (server-mode)))
    #+END_SRC
 
-** TODO dash
+* TODO dash
    #+BEGIN_SRC emacs-lisp
     (use-package dash
       :config (dash-enable-font-lock))
    #+END_SRC
 
-** TODO diff-hl
+* TODO diff-hl
    #+BEGIN_SRC emacs-lisp
     (use-package diff-hl
       :config
@@ -126,34 +125,34 @@
       (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh t))
    #+END_SRC
 
-** TODO dired
+* TODO dired
    #+BEGIN_SRC emacs-lisp
     (use-package dired
       :defer t
       :config (setq dired-listing-switches "-alh"))
    #+END_SRC
 
-** TODO eldoc
+* TODO eldoc
    #+BEGIN_SRC emacs-lisp
     (use-package eldoc
       :when (version< "25" emacs-version)
       :config (global-eldoc-mode))
    #+END_SRC
 
-** TODO help
+* TODO help
    #+BEGIN_SRC emacs-lisp
     (use-package help
       :defer t
       :config (temp-buffer-resize-mode))
    #+END_SRC
 
-** TODO isearch
+* TODO isearch
    #+BEGIN_SRC emacs-lisp
     (progn ;    `isearch'
       (setq isearch-allow-scroll t))
    #+END_SRC
 
-** TODO lisp-mode
+* TODO lisp-mode
    #+BEGIN_SRC emacs-lisp
     (use-package lisp-mode
       :config
@@ -164,19 +163,19 @@
       (add-hook 'lisp-interaction-mode-hook #'indent-spaces-mode))
    #+END_SRC
 
-** TODO magit
+* TODO magit
    #+BEGIN_SRC emacs-lisp
      (use-package magit
        :bind ("C-x m"   . magit-status)
        :config)
    #+END_SRC
 
-** TODO paren
+* TODO paren
    #+BEGIN_SRC emacs-lisp
     (use-package paren
       :config (show-paren-mode))
    #+END_SRC
-** TODO prog-mode
+* TODO prog-mode
    #+BEGIN_SRC emacs-lisp
     (use-package prog-mode
       :config (global-prettify-symbols-mode)
@@ -185,46 +184,46 @@
       (add-hook 'prog-mode-hook #'indicate-buffer-boundaries-left))
    #+END_SRC
 
-** TODO recentf
+* TODO recentf
    #+BEGIN_SRC emacs-lisp
     (use-package recentf
       :demand t
       :config (add-to-list 'recentf-exclude "^/\\(?:ssh\\|su\\|sudo\\)?:"))
    #+END_SRC
 
-** TODO savehist
+* TODO savehist
    #+BEGIN_SRC emacs-lisp
     (use-package savehist
       :config (savehist-mode))
    #+END_SRC
 
-** TODO saveplace
+* TODO saveplace
    #+BEGIN_SRC emacs-lisp
     (use-package saveplace
       :when (version< "25" emacs-version)
       :config (save-place-mode))
    #+END_SRC
 
-** TODO simple
+* TODO simple
    #+BEGIN_SRC emacs-lisp
     (use-package simple
       :config (column-number-mode))
    #+END_SRC
 
 
-** smex
+* smex
    #+BEGIN_SRC emacs-lisp
      (use-package smex)
    #+END_SRC
 
-** TODO flycheck
+* TODO flycheck
    #+BEGIN_SRC emacs-lisp :tangle no
     (use-package flycheck
       :config
       (global-flycheck-mode t))
    #+END_SRC
 
-** ivy
+* ivy
    #+BEGIN_SRC emacs-lisp
     (use-package ivy
       :requires smex
@@ -252,7 +251,7 @@
         (ivy-rich-mode 1))
    #+END_SRC
 
-** projectile
+* projectile
    #+BEGIN_SRC emacs-lisp
     (use-package projectile
       :config
@@ -287,7 +286,7 @@
       (projectile-mode))
    #+END_SRC
 
-** counsel-projectile
+* counsel-projectile
    #+BEGIN_SRC emacs-lisp
       (use-package counsel-projectile
         :defines personal-keybindings
@@ -295,7 +294,7 @@
         :bind ("C-x p" . projectile-switch-open-project))
    #+END_SRC
 
-** TODO company
+* TODO company
    #+BEGIN_SRC emacs-lisp :tangle no
        (use-package company
          :config
@@ -328,20 +327,20 @@
        ;; (add-hook 'after-init-hook 'global-company-mode))
    #+END_SRC
 
-** TODO lsp
+* TODO lsp
    #+BEGIN_SRC emacs-lisp :tangle no
       (use-package lsp-mode)
       (use-package company-lsp)
    #+END_SRC
 
-** undo-tree
+* undo-tree
    #+BEGIN_SRC emacs-lisp
       (use-package undo-tree
         :config
         (global-undo-tree-mode))
    #+END_SRC
 
-** TODO eshell
+* TODO eshell
    #+BEGIN_SRC emacs-lisp
      (require 'eshell)
      (require 'magit)
@@ -402,19 +401,19 @@
                  (define-key eshell-mode-map (kbd "C-@") #'eshell-down)))
    #+END_SRC
 
-** TODO kubernetes
+* TODO kubernetes
    #+BEGIN_SRC emacs-lisp :tangle no
      (use-package kubernetes
        :commands (kubernetes-overview))
    #+END_SRC
 
-** TODO python
+* TODO python
    #+BEGIN_SRC emacs-lisp :tangle no
      (use-package virtualenvwrapper)
      (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
    #+END_SRC
 
-** javascript
+* javascript
    #+BEGIN_SRC emacs-lisp
       (setenv "NODE_PATH"
         (concat "/home/yin/.node/lib/node_modules" ":" (getenv "NODE_PATH")))
@@ -431,7 +430,7 @@
         :hook ('js2-mode . 'highlight-symbol-mode))
    #+END_SRC
 
-** typescript
+* typescript
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
        :defer t
@@ -444,7 +443,7 @@
         ('typescript-mode . 'subword-mode)))
    #+END_SRC
 
-** sql
+* sql
    #+BEGIN_SRC emacs-lisp
       ;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))
       (setq sql-connection-alist
@@ -455,13 +454,13 @@
               (sql-database "gamesight_prod"))))
    #+END_SRC
 
-** markdown
+* markdown
    #+BEGIN_SRC emacs-lisp
       (use-package markdown-mode
         :mode "\\.ts\\'")
    #+END_SRC
 
-** org-mode
+* org-mode
    #+BEGIN_SRC emacs-lisp
       (use-package org-bullets)
       (use-package org-yaml)
@@ -505,7 +504,7 @@
       (setq initial-buffer-choice (concat user-emacs-directory "notes.org"))
    #+END_SRC
 
-** TODO tramp
+* TODO tramp
    #+BEGIN_SRC emacs-lisp :tangle no
      (defconst my-tramp-prompt-regexp "Verification code: ")
 
@@ -531,7 +530,7 @@
          ad-do-it))
    #+END_SRC
 
-** pug
+* pug
    #+BEGIN_SRC emacs-lisp
       (use-package pug-mode
         :defer t
@@ -539,13 +538,13 @@
         (setq pug-tab-width 2))
    #+END_SRC
 
-** stylus
+* stylus
    #+BEGIN_SRC emacs-lisp
       (use-package sws-mode
         :defer t)
    #+END_SRC
 
-** mmm-mode
+* mmm-mode
    #+BEGIN_SRC emacs-lisp
       (use-package mmm-mode
         :defer t
@@ -553,7 +552,7 @@
         (setq mmm-submode-decoration-level 0))
    #+END_SRC
 
-** TODO vue-mode
+* TODO vue-mode
    #+BEGIN_SRC emacs-lisp :tangle no
       (use-package vue-mode
         :defer t
@@ -564,7 +563,7 @@
          ('vue-mode . 'flycheck-mode)))
    #+END_SRC
 
-** yaml-mode
+* yaml-mode
    #+BEGIN_SRC emacs-lisp
       (use-package yaml-mode
         :mode "\\.yaml\\'"
@@ -572,14 +571,14 @@
    #+END_SRC
 
 
-** csv-mode
+* csv-mode
    #+BEGIN_SRC emacs-lisp
       (use-package csv-mode
         :mode "\\.csv\\'")
    #+END_SRC
 
-** UI
-*** fullscreen
+* UI
+** fullscreen
    #+BEGIN_SRC emacs-lisp
      (if (= (display-pixel-width) 2560)
          (progn
@@ -593,20 +592,20 @@
 
       (set-frame-parameter nil 'fullscreen 'fullboth)
     #+END_SRC
-*** font
+** font
    #+BEGIN_SRC emacs-lisp
       (set-face-attribute 'default nil :height 134)
       (set-frame-font "Office Code Pro")
    #+END_SRC
-*** line truncate
+** line truncate
    #+BEGIN_SRC emacs-lisp
       (setq-default truncate-lines t)
    #+END_SRC
-*** scrolling
+** scrolling
    #+BEGIN_SRC emacs-lisp
      (pixel-scroll-mode)
    #+END_SRC
-*** icons
+** icons
     *Must install fonts ->  M-x all-the-icons-install-fonts*
    #+BEGIN_SRC emacs-lisp
       (use-package all-the-icons)
@@ -618,19 +617,19 @@
         :config
         (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
    #+END_SRC
-*** line numbers
+** line numbers
    #+BEGIN_SRC emacs-lisp
      (setq-default display-line-numbers t)
    #+END_SRC
-*** delete trailing whitespace
+** delete trailing whitespace
    #+BEGIN_SRC emacs-lisp
      (add-hook 'before-save-hook 'delete-trailing-whitespace)
    #+END_SRC
-*** highlight current line
+** highlight current line
     #+BEGIN_SRC emacs-lisp
      (global-hl-line-mode 1)
     #+END_SRC
-*** indentation
+** indentation
     #+BEGIN_SRC emacs-lisp
       (use-package aggressive-indent
         :config
@@ -639,11 +638,11 @@
       (setq-default tab-width 2)
       (setq default-tab-width 2)
     #+END_SRC
-*** noise
+** noise
     #+BEGIN_SRC emacs-lisp
       (setq ring-bell-function 'ignore)
     #+END_SRC
-*** smartparans
+** smartparans
     #+BEGIN_SRC emacs-lisp
       (use-package smartparens
         :config
@@ -651,7 +650,7 @@
         (smartparens-global-mode t)
         (show-smartparens-global-mode t))
     #+END_SRC
-*** modeline
+** modeline
     #+BEGIN_SRC emacs-lisp
       (use-package doom-modeline
         :config
@@ -659,19 +658,19 @@
         :hook
         (after-init . doom-modeline-mode))
     #+END_SRC
-*** git-gutter
+** git-gutter
     #+BEGIN_SRC emacs-lisp
       (use-package git-gutter
         :config
         (global-git-gutter-mode t))
     #+END_SRC
-*** highlight-symbol
+** highlight-symbol
     #+BEGIN_SRC emacs-lisp
       (use-package highlight-symbol
         :init
         (setq highlight-symbol-idle-delay .2))
     #+END_SRC
-*** Theme
+** Theme
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :config
@@ -682,14 +681,14 @@
         (doom-themes-org-config))
     #+END_SRC
 
-** expand-region
+* expand-region
     #+BEGIN_SRC emacs-lisp
       (use-package expand-region
         :config
         (global-set-key (kbd "C-o") 'er/expand-region))
     #+END_SRC
 
-** TODO slack
+* TODO slack
     #+BEGIN_SRC emacs-lisp :tangle no
       (use-package alert)
       (use-package circe)
@@ -718,7 +717,7 @@
         (setq alert-default-style 'notifier))
     #+END_SRC
 
-** Keybindigs
+* Keybindigs
     #+BEGIN_SRC emacs-lisp
       (global-set-key (kbd "C--") 'undo)
       (global-set-key (kbd "C-r") 'redo)
@@ -742,7 +741,7 @@
       (fset 'yes-or-no-p 'y-or-n-p)
     #+END_SRC
 
-** Spotify
+* Spotify
     #+BEGIN_SRC emacs-lisp :tangle no
       (use-package counsel-spotify
         :config
@@ -750,7 +749,7 @@
         (setq counsel-spotify-client-secret "8a64340b996145868a65bee52ed06271"))
     #+END_SRC
 
-** Backups
+* Backups
     #+BEGIN_SRC emacs-lisp
       (setq make-backup-files nil) ; stop creating backup~ files
       (setq auto-save-default nil) ; stop creating #autosave# files
