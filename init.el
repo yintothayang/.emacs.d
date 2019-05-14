@@ -1,3 +1,13 @@
+;;; -*- lexical-binding: t -*-
+(defun tangle-init ()
+(interactive)
+  (when (equal (buffer-file-name)
+               (expand-file-name (concat user-emacs-directory "README.org")))
+    (let ((prog-mode-hook nil))
+      (org-babel-tangle)
+      (byte-compile-file (concat user-emacs-directory "init.el"))
+      (load-file (concat user-emacs-directory "init.el")))))
+
 (setq gc-cons-threshold #x40000000)
 
 (defmacro k-time (&rest body)
@@ -305,7 +315,7 @@
   :hook (('typescript-mode . 'highlight-symbol-mode)
    ;; ('typescript-mode . 'highlight-indent-guides-mode)
    ;; ('typescript-mode . 'flycheck-mode)
-   ;; ('typescript-mode .  #'lsp)
+   ('typescript-mode .  #'lsp)
    ('typescript-mode . 'subword-mode)))
 
 ;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))

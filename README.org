@@ -8,7 +8,7 @@
 * TODO Tangle and Compile on Save
    - Tangle code from README.org to init.el
    - byte-compile init.el
-   #+BEGIN_SRC emacs-lisp :tangle no
+   #+BEGIN_SRC emacs-lisp
      ;;; -*- lexical-binding: t -*-
      (defun tangle-init ()
      (interactive)
@@ -443,7 +443,7 @@
        :hook (('typescript-mode . 'highlight-symbol-mode)
         ;; ('typescript-mode . 'highlight-indent-guides-mode)
         ;; ('typescript-mode . 'flycheck-mode)
-        ;; ('typescript-mode .  #'lsp)
+        ('typescript-mode .  #'lsp)
         ('typescript-mode . 'subword-mode)))
    #+END_SRC
 
@@ -655,10 +655,16 @@
         (show-smartparens-global-mode t))
     #+END_SRC
 ** TODO modeline
+   error in process filter: doom-modeline-update-flymake-text: Format specifier doesn’t match argument type
+   error in process filter: Format specifier doesn’t match argument type
+
     #+BEGIN_SRC emacs-lisp :tangle no
       (use-package doom-modeline
         :config
         (setq doom-modeline-icon t)
+        (setq doom-modeline-lsp nil)
+        (setq doom-modeline-update-flymake-text nil)
+        (setq doom-modeline-checker-simple-format t)
         :hook
         (after-init . doom-modeline-mode))
     #+END_SRC
