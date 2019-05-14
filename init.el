@@ -1,4 +1,4 @@
-;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
+;;; -*- lexical-binding: t -*-
 (defun tangle-init ()
   (when (equal (buffer-file-name)
                (expand-file-name (concat user-emacs-directory "README.org")))
@@ -23,7 +23,7 @@
                          (message "Garbage Collector has run for %.06fsec"
                                   (k-time (garbage-collect))))))
 
-(progn ;     startup
+(progn
   (setq user-init-file (or load-file-name buffer-file-name))
   (setq user-emacs-directory (file-name-directory user-init-file))
   (setq package-enable-at-startup nil)
@@ -37,7 +37,7 @@
   (menu-bar-mode 0)
   (tooltip-mode 0))
 
-(progn ;    `borg'
+(progn
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
   (require  'borg)
   (borg-initialize))
