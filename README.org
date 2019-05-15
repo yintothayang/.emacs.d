@@ -332,7 +332,9 @@
      (use-package lsp-mode
        :commands lsp
        :init
-       (setq lsp-enable-snippet nil))
+       (setq lsp-enable-snippet nil)
+       :config
+       (setq lsp-prefer-flymake :none))
 
      (use-package company-lsp)
    #+END_SRC
@@ -471,6 +473,7 @@
       (use-package ob-typescript)
       (use-package gnuplot)
       (use-package gnuplot-mode)
+      (use-package ox-gfm)
 
       (setq org-startup-folded 'showall)
 
@@ -657,17 +660,23 @@
 ** TODO modeline
    error in process filter: doom-modeline-update-flymake-text: Format specifier doesn’t match argument type
    error in process filter: Format specifier doesn’t match argument type
-
+   [[https://github.com/seagle0128/doom-modeline][github]]
     #+BEGIN_SRC emacs-lisp :tangle no
       (use-package doom-modeline
         :config
         (setq doom-modeline-icon t)
-        (setq doom-modeline-lsp nil)
-        (setq doom-modeline-update-flymake-text nil)
-        (setq doom-modeline-checker-simple-format t)
+        (setq doom-modeline-lsp t)
         :hook
         (after-init . doom-modeline-mode))
     #+END_SRC
+
+** TODO spaceline
+    #+BEGIN_SRC emacs-lisp
+      (use-package spaceline-config
+        :config
+        (spaceline-emacs-theme))
+    #+END_SRC
+
 ** git-gutter
     #+BEGIN_SRC emacs-lisp
       (use-package git-gutter

@@ -334,6 +334,7 @@
 (use-package ob-typescript)
 (use-package gnuplot)
 (use-package gnuplot-mode)
+(use-package ox-gfm)
 
 (setq org-startup-folded 'showall)
 
@@ -438,6 +439,10 @@
   (require 'smartparens-config)
   (smartparens-global-mode t)
   (show-smartparens-global-mode t))
+
+(use-package spaceline-config
+  :config
+  (spaceline-emacs-theme))
 
 (use-package git-gutter
   :config

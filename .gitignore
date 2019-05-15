@@ -16,3 +16,4 @@ smex-items
 *-autoloads.el
 dir
 .lsp*
+.org-id-locations
