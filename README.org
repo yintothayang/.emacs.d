@@ -217,7 +217,7 @@
    #+END_SRC
 
 * TODO flycheck
-   #+BEGIN_SRC emacs-lisp :tangle no
+   #+BEGIN_SRC emacs-lisp
     (use-package flycheck
       :config
       (global-flycheck-mode t))
@@ -328,7 +328,7 @@
    #+END_SRC
 
 * TODO lsp
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      (use-package lsp-mode
        :commands lsp
        :init
@@ -445,7 +445,7 @@
        :hook (('typescript-mode . 'highlight-symbol-mode)
         ;; ('typescript-mode . 'highlight-indent-guides-mode)
         ;; ('typescript-mode . 'flycheck-mode)
-        ('typescript-mode .  #'lsp)
+        ;; ('typescript-mode .  #'lsp)
         ('typescript-mode . 'subword-mode)))
    #+END_SRC
 

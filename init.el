@@ -133,6 +133,10 @@
 
 (use-package smex)
 
+(use-package flycheck
+  :config
+  (global-flycheck-mode t))
+
 (use-package ivy
   :requires smex
   :config
@@ -224,13 +228,6 @@
 (define-key company-active-map (kbd "C-n") #'company-select-next)
 (define-key company-active-map (kbd "C-p") #'company-select-previous)))
   ;; (add-hook 'after-init-hook 'global-company-mode))
-
-(use-package lsp-mode
-  :commands lsp
-  :init
-  (setq lsp-enable-snippet nil))
-
-(use-package company-lsp)
 
 (use-package undo-tree
   :config
