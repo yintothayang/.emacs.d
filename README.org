@@ -300,8 +300,7 @@
        :config
        (setq company-backends
              '((company-files          ; files & directory
-                company-keywords       ; keywords
-                )
+                company-keywords)       ; keywords
                (company-abbrev company-dabbrev company-ctags company-capf)
                ))
        ;; (setq company-backends
@@ -323,8 +322,8 @@
          (define-key company-active-map (kbd "M-n") nil)
          (define-key company-active-map (kbd "M-p") nil)
          (define-key company-active-map (kbd "C-n") #'company-select-next)
-         (define-key company-active-map (kbd "C-p") #'company-select-previous))
-       (add-hook 'after-init-hook 'global-company-mode))
+         (define-key company-active-map (kbd "C-p") #'company-select-previous)))
+       ;; (add-hook 'after-init-hook 'global-company-mode))
    #+END_SRC
 
 * TODO lsp
@@ -433,6 +432,12 @@
      (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
    #+END_SRC
 
+
+* elisp
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'emacs-lisp-mode-hook 'company-mode)
+   #+END_SRC
+
 * javascript
    #+BEGIN_SRC emacs-lisp
       (setenv "NODE_PATH"
@@ -448,9 +453,9 @@
         (setq-default js2-strict-missing-semi-warning nil)
         (setq-default js2-strict-trailing-comma-warning nil)
         :hook
+        ('js2-mode . 'company-mode)
         ('js2-mode . 'highlight-symbol-mode)
         ('js2-mode . 'eglot-ensure))
-
    #+END_SRC
 
 * typescript
@@ -464,6 +469,7 @@
         ;; ('typescript-mode . 'flycheck-mode)
         ;; ('typescript-mode .  #'lsp)
         ('typescript-mode . 'eglot-ensure)
+        ('typescript-mode . 'company-mode)
         ('typescript-mode . 'subword-mode)))
    #+END_SRC
 
@@ -678,10 +684,8 @@
         (show-smartparens-global-mode t))
     #+END_SRC
 ** TODO modeline
-   error in process filter: doom-modeline-update-flymake-text: Format specifier doesn’t match argument type
-   error in process filter: Format specifier doesn’t match argument type
-   [[https://github.com/seagle0128/doom-modeline][github]]
-    #+BEGIN_SRC emacs-lisp :tangle no
+   https://github.com/seagle0128/doom-modeline/commit/1c5520de9476694591db79ef566c653475f69531
+    #+BEGIN_SRC emacs-lisp
       (use-package doom-modeline
         :config
         (setq doom-modeline-icon t)
@@ -691,7 +695,7 @@
     #+END_SRC
 
 ** TODO spaceline
-    #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp :tangle no
       (use-package spaceline-config
         :config
         (spaceline-emacs-theme))
