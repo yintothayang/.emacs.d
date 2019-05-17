@@ -203,8 +203,7 @@
   :config
   (setq company-backends
         '((company-files          ; files & directory
-           company-keywords       ; keywords
-           )
+           company-keywords)       ; keywords
           (company-abbrev company-dabbrev company-ctags company-capf)
           ))
   ;; (setq company-backends
@@ -226,8 +225,8 @@
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous))
-  (add-hook 'after-init-hook 'global-company-mode))
+    (define-key company-active-map (kbd "C-p") #'company-select-previous)))
+  ;; (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package flymake
   :config)
@@ -297,6 +296,8 @@
             (define-key eshell-mode-map (kbd "C-/") #'eshell-up)
             (define-key eshell-mode-map (kbd "C-@") #'eshell-down)))
 
+(add-hook 'emacs-lisp-mode-hook 'company-mode)
+
 (setenv "NODE_PATH"
   (concat "/home/yin/.node/lib/node_modules" ":" (getenv "NODE_PATH")))
 
@@ -310,6 +311,7 @@
   (setq-default js2-strict-missing-semi-warning nil)
   (setq-default js2-strict-trailing-comma-warning nil)
   :hook
+  ('js2-mode . 'company-mode)
   ('js2-mode . 'highlight-symbol-mode)
   ('js2-mode . 'eglot-ensure))
 
@@ -322,6 +324,7 @@
    ;; ('typescript-mode . 'flycheck-mode)
    ;; ('typescript-mode .  #'lsp)
    ('typescript-mode . 'eglot-ensure)
+   ('typescript-mode . 'company-mode)
    ('typescript-mode . 'subword-mode)))
 
 ;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))
@@ -448,9 +451,12 @@
   (smartparens-global-mode t)
   (show-smartparens-global-mode t))
 
-(use-package spaceline-config
+(use-package doom-modeline
   :config
-  (spaceline-emacs-theme))
+  (setq doom-modeline-icon t)
+  (setq doom-modeline-lsp t)
+  :hook
+  (after-init . doom-modeline-mode))
 
 (use-package git-gutter
   :config

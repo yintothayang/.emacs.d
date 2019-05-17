@@ -684,7 +684,6 @@
         (show-smartparens-global-mode t))
     #+END_SRC
 ** TODO modeline
-   https://github.com/seagle0128/doom-modeline/commit/1c5520de9476694591db79ef566c653475f69531
     #+BEGIN_SRC emacs-lisp
       (use-package doom-modeline
         :config
