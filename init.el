@@ -134,7 +134,7 @@
 (use-package smex)
 
 (use-package flycheck
-  :config
+:config
   (global-flycheck-mode t))
 
 (use-package ivy
@@ -200,34 +200,40 @@
   :bind ("C-x p" . projectile-switch-open-project))
 
 (use-package company
-    :config
-    (setq company-backends
-    '((company-files          ; files & directory
-       company-keywords       ; keywords
-       )
-      (company-abbrev company-dabbrev company-ctags company-capf)
-      ))
-    ;; (setq company-backends
-    ;;       '(company-elisp
-    ;;         company-semantic
-    ;;         company-capf
-    ;;         (company-dabbrev-code company-gtags company-etags
-    ;;                               company-keywords)
-    ;;         company-files
-    ;;         company-dabbrev))
-    (setq company-minimum-prefix-length 2)
-    (setq company-idle-delay .2)
-    (setq company-dabbrev-other-buffers t)
-    (setq company-auto-complete nil)
-    (setq company-dabbrev-code-other-buffers 'all)
-    (setq company-dabbrev-code-everywhere t)
-    (setq company-dabbrev-code-ignore-case t)
-    (with-eval-after-load 'company
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "C-n") #'company-select-next)
-(define-key company-active-map (kbd "C-p") #'company-select-previous)))
-  ;; (add-hook 'after-init-hook 'global-company-mode))
+  :config
+  (setq company-backends
+        '((company-files          ; files & directory
+           company-keywords       ; keywords
+           )
+          (company-abbrev company-dabbrev company-ctags company-capf)
+          ))
+  ;; (setq company-backends
+  ;;       '(company-elisp
+  ;;         company-semantic
+  ;;         company-capf
+  ;;         (company-dabbrev-code company-gtags company-etags
+  ;;                               company-keywords)
+  ;;         company-files
+  ;;         company-dabbrev))
+  (setq company-minimum-prefix-length 2)
+  (setq company-idle-delay .2)
+  (setq company-dabbrev-other-buffers t)
+  (setq company-auto-complete nil)
+  (setq company-dabbrev-code-other-buffers 'all)
+  (setq company-dabbrev-code-everywhere t)
+  (setq company-dabbrev-code-ignore-case t)
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-p") #'company-select-previous))
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package flymake
+  :config)
+
+(use-package eglot
+  :config)
 
 (use-package undo-tree
   :config
@@ -303,7 +309,9 @@
   (setq-default js2-show-parse-errors nil)
   (setq-default js2-strict-missing-semi-warning nil)
   (setq-default js2-strict-trailing-comma-warning nil)
-  :hook ('js2-mode . 'highlight-symbol-mode))
+  :hook
+  ('js2-mode . 'highlight-symbol-mode)
+  ('js2-mode . 'eglot-ensure))
 
 (use-package typescript-mode
   :defer t
@@ -312,7 +320,8 @@
   :hook (('typescript-mode . 'highlight-symbol-mode)
    ;; ('typescript-mode . 'highlight-indent-guides-mode)
    ;; ('typescript-mode . 'flycheck-mode)
-   ('typescript-mode .  #'lsp)
+   ;; ('typescript-mode .  #'lsp)
+   ('typescript-mode . 'eglot-ensure)
    ('typescript-mode . 'subword-mode)))
 
 ;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))
@@ -345,6 +354,8 @@
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-,") nil)
   (define-key org-mode-map (kbd "M-h") nil)
+  (define-key org-mode-map (kbd "C-/") 'org-narrow-to-subtree)
+  (define-key org-mode-map (kbd "C-@") 'widen)
   (define-key org-mode-map (kbd "<C-tab>") 'org-global-cycle))
 
 (org-babel-do-load-languages
@@ -475,6 +486,7 @@
 (global-set-key (kbd "M-n") 'end-of-buffer)
 
 (global-set-key (kbd "s-c") 'kill-ring-save)
+(global-set-key (kbd "M-c") 'kill-ring-save)
 
 (keyboard-translate ?\C-i ?\H-i)
 (global-set-key [?\H-i] 'hippie-expand)
