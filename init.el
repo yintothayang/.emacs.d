@@ -311,7 +311,7 @@
   (setq-default js2-strict-missing-semi-warning nil)
   (setq-default js2-strict-trailing-comma-warning nil)
   :hook
-  ('js2-mode . 'company-mode)
+  ;; ('js2-mode . 'company-mode)
   ('js2-mode . 'highlight-symbol-mode)
   ('js2-mode . 'eglot-ensure))
 
@@ -324,7 +324,7 @@
    ;; ('typescript-mode . 'flycheck-mode)
    ;; ('typescript-mode .  #'lsp)
    ('typescript-mode . 'eglot-ensure)
-   ('typescript-mode . 'company-mode)
+   ;; ('typescript-mode . 'company-mode)
    ('typescript-mode . 'subword-mode)))
 
 ;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))
@@ -344,6 +344,7 @@
 (use-package gnuplot)
 (use-package gnuplot-mode)
 (use-package ox-gfm)
+(use-package ob-async)
 
 (setq org-startup-folded 'showall)
 

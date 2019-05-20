@@ -13,6 +13,9 @@
 [submodule "all-the-icons-ivy"]
 	path = lib/all-the-icons-ivy
 	url = git@github.com:asok/all-the-icons-ivy.git
+[submodule "async"]
+	path = lib/async
+	url = git@github.com:jwiegley/emacs-async.git
 [submodule "auto-compile"]
 	path = lib/auto-compile
 	url = git@github.com:emacscollective/auto-compile.git
@@ -132,6 +135,9 @@
 [submodule "mmm-mode"]
 	path = lib/mmm-mode
 	url = git@github.com:purcell/mmm-mode.git
+[submodule "ob-async"]
+	path = lib/ob-async
+	url = git@github.com:astahlman/ob-async.git
 [submodule "ob-typescript"]
 	path = lib/ob-typescript
 	url = git@github.com:lurdan/ob-typescript.git

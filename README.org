@@ -440,22 +440,22 @@
 
 * javascript
    #+BEGIN_SRC emacs-lisp
-      (setenv "NODE_PATH"
-        (concat "/home/yin/.node/lib/node_modules" ":" (getenv "NODE_PATH")))
+     (setenv "NODE_PATH"
+       (concat "/home/yin/.node/lib/node_modules" ":" (getenv "NODE_PATH")))
 
-      (setq js-indent-level 2)
-      (use-package js2-mode
-        :defer t
-        :mode "\\.js\\'"
-        :config
-        (setq js2-basic-offset 2)
-        (setq-default js2-show-parse-errors nil)
-        (setq-default js2-strict-missing-semi-warning nil)
-        (setq-default js2-strict-trailing-comma-warning nil)
-        :hook
-        ('js2-mode . 'company-mode)
-        ('js2-mode . 'highlight-symbol-mode)
-        ('js2-mode . 'eglot-ensure))
+     (setq js-indent-level 2)
+     (use-package js2-mode
+       :defer t
+       :mode "\\.js\\'"
+       :config
+       (setq js2-basic-offset 2)
+       (setq-default js2-show-parse-errors nil)
+       (setq-default js2-strict-missing-semi-warning nil)
+       (setq-default js2-strict-trailing-comma-warning nil)
+       :hook
+       ;; ('js2-mode . 'company-mode)
+       ('js2-mode . 'highlight-symbol-mode)
+       ('js2-mode . 'eglot-ensure))
    #+END_SRC
 
 * typescript
@@ -469,7 +469,7 @@
         ;; ('typescript-mode . 'flycheck-mode)
         ;; ('typescript-mode .  #'lsp)
         ('typescript-mode . 'eglot-ensure)
-        ('typescript-mode . 'company-mode)
+        ;; ('typescript-mode . 'company-mode)
         ('typescript-mode . 'subword-mode)))
    #+END_SRC
 
@@ -498,6 +498,7 @@
       (use-package gnuplot)
       (use-package gnuplot-mode)
       (use-package ox-gfm)
+      (use-package ob-async)
 
       (setq org-startup-folded 'showall)
 
