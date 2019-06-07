@@ -347,6 +347,7 @@
 (use-package ob-async)
 
 (setq org-startup-folded 'showall)
+(setq org-export-babel-evaluate nil)
 
 (add-hook 'org-mode-hook 'org-bullets-mode)
 (url-handler-mode 1)
