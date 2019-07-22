@@ -35,8 +35,8 @@
      (defvar k-gc-timer
        (run-with-idle-timer 15 t
                             (lambda ()
-                              (message "Garbage Collector has run for %.06fsec"
-                                       (k-time (garbage-collect))))))
+                            (message "Garbage Collector has run for %.06fsec"
+                            (k-time (garbage-collect))))))
    #+END_SRC
 
 * TODO Init
@@ -253,37 +253,37 @@
 
 * projectile
    #+BEGIN_SRC emacs-lisp
-    (use-package projectile
-      :config
-      (setq projectile-enable-caching t)
-      (setq projectile-require-project-root nil)
-      (setq projectile-globally-ignored-directories
-            (append '(
-                      ".git"
-                      ".svn"
-                      "out"
-                      "repl"
-                      "target"
-                      "venv"
-                      "node_modules"
-                      "dist"
-                      "lib"
-                      )
-                    projectile-globally-ignored-directories))
-      (setq projectile-globally-ignored-files
-            (append '(
-                      ".DS_Store"
-                      "*.gz"
-                      "*.pyc"
-                      "*.jar"
-                      "*.tar.gz"
-                      "*.tgz"
-                      "*.zip"
-                      "*.elc"
-                      "*-autoloads.el"
-                      )
-                    projectile-globally-ignored-files))
-      (projectile-mode))
+     (use-package projectile
+       :config
+       ;; (setq projectile-enable-caching t)
+       (setq projectile-require-project-root nil)
+       (setq projectile-globally-ignored-directories
+             (append '(
+                       ".git"
+                       ".svn"
+                       "out"
+                       "repl"
+                       "target"
+                       "venv"
+                       "node_modules"
+                       "dist"
+                       "lib"
+                       )
+                     projectile-globally-ignored-directories))
+       (setq projectile-globally-ignored-files
+             (append '(
+                       ".DS_Store"
+                       "*.gz"
+                       "*.pyc"
+                       "*.jar"
+                       "*.tar.gz"
+                       "*.tgz"
+                       "*.zip"
+                       "*.elc"
+                       "*-autoloads.el"
+                       )
+                     projectile-globally-ignored-files))
+       (projectile-mode))
    #+END_SRC
 
 * counsel-projectile
@@ -490,53 +490,62 @@
         :mode "\\.md\\'")
    #+END_SRC
 
+* plantuml
+   #+BEGIN_SRC emacs-lisp
+     (require 'ob-plantuml)
+     (setq org-plantuml-jar-path
+           (expand-file-name "~/.plantuml/plantuml.jar"))
+   #+END_SRC
+
 * org-mode
    #+BEGIN_SRC emacs-lisp
-      (use-package org-bullets)
-      (use-package org-yaml)
-      (use-package ob-typescript)
-      (use-package gnuplot)
-      (use-package gnuplot-mode)
-      (use-package ox-gfm)
-      (use-package ob-async)
+     (use-package org-bullets)
+     (use-package org-yaml)
+     (use-package ob-typescript)
+     (use-package gnuplot)
+     (use-package gnuplot-mode)
+     (use-package ox-gfm)
+     (use-package ob-async)
 
-      (setq org-startup-folded 'showall)
-      (setq org-export-babel-evaluate nil)
+     (setq org-startup-folded 'showall)
+     (setq org-export-babel-evaluate nil)
 
-      (add-hook 'org-mode-hook 'org-bullets-mode)
-      (url-handler-mode 1)
+     (add-hook 'org-mode-hook 'org-bullets-mode)
+     (url-handler-mode 1)
 
-      (setq org-confirm-babel-evaluate nil)
-      (setq org-startup-with-inline-images t)
-      (setq org-default-notes-file "~/notes.org")
+     (setq org-confirm-babel-evaluate nil)
+     (setq org-startup-with-inline-images t)
+     (setq org-default-notes-file "~/notes.org")
 
-      (with-eval-after-load 'org
-        (define-key org-mode-map (kbd "C-,") nil)
-        (define-key org-mode-map (kbd "M-h") nil)
-        (define-key org-mode-map (kbd "C-/") 'org-narrow-to-subtree)
-        (define-key org-mode-map (kbd "C-@") 'widen)
-        (define-key org-mode-map (kbd "<C-tab>") 'org-global-cycle))
+     (with-eval-after-load 'org
+       (define-key org-mode-map (kbd "C-,") nil)
+       (define-key org-mode-map (kbd "M-h") nil)
+       (define-key org-mode-map (kbd "C-/") 'org-narrow-to-subtree)
+       (define-key org-mode-map (kbd "C-@") 'widen)
+       (define-key org-mode-map (kbd "<C-tab>") 'org-global-cycle))
 
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((emacs-lisp . t)
-         (sql . t)
-         (js . t)
-         (typescript . t)
-         (gnuplot . t)
-         (ditaa . t)
-         (latex . t)
-         (shell . t)
-         (R . t)))
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . t)
+      (sql . t)
+      (js . t)
+      (typescript . t)
+      (gnuplot . t)
+      (ditaa . t)
+      (latex . t)
+      (shell . t)
 
-      ;; LaTex
-      (add-to-list 'org-latex-packages-alist '("" "listings" nil))
-      (setq org-latex-listings t)
+      (R . t)))
 
-      (setq org-latex-listings-options '(("breaklines" "true")))
 
-      (setq initial-buffer-choice t)
-      (setq initial-buffer-choice (concat user-emacs-directory "notes.org"))
+     ;; LaTex
+     (add-to-list 'org-latex-packages-alist '("" "listings" nil))
+     (setq org-latex-listings t)
+
+     (setq org-latex-listings-options '(("breaklines" "true")))
+
+     (setq initial-buffer-choice t)
+     (setq initial-buffer-choice (concat user-emacs-directory "notes.org"))
    #+END_SRC
 
 * TODO tramp
@@ -568,34 +577,30 @@
 * pug
    #+BEGIN_SRC emacs-lisp
       (use-package pug-mode
-        :defer t
         :config
         (setq pug-tab-width 2))
    #+END_SRC
 
 * stylus
    #+BEGIN_SRC emacs-lisp
-      (use-package sws-mode
-        :defer t)
+      (use-package sws-mode)
    #+END_SRC
 
 * mmm-mode
    #+BEGIN_SRC emacs-lisp
       (use-package mmm-mode
-        :defer t
         :config
         (setq mmm-submode-decoration-level 0))
    #+END_SRC
 
 * TODO vue-mode
-   #+BEGIN_SRC emacs-lisp :tangle no
-      (use-package vue-mode
-        :defer t
-        :requires mmm-mode
-        :mode "\\.vue\\'"
-        :hook (('vue-mode . 'highlight-symbol-mode)
-         ('vue-mode . 'highlight-indent-guides-mode)
-         ('vue-mode . 'flycheck-mode)))
+   #+BEGIN_SRC emacs-lisp
+     (use-package vue-mode
+       :requires mmm-mode
+       :mode "\\.vue\\'"
+       :hook (('vue-mode . 'highlight-symbol-mode)
+        ;; ('vue-mode . 'highlight-indent-guides-mode)
+        ('vue-mode . 'flycheck-mode)))
    #+END_SRC
 
 * yaml-mode
@@ -618,10 +623,12 @@
      (if (= (display-pixel-width) 2560)
          (progn
            (message "small screen")
+           (set-face-attribute 'default nil :height 134)
            (setq x-meta-keysym 'meta)
            (setq x-super-keysym 'super))
        (progn
          (message "big screen")
+         (set-face-attribute 'default nil :height 115)
          (setq x-meta-keysym 'super)
          (setq x-super-keysym 'meta)))
 
@@ -629,7 +636,6 @@
     #+END_SRC
 ** font
    #+BEGIN_SRC emacs-lisp
-      (set-face-attribute 'default nil :height 134)
       (set-frame-font "Office Code Pro")
    #+END_SRC
 ** line truncate

@@ -54,3 +54,16 @@
   |        4 | Templates             |
   | 12705536 | Videos                |
   |        4 | zsh                   |
+
+#+begin_src plantuml :file tryout.png
+[*] --> State1
+State1 --> [*]
+State1 : this is a string
+State1 : this is another string
+
+State1 -> State2
+State2 --> [*]
+#+end_src
+
+#+RESULTS:
+[[file:tryout.png]]

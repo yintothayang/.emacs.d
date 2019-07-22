@@ -53,6 +53,9 @@
 [submodule "doom-themes"]
 	path = lib/doom-themes
 	url = git@github.com:hlissner/emacs-doom-themes.git
+[submodule "edit-indirect"]
+	path = lib/edit-indirect
+	url = git@github.com:Fanael/edit-indirect.git
 [submodule "eglot"]
 	path = lib/eglot
 	url = git@github.com:joaotavora/eglot.git
@@ -108,6 +111,9 @@
 [submodule "ivy-rich"]
 	path = lib/ivy-rich
 	url = git@github.com:Yevgnen/ivy-rich.git
+[submodule "jade-mode"]
+	path = lib/jade-mode
+	url = git@github.com:brianc/jade-mode.git
 [submodule "js2-mode"]
 	path = lib/js2-mode
 	url = git@github.com:mooz/js2-mode.git
@@ -153,6 +159,9 @@
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
+[submodule "plantuml-mode"]
+	path = lib/plantuml-mode
+	url = git@github.com:skuro/plantuml-mode.git
 [submodule "powerline"]
 	path = lib/powerline
 	url = git@github.com:milkypostman/powerline.git
@@ -180,6 +189,9 @@
 [submodule "spinner"]
 	path = lib/spinner
 	url = git@github.com:Malabarba/spinner.el.git
+[submodule "ssass-mode"]
+	path = lib/ssass-mode
+	url = git@github.com:AdamNiederer/ssass-mode.git
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git
@@ -196,6 +208,12 @@
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "vue-html-mode"]
+	path = lib/vue-html-mode
+	url = git@github.com:AdamNiederer/vue-html-mode.git
+[submodule "vue-mode"]
+	path = lib/vue-mode
+	url = git@github.com:AdamNiederer/vue-mode.git
 [submodule "with-editor"]
 	path = lib/with-editor
 	url = git@github.com:magit/with-editor.git

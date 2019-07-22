@@ -19,8 +19,8 @@
 (defvar k-gc-timer
   (run-with-idle-timer 15 t
                        (lambda ()
-                         (message "Garbage Collector has run for %.06fsec"
-                                  (k-time (garbage-collect))))))
+                       (message "Garbage Collector has run for %.06fsec"
+                       (k-time (garbage-collect))))))
 
 (progn
   (setq user-init-file (or load-file-name buffer-file-name))
@@ -164,7 +164,7 @@
 
 (use-package projectile
   :config
-  (setq projectile-enable-caching t)
+  ;; (setq projectile-enable-caching t)
   (setq projectile-require-project-root nil)
   (setq projectile-globally-ignored-directories
         (append '(
@@ -338,6 +338,10 @@
 (use-package markdown-mode
   :mode "\\.md\\'")
 
+(require 'ob-plantuml)
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.plantuml/plantuml.jar"))
+
 (use-package org-bullets)
 (use-package org-yaml)
 (use-package ob-typescript)
@@ -366,14 +370,16 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
-   (sql . t)
-   (js . t)
-   (typescript . t)
-   (gnuplot . t)
-   (ditaa . t)
-   (latex . t)
-   (shell . t)
-   (R . t)))
+ (sql . t)
+ (js . t)
+ (typescript . t)
+ (gnuplot . t)
+ (ditaa . t)
+ (latex . t)
+ (shell . t)
+
+ (R . t)))
+
 
 ;; LaTex
 (add-to-list 'org-latex-packages-alist '("" "listings" nil))
@@ -385,17 +391,21 @@
 (setq initial-buffer-choice (concat user-emacs-directory "notes.org"))
 
 (use-package pug-mode
-  :defer t
   :config
   (setq pug-tab-width 2))
 
-(use-package sws-mode
-  :defer t)
+(use-package sws-mode)
 
 (use-package mmm-mode
-  :defer t
   :config
   (setq mmm-submode-decoration-level 0))
+
+(use-package vue-mode
+  :requires mmm-mode
+  :mode "\\.vue\\'"
+  :hook (('vue-mode . 'highlight-symbol-mode)
+   ;; ('vue-mode . 'highlight-indent-guides-mode)
+   ('vue-mode . 'flycheck-mode)))
 
 (use-package yaml-mode
   :mode "\\.yaml\\'"
@@ -407,16 +417,17 @@
 (if (= (display-pixel-width) 2560)
     (progn
       (message "small screen")
+      (set-face-attribute 'default nil :height 134)
       (setq x-meta-keysym 'meta)
       (setq x-super-keysym 'super))
   (progn
     (message "big screen")
+    (set-face-attribute 'default nil :height 115)
     (setq x-meta-keysym 'super)
     (setq x-super-keysym 'meta)))
 
  (set-frame-parameter nil 'fullscreen 'fullboth)
 
-(set-face-attribute 'default nil :height 134)
 (set-frame-font "Office Code Pro")
 
 (setq-default truncate-lines t)
