@@ -240,6 +240,7 @@
 
 (require 'eshell)
 (require 'magit)
+
 (setq eshell-prompt-function
       (lambda ()
         (concat
@@ -294,7 +295,9 @@
 (add-hook 'eshell-mode-hook
           (lambda ()
             (define-key eshell-mode-map (kbd "C-/") #'eshell-up)
-            (define-key eshell-mode-map (kbd "C-@") #'eshell-down)))
+            (define-key eshell-mode-map (kbd "C-@") #'eshell-down)
+            (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
+            ))
 
 (add-hook 'emacs-lisp-mode-hook 'company-mode)
 
