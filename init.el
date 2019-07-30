@@ -407,8 +407,9 @@
   :requires mmm-mode
   :mode "\\.vue\\'"
   :hook (('vue-mode . 'highlight-symbol-mode)
-   ;; ('vue-mode . 'highlight-indent-guides-mode)
-   ('vue-mode . 'flycheck-mode)))
+         ;; ('vue-mode . 'highlight-indent-guides-mode)
+         ;; ('vue-mode . 'flycheck-mode)
+         ))
 
 (use-package yaml-mode
   :mode "\\.yaml\\'"

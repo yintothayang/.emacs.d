@@ -603,8 +603,9 @@
        :requires mmm-mode
        :mode "\\.vue\\'"
        :hook (('vue-mode . 'highlight-symbol-mode)
-        ;; ('vue-mode . 'highlight-indent-guides-mode)
-        ('vue-mode . 'flycheck-mode)))
+              ;; ('vue-mode . 'highlight-indent-guides-mode)
+              ;; ('vue-mode . 'flycheck-mode)
+              ))
    #+END_SRC
 
 * yaml-mode
@@ -613,7 +614,6 @@
         :mode "\\.yaml\\'"
         :hook (('yaml-mode . 'highlight-indent-guides-mode)))
    #+END_SRC
-
 
 * csv-mode
    #+BEGIN_SRC emacs-lisp
@@ -695,7 +695,7 @@
         (smartparens-global-mode t)
         (show-smartparens-global-mode t))
     #+END_SRC
-** TODO modeline
+** TODO doom-modeline
     #+BEGIN_SRC emacs-lisp
       (use-package doom-modeline
         :config
