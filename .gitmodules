@@ -162,6 +162,9 @@
 [submodule "plantuml-mode"]
 	path = lib/plantuml-mode
 	url = git@github.com:skuro/plantuml-mode.git
+[submodule "polymode"]
+	path = lib/polymode
+	url = git@github.com:polymode/polymode.git
 [submodule "powerline"]
 	path = lib/powerline
 	url = git@github.com:milkypostman/powerline.git

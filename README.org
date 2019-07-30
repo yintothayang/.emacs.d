@@ -359,6 +359,37 @@
         (global-undo-tree-mode))
    #+END_SRC
 
+* polymode
+   #+BEGIN_SRC emacs-lisp
+     (use-package polymode)
+
+     (define-hostmode poly-zero-hostmode
+       :mode 'typescript-mode)
+
+     (define-innermode poly-zero-pug-innermode
+       :mode 'pug-mode
+       :head-matcher "<template lang=\"pug\">"
+       :tail-matcher "</template>"
+       :head-mode 'host
+       :tail-mode 'host)
+
+     (define-innermode poly-zero-stylus-innermode
+       :mode 'stylus-mode
+       :head-matcher "<style lang=\"stylus\">"
+       :tail-matcher "</style>"
+       :head-mode 'host
+       :tail-mode 'host)
+
+     (define-polymode poly-zero-mode
+       :hostmode 'poly-zero-hostmode
+       :innermodes '(poly-zero-pug-innermode
+                     poly-zero-stylus-innermode
+                     ))
+
+     (add-to-list 'auto-mode-alist '("\\.vue\\'" . poly-zero-mode))
+   #+END_SRC
+
+
 * TODO eshell
    #+BEGIN_SRC emacs-lisp
      (require 'eshell)
@@ -598,14 +629,14 @@
    #+END_SRC
 
 * TODO vue-mode
-   #+BEGIN_SRC emacs-lisp
-     (use-package vue-mode
-       :requires mmm-mode
-       :mode "\\.vue\\'"
-       :hook (('vue-mode . 'highlight-symbol-mode)
-              ;; ('vue-mode . 'highlight-indent-guides-mode)
-              ;; ('vue-mode . 'flycheck-mode)
-              ))
+   #+BEGIN_SRC emacs-lisp :tangle no
+     ;; (use-package vue-mode
+     ;;   :requires mmm-mode
+     ;;   :mode "\\.vue\\'"
+     ;;   :hook (('vue-mode . 'highlight-symbol-mode)
+     ;;          ;; ('vue-mode . 'highlight-indent-guides-mode)
+     ;;          ;; ('vue-mode . 'flycheck-mode)
+     ;;          ))
    #+END_SRC
 
 * yaml-mode

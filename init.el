@@ -238,6 +238,33 @@
   :config
   (global-undo-tree-mode))
 
+(use-package polymode)
+
+(define-hostmode poly-zero-hostmode
+  :mode 'typescript-mode)
+
+(define-innermode poly-zero-pug-innermode
+  :mode 'pug-mode
+  :head-matcher "<template lang=\"pug\">"
+  :tail-matcher "</template>"
+  :head-mode 'host
+  :tail-mode 'host)
+
+(define-innermode poly-zero-stylus-innermode
+  :mode 'stylus-mode
+  :head-matcher "<style lang=\"stylus\">"
+  :tail-matcher "</style>"
+  :head-mode 'host
+  :tail-mode 'host)
+
+(define-polymode poly-zero-mode
+  :hostmode 'poly-zero-hostmode
+  :innermodes '(poly-zero-pug-innermode
+                poly-zero-stylus-innermode
+                ))
+
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . poly-zero-mode))
+
 (require 'eshell)
 (require 'magit)
 
@@ -402,14 +429,6 @@
 (use-package mmm-mode
   :config
   (setq mmm-submode-decoration-level 0))
-
-(use-package vue-mode
-  :requires mmm-mode
-  :mode "\\.vue\\'"
-  :hook (('vue-mode . 'highlight-symbol-mode)
-         ;; ('vue-mode . 'highlight-indent-guides-mode)
-         ;; ('vue-mode . 'flycheck-mode)
-         ))
 
 (use-package yaml-mode
   :mode "\\.yaml\\'"
