@@ -238,7 +238,10 @@
   :config
   (global-undo-tree-mode))
 
-(use-package polymode)
+(use-package polymode
+  :config
+  (define-key polymode-mode-map (kbd "M-n") nil)
+  )
 
 (define-hostmode poly-zero-hostmode
   :mode 'typescript-mode)
@@ -252,7 +255,7 @@
 
 (define-innermode poly-zero-stylus-innermode
   :mode 'stylus-mode
-  :head-matcher "<style lang=\"stylus\">"
+  :head-matcher "lang=\"stylus\">"
   :tail-matcher "</style>"
   :head-mode 'host
   :tail-mode 'host)
@@ -262,6 +265,9 @@
   :innermodes '(poly-zero-pug-innermode
                 poly-zero-stylus-innermode
                 ))
+
+(with-eval-after-load 'poly-zero-mode
+  (define-key org-mode-map (kbd "M-n") 'end-of-buffer))
 
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . poly-zero-mode))
 
@@ -472,9 +478,9 @@
 
 (global-hl-line-mode 1)
 
-(use-package aggressive-indent
-  :config
-  (global-aggressive-indent-mode t))
+;; (use-package aggressive-indent
+;;   :config
+;;   (global-aggressive-indent-mode t))
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 (setq default-tab-width 2)
