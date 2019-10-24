@@ -1,11 +1,520 @@
+* DB
+
+** Prod
+*** Postgres
+    :PROPERTIES:
+    :header-args:sql: :engine postgresql :dbhost gamesight.cdrn2l3qo8fd.us-west-2.rds.amazonaws.com :dbport 5432 :dbuser gs_prod :database gamesight_prod
+    :END:
+
+     #+BEGIN_SRC sql
+     \dt
+     #+END_SRC
+
+     #+RESULTS:
+     | List of relations |                              |       |         |
+     |-------------------+------------------------------+-------+---------|
+     | Schema            | Name                         | Type  | Owner   |
+     | public            | job_status                   | table | gs_prod |
+     | public            | twitch_channel_materialized  | table | gs_prod |
+     | public            | twitch_game_materialized     | table | gs_prod |
+     | public            | twitch_stream_materialized   | table | gs_prod |
+     | public            | twitch_video_materialized    | table | gs_prod |
+     | public            | youtube_channel_materialized | table | gs_prod |
+     | public            | youtube_video_materialized   | table | gs_prod |
+
+*** Redshift
+     :PROPERTIES:
+     :header-args:sql: :engine postgresql :dbhost gamesight.cixsp8xnn5rk.us-west-2.redshift.amazonaws.com :dbport 5439 :dbuser gs_prod :database gamesight_prod
+     :END:
+
+     #+BEGIN_SRC sql
+       SELECT count(*)
+       FROM youtube_video_latest
+       WHERE youtube_video_latest.channel_id = 'UCoz3Kpu5lv-ALhR4h9bDvcw'
+     #+END_SRC
+
+     #+RESULTS:
+     | count |
+     |-------|
+     |   126 |
+
+
+     #+BEGIN_SRC sql
+     \dt
+     #+END_SRC
+
+     #+RESULTS:
+     | List of relations |                                                |       |         |
+     |-------------------+------------------------------------------------+-------+---------|
+     | schema            | name                                           | type  | owner   |
+     | public            | active_job                                     | table | gs_prod |
+     | public            | chatters_tmp_aug                               | table | gs_prod |
+     | public            | chatters_tmp_sept                              | table | gs_prod |
+     | public            | giantbomb_alias_latest                         | table | gs_prod |
+     | public            | giantbomb_alias_raw                            | table | gs_prod |
+     | public            | giantbomb_alias_stage                          | table | gs_prod |
+     | public            | giantbomb_concept_latest                       | table | gs_prod |
+     | public            | giantbomb_concept_raw                          | table | gs_prod |
+     | public            | giantbomb_concept_stage                        | table | gs_prod |
+     | public            | giantbomb_game_concept                         | table | gs_prod |
+     | public            | giantbomb_game_genre                           | table | gs_prod |
+     | public            | giantbomb_game_latest                          | table | gs_prod |
+     | public            | giantbomb_game_metadata                        | table | gs_prod |
+     | public            | giantbomb_game_raw                             | table | gs_prod |
+     | public            | giantbomb_game_stage                           | table | gs_prod |
+     | public            | giantbomb_genre_latest                         | table | gs_prod |
+     | public            | giantbomb_genre_raw                            | table | gs_prod |
+     | public            | giantbomb_genre_stage                          | table | gs_prod |
+     | public            | gs_game_deleted                                | table | gs_prod |
+     | public            | gs_game_latest                                 | table | gs_prod |
+     | public            | gs_game_link_deleted                           | table | gs_prod |
+     | public            | gs_game_link_latest                            | table | gs_prod |
+     | public            | gs_game_link_raw                               | table | gs_prod |
+     | public            | gs_game_link_stage                             | table | gs_prod |
+     | public            | gs_game_raw                                    | table | gs_prod |
+     | public            | gs_game_stage                                  | table | gs_prod |
+     | public            | integers                                       | table | gs_prod |
+     | public            | scheduled_task                                 | table | gs_prod |
+     | public            | tag_latest                                     | table | gs_prod |
+     | public            | tag_latest_type_ref_sort                       | table | gs_prod |
+     | public            | tag_raw                                        | table | gs_prod |
+     | public            | tag_stage                                      | table | gs_prod |
+     | public            | twitch_channel_latest                          | table | gs_prod |
+     | public            | twitch_channel_metadata                        | table | gs_prod |
+     | public            | twitch_channel_raw                             | table | gs_prod |
+     | public            | twitch_channel_sample_stats                    | table | gs_prod |
+     | public            | twitch_channel_source_latest                   | table | gs_prod |
+     | public            | twitch_channel_stage                           | table | gs_prod |
+     | public            | twitch_channel_status_metadata                 | table | gs_prod |
+     | public            | twitch_game_latest                             | table | gs_prod |
+     | public            | twitch_game_metadata                           | table | gs_prod |
+     | public            | twitch_game_raw                                | table | gs_prod |
+     | public            | twitch_game_sample_stats                       | table | gs_prod |
+     | public            | twitch_game_source_latest                      | table | gs_prod |
+     | public            | twitch_game_stage                              | table | gs_prod |
+     | public            | twitch_game_stream_language_stats_materialized | table | gs_prod |
+     | public            | twitch_game_stream_stats_materialized          | table | gs_prod |
+     | public            | twitch_panel_latest                            | table | gs_prod |
+     | public            | twitch_panel_metadata                          | table | gs_prod |
+     | public            | twitch_panel_raw                               | table | gs_prod |
+     | public            | twitch_panel_source_latest                     | table | gs_prod |
+     | public            | twitch_panel_stage                             | table | gs_prod |
+     | public            | twitch_stream_latest                           | table | gs_prod |
+     | public            | twitch_stream_latest_game                      | table | gs_prod |
+     | public            | twitch_stream_raw                              | table | gs_prod |
+     | public            | twitch_stream_sample_stats                     | table | gs_prod |
+     | public            | twitch_stream_stage                            | table | gs_prod |
+     | public            | twitch_video_latest                            | table | gs_prod |
+     | public            | twitch_video_metadata                          | table | gs_prod |
+     | public            | twitch_video_raw                               | table | gs_prod |
+     | public            | twitch_video_sample_stats                      | table | gs_prod |
+     | public            | twitch_video_source_latest                     | table | gs_prod |
+     | public            | twitch_video_stage                             | table | gs_prod |
+     | public            | twitter_status_latest                          | table | gs_prod |
+     | public            | twitter_status_metadata                        | table | gs_prod |
+     | public            | twitter_status_raw                             | table | gs_prod |
+     | public            | twitter_status_sample_stats                    | table | gs_prod |
+     | public            | twitter_status_source_latest                   | table | gs_prod |
+     | public            | twitter_status_stage                           | table | gs_prod |
+     | public            | twitter_user_latest                            | table | gs_prod |
+     | public            | twitter_user_metadata                          | table | gs_prod |
+     | public            | twitter_user_raw                               | table | gs_prod |
+     | public            | twitter_user_sample_stats                      | table | gs_prod |
+     | public            | twitter_user_source_latest                     | table | gs_prod |
+     | public            | twitter_user_stage                             | table | gs_prod |
+     | public            | youtube_channel_latest                         | table | gs_prod |
+     | public            | youtube_channel_metadata                       | table | gs_prod |
+     | public            | youtube_channel_raw                            | table | gs_prod |
+     | public            | youtube_channel_sample_stats                   | table | gs_prod |
+     | public            | youtube_channel_source_latest                  | table | gs_prod |
+     | public            | youtube_channel_stage                          | table | gs_prod |
+     | public            | youtube_game_latest                            | table | gs_prod |
+     | public            | youtube_game_raw                               | table | gs_prod |
+     | public            | youtube_game_sample_stats                      | table | gs_prod |
+     | public            | youtube_game_stage                             | table | gs_prod |
+     | public            | youtube_video_latest                           | table | gs_prod |
+     | public            | youtube_video_metadata                         | table | gs_prod |
+     | public            | youtube_video_raw                              | table | gs_prod |
+     | public            | youtube_video_sample_stats                     | table | gs_prod |
+     | public            | youtube_video_source_latest                    | table | gs_prod |
+     | public            | youtube_video_stage                            | table | gs_prod |
+
+     #+BEGIN_SRC sql
+     SELECT count(*) from gs_game_link_latest where youtube_game_id is not null
+     #+END_SRC
+
+     #+BEGIN_SRC sql
+     SELECT * from gs_game_link_latest  limit 51
+     #+END_SRC
+
+
+     #+BEGIN_SRC sql
+       SELECT count(*)
+       FROM youtube_channel_sample_stats
+     #+END_SRC
+
+     #+RESULTS:
+     |      count |
+     |------------|
+     | 1397857902 |
+
+
+     #+BEGIN_SRC sql
+       SELECT *
+       FROM youtube_channel_sample_stats
+       limit 10
+     #+END_SRC
+
+     #+RESULTS:
+     | channel_id               | metadata_hash                            | view_count | comment_count | subscriber_count | video_count | request_timestamp   |
+     |--------------------------+------------------------------------------+------------+---------------+------------------+-------------+---------------------|
+     | UC0goWZC_XEQoc5H_g7eZyng | 511eb86d7e4941870bd11a297ee85e285094a9c0 |        796 |             0 |               11 |          31 | 2018-12-12 18:33:34 |
+     | UC7Q0mfpDRX7G8iVa6e6AjUw | 1d433c59b0ac9c155613f3fcc032eb5cb574bbbb |        218 |             0 |               10 |         103 | 2018-12-12 18:33:34 |
+     | UCE5lRNcJ9zjYpOKD75v_J3g | b2521fff2e09188a9bfbcc3c5c28307f8438ad24 |        717 |             0 |               23 |          18 | 2018-12-12 18:33:34 |
+     | UCEzOcRtwqMYL7IVr5VvhKsQ | df8d77d211d5207fcbf702cad29f078864084029 |        147 |             0 |               30 |           8 | 2018-12-12 18:33:34 |
+     | UCFREDjq-CjYRqQPCl7qDDzQ | f1fa2440d0c66d4ca88dc91841bb80b79ae5cc8a |    6277606 |             0 |            11247 |         258 | 2018-12-12 18:33:34 |
+     | UCG_El3Rmzf51rsT2Elcvlcg | e14af3564ec727b8c01a644d07070adde2fe22d0 |       1665 |             0 |               14 |          52 | 2018-12-12 18:33:34 |
+     | UCLDxz5eXregatPD8PUYqggQ | 4810af32c4f43c6236baf2e5017ba13e3e46d48f |          9 |             0 |                0 |           3 | 2018-12-12 18:33:34 |
+     | UCNAePBsBqMSKXhTwYk7P1rw | 3cc8fe6fb408f8850d1daa66e9746252a073eb8a |      37744 |             0 |              253 |         313 | 2018-12-12 18:33:34 |
+     | UCORoS2kgGOqqLXy68-dCaQg | af80f4259ff073a4d156b081679de6d4916df28a |    2501283 |             0 |             2274 |       12932 | 2018-12-12 18:33:34 |
+     | UCQFo_FI4xf1CItQjLBVbceg | 15819fbde478d0a74ad5470325fa13dfd9358c24 |      11295 |             0 |              412 |          47 | 2018-12-12 18:33:34 |
+
+
+     #+BEGIN_SRC sql
+       SELECT *
+       FROM youtube_game_sample_stats
+       LIMIT 5
+     #+END_SRC
+
+     #+RESULTS:
+     | game_id                  | video_count_daily | view_count_daily | like_count_daily | dislike_count_daily | comment_count_daily | new_daily_videos | aggregation_day     |
+     |--------------------------+-------------------+------------------+------------------+---------------------+---------------------+------------------+---------------------|
+     | UCE04gbPEl9kD5IHTBMmK0yw |             40403 |            39764 |             1467 |                  37 |                 181 |                9 | 2019-10-08 00:00:00 |
+     | UCE04gbPEl9kD5IHTBMmK0yw |             23305 |            35789 |              638 |                  15 |                 131 |               10 | 2019-10-09 00:00:00 |
+     | UCGIoJ633-VP4KlI2Ag71t-g |               260 |            19234 |               20 |                   2 |                   5 |                1 | 2019-10-09 00:00:00 |
+     | UCjkem1Rik-q4xKeETu9geUw |            136851 |             2587 |             2677 |                  89 |                 281 |                3 | 2019-10-09 00:00:00 |
+     | UCE04gbPEl9kD5IHTBMmK0yw |              1116 |            41129 |               38 |                   2 |                  20 |                7 | 2019-10-10 00:00:00 |
+
+
+     #+BEGIN_SRC sql
+       SELECT *
+       FROM youtube_channel_stage
+       LIMIT 2
+     #+END_SRC
+
+     #+RESULTS:
+     | request_guid                         | request_timestamp   | request_source                   | channel_id               | metadata_hash                            | channel_title | channel_description                                                                                                                 | channel_custom_url | channel_language | channel_country | channel_thumbnail_default                                                                       | channel_thumbnail_high                                                                           | view_count | comment_count | subscriber_count | video_count | channel_related_playlists_uploads | channel_topic_ids                                                        | channel_topic_categories                                                                                                                                                                           | channel_privacy_status | channel_is_linked | channel_brand_keywords                                                                                                                                                                                                                                                                                       | channel_brand_default_tab | channel_brand_profile_color | channel_brand_banner_image                                                                                                                                | channel_published_at |
+     |--------------------------------------+---------------------+----------------------------------+--------------------------+------------------------------------------+---------------+-------------------------------------------------------------------------------------------------------------------------------------+--------------------+------------------+-----------------+-------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------+------------+---------------+------------------+-------------+-----------------------------------+--------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------+-------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------+-----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------|
+     | 7f6087dc-dfde-47e3-81ac-74bf9b2615c3 | 2019-10-17 18:32:05 | youtube.tracked.channels.channel | UCeBMccz-PDZf6OB4aV6a3eA | 76f444607d9ed53986d86d6d926eafeaff94008e | Kripparrian   | Subscribe & check back for more content! Two videos uploaded every day! One at 6am EST / Noon CET and another at 3pm EST / 9pm CET! | kripparrian        |                  | CA              | https://yt3.ggpht.com/a/AGF-l79jUx-1GnBdkkuufHCBNbx7-r4pJuvPEamGiQ=s88-c-k-c0xffffffff-no-rj-mo | https://yt3.ggpht.com/a/AGF-l79jUx-1GnBdkkuufHCBNbx7-r4pJuvPEamGiQ=s800-c-k-c0xffffffff-no-rj-mo |  779508794 |             0 |           947000 |        3765 | UUeBMccz-PDZf6OB4aV6a3eA          | /m/0bzvm2,/m/0403l3g,/m/025zzc,/m/0bzvm2,/m/0403l3g,/m/025zzc,/m/03hf_rm | https://en.wikipedia.org/wiki/Strategy_video_game,https://en.wikipedia.org/wiki/Video_game_culture,https://en.wikipedia.org/wiki/Action_game,https://en.wikipedia.org/wiki/Role-playing_video_game | public                 | t                 | "Rise of Shadows" RoS "RoS Hearthstone" E.V.I.L Dalaran "Defenders of Dalaran" Arena "RoS Arena" Hearthstone "RoS Deck" "Hearthstone Arena" HS Meta "Standard Deck" "Funny Hearthstone" "Lucky Hearthstone" Ranked "Rank 1" Legend Legendary Salt RNG "Best Deck" Deck "Never Lucky" Unlucky Lucky "How Good | Featured                  | #000000                     | https://yt3.ggpht.com/cafaiF4a-nAO8rQKPwVgKFKDEs8neSVBeumpt3ag0NAVmMykBXdLjohfUa-PciTmdPmpRbgJ7e4=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj | 2009-06-07 02:51:10  |
+     | 9a31da64-cefd-49ff-b455-b47bcc8ad59b | 2019-10-17 18:32:21 | youtube.tracked.videos.video     | UCeBMccz-PDZf6OB4aV6a3eA |                                          | Kripparrian   |                                                                                                                                     |                    |                  |                 |                                                                                                 |                                                                                                  |            |               |                  |             |                                   |                                                                          |                                                                                                                                                                                                    |                        |                   |                                                                                                                                                                                                                                                                                                              |                           |                             |                                                                                                                                                           |                      |
+
+
+    #+BEGIN_SRC sql
+     SELECT * from youtube_game_stage limit 5
+     #+END_SRC
+
+     #+RESULTS:
+     | request_guid                         | request_timestamp   | game_id                  | game_name                  | video_id    |
+     |--------------------------------------+---------------------+--------------------------+----------------------------+-------------|
+     | 52986252-ad28-45ab-969b-692ac474138d | 2019-10-18 20:37:05 | UC6PynsqIMZhHfhLR9EIKswg | Need for Speed Rivals      | MZcxe0xpO7Q |
+     | 0fc42507-9123-4fca-9abb-ca8f6ff45dc7 | 2019-10-18 20:37:05 | UC6PynsqIMZhHfhLR9EIKswg | Need for Speed Rivals      | h9gkQbSYyBM |
+     | c53a5f1f-0eda-4305-a598-8e3acbd3e2ac | 2019-10-18 20:37:05 | UCDuw9L_6qZZp4tOjmrVqJtw | Uncharted 4: A Thief's End | W6C-7iaY_hQ |
+     | e8e132ef-0968-44da-ba87-301c8a8ebb9f | 2019-10-18 20:37:05 | UCDuw9L_6qZZp4tOjmrVqJtw | Uncharted 4: A Thief's End | or0u1ydiwmE |
+     | b5a0241b-47f8-4d11-be3a-a2215f748654 | 2019-10-18 20:37:05 | UCDuw9L_6qZZp4tOjmrVqJtw | Uncharted 4: A Thief's End | 6Ep7lvijvWQ |
+
+
+    #+BEGIN_SRC sql
+     SELECT * from youtube_video_latest limit 1
+     #+END_SRC
+
+     #+RESULTS:
+     | channel_id               | video_id    | video_title             | video_description         | video_tag_list                                                     | video_topic_list              | video_default_audio_language | video_category_id | video_live_broadcast_content | video_length | video_status | video_embeddable | video_privacy | video_stats_viewable | view_count | like_count | dislike_count | favorite_count | comment_count | video_published_at  | first_request_at    | last_request_at     | record_updated_at   |
+     |--------------------------+-------------+-------------------------+---------------------------+--------------------------------------------------------------------+-------------------------------+------------------------------+-------------------+------------------------------+--------------+--------------+------------------+---------------+----------------------+------------+------------+---------------+----------------+---------------+---------------------+---------------------+---------------------+---------------------|
+     | UCB2QHl5jLTNBd-r4P9XBa3Q | bNlxOweu1Bk | Ride in the general lee | a ride in the general lee | ride,general,lee,duke,dukes,of,hazzard,bo,luke,daisy,dodge,charger | /m/019_rr,/m/07yv9,/m/0410tth |                              |                24 | none                         |          153 | processed    | t                | public        | t                    |      24823 |         29 |             4 |              0 |            15 | 2006-07-01 18:40:09 | 2019-04-24 21:59:11 | 2019-04-24 22:10:17 | 2019-04-24 22:14:31 |
+
+
+     #+BEGIN_SRC sql
+       SELECT youtube_video_latest.channel_id, AVG(youtube_video_latest.view_count) as avg_views
+       FROM youtube_video_latest
+       JOIN tag_latest
+       ON tag_latest.content_id = youtube_video_latest.video_id
+       AND tag_latest.content_owner_id = youtube_video_latest.channel_id
+       AND tag_latest.content_type = 'youtube_video'
+       AND tag_latest.tag_type = 'core:youtube_game'
+       JOIN youtube_game_latest
+       ON youtube_game_latest.game_id = tag_latest.tag_ref_id
+       WHERE tag_latest.tag_ref_id = 'UCE04gbPEl9kD5IHTBMmK0yw'
+       GROUP BY youtube_video_latest.channel_id
+       ORDER BY avg_views desc
+       LIMIT 5
+     #+END_SRC
+
+     #+RESULTS:
+     | channel_id               | avg_views |
+     |--------------------------+-----------|
+     | UC3ZqFbpwxyp-sseip6nD9Iw |     41845 |
+     | UCvUZXLShMx-FZvoadtb8xBQ |     41386 |
+     | UCgQxsZL5tQBNtWFlmd4Wl0w |     41096 |
+     | UCCJ-NJtqLQRxuaxHZA9q6zg |     39450 |
+     | UCZAZTSd0xnor7hJFmINIBIw |     25474 |
+
+
+
+     #+BEGIN_SRC sql
+       SELECT *
+       FROM youtube_channel_sample_stats
+       LIMIT 2
+     #+END_SRC
+
+     #+RESULTS:
+     | channel_id               | metadata_hash                            | view_count | comment_count | subscriber_count | video_count | request_timestamp   |
+     |--------------------------+------------------------------------------+------------+---------------+------------------+-------------+---------------------|
+     | UC-7Yng7hQ78joG8OwFzQ53w | 7a1946b11a08d6fd363ea3a9fa30fcb34440e7b3 |         16 |             0 |                7 |           5 | 2018-12-12 18:33:34 |
+     | UC4H3PEYcDGOpQnpSM6PJgWg | 3e14794a21bf39949e706ec9f50201a55a2f5349 |       1540 |             0 |              117 |          44 | 2018-12-12 18:33:34 |
+
+
+** Staging
+*** Postgres
+    :PROPERTIES:
+    :header-args:sql: :engine postgresql :dbhost gs-staging-us-west-2-social.cyziobz6m3sn.us-west-2.rds.amazonaws.com :dbport 5432 :dbuser gssocial_staging :database gssocial_staging
+    :END:
+
+     #+BEGIN_SRC sql
+     \dt
+     #+END_SRC
+
+     #+RESULTS:
+     | List of relations |                              |       |                  |
+     |-------------------+------------------------------+-------+------------------|
+     | Schema            | Name                         | Type  | Owner            |
+     | public            | job_status                   | table | gssocial_staging |
+     | public            | twitch_channel_materialized  | table | gssocial_staging |
+     | public            | twitch_game_materialized     | table | gssocial_staging |
+     | public            | twitch_stream_materialized   | table | gssocial_staging |
+     | public            | twitch_video_materialized    | table | gssocial_staging |
+     | public            | youtube_channel_materialized | table | gssocial_staging |
+     | public            | youtube_video_materialized   | table | gssocial_staging |
+
+
+     #+BEGIN_SRC sql
+     select count(*)
+     FROM youtube_video_materialized
+     #+END_SRC
+
+*** Redshift
+     :PROPERTIES:
+     :header-args:sql: :engine postgresql :dbhost gs-staging.cmcg5fxhgwvh.us-west-2.redshift.amazonaws.com :dbport 5439 :dbuser gssocial_staging :database gssocial_staging
+     :END:
+
+     #+BEGIN_SRC sql
+     \dt
+     #+END_SRC
+
+     #+RESULTS:
+     | List of relations |                                                |       |                  |
+     |-------------------+------------------------------------------------+-------+------------------|
+     | schema            | name                                           | type  | owner            |
+     | public            | active_job                                     | table | gssocial_staging |
+     | public            | giantbomb_alias_latest                         | table | gssocial_staging |
+     | public            | giantbomb_alias_raw                            | table | gssocial_staging |
+     | public            | giantbomb_alias_stage                          | table | gssocial_staging |
+     | public            | giantbomb_concept_latest                       | table | gssocial_staging |
+     | public            | giantbomb_concept_raw                          | table | gssocial_staging |
+     | public            | giantbomb_concept_stage                        | table | gssocial_staging |
+     | public            | giantbomb_game_concept                         | table | gssocial_staging |
+     | public            | giantbomb_game_genre                           | table | gssocial_staging |
+     | public            | giantbomb_game_latest                          | table | gssocial_staging |
+     | public            | giantbomb_game_metadata                        | table | gssocial_staging |
+     | public            | giantbomb_game_raw                             | table | gssocial_staging |
+     | public            | giantbomb_game_stage                           | table | gssocial_staging |
+     | public            | giantbomb_genre_latest                         | table | gssocial_staging |
+     | public            | giantbomb_genre_raw                            | table | gssocial_staging |
+     | public            | giantbomb_genre_stage                          | table | gssocial_staging |
+     | public            | gs_game_alias                                  | table | gssocial_staging |
+     | public            | gs_game_deleted                                | table | gssocial_staging |
+     | public            | gs_game_latest                                 | table | gssocial_staging |
+     | public            | gs_game_link_deleted                           | table | gssocial_staging |
+     | public            | gs_game_link_latest                            | table | gssocial_staging |
+     | public            | gs_game_link_raw                               | table | gssocial_staging |
+     | public            | gs_game_link_stage                             | table | gssocial_staging |
+     | public            | gs_game_raw                                    | table | gssocial_staging |
+     | public            | gs_game_stage                                  | table | gssocial_staging |
+     | public            | integers                                       | table | gssocial_staging |
+     | public            | scheduled_task                                 | table | gssocial_staging |
+     | public            | tag_latest                                     | table | gssocial_staging |
+     | public            | tag_latest_type_ref_sort                       | table | gssocial_staging |
+     | public            | tag_raw                                        | table | gssocial_staging |
+     | public            | tag_stage                                      | table | gssocial_staging |
+     | public            | twitch_channel_latest                          | table | gssocial_staging |
+     | public            | twitch_channel_metadata                        | table | gssocial_staging |
+     | public            | twitch_channel_raw                             | table | gssocial_staging |
+     | public            | twitch_channel_sample_stats                    | table | gssocial_staging |
+     | public            | twitch_channel_source_latest                   | table | gssocial_staging |
+     | public            | twitch_channel_stage                           | table | gssocial_staging |
+     | public            | twitch_channel_status_metadata                 | table | gssocial_staging |
+     | public            | twitch_game_latest                             | table | gssocial_staging |
+     | public            | twitch_game_metadata                           | table | gssocial_staging |
+     | public            | twitch_game_raw                                | table | gssocial_staging |
+     | public            | twitch_game_sample_stats                       | table | gssocial_staging |
+     | public            | twitch_game_source_latest                      | table | gssocial_staging |
+     | public            | twitch_game_stage                              | table | gssocial_staging |
+     | public            | twitch_game_stream_language_stats_materialized | table | gssocial_staging |
+     | public            | twitch_game_stream_stats_materialized          | table | gssocial_staging |
+     | public            | twitch_panel_latest                            | table | gssocial_staging |
+     | public            | twitch_panel_metadata                          | table | gssocial_staging |
+     | public            | twitch_panel_raw                               | table | gssocial_staging |
+     | public            | twitch_panel_source_latest                     | table | gssocial_staging |
+     | public            | twitch_panel_stage                             | table | gssocial_staging |
+     | public            | twitch_stream_latest                           | table | gssocial_staging |
+     | public            | twitch_stream_latest_game                      | table | gssocial_staging |
+     | public            | twitch_stream_raw                              | table | gssocial_staging |
+     | public            | twitch_stream_sample_stats                     | table | gssocial_staging |
+     | public            | twitch_stream_stage                            | table | gssocial_staging |
+     | public            | twitch_video_latest                            | table | gssocial_staging |
+     | public            | twitch_video_metadata                          | table | gssocial_staging |
+     | public            | twitch_video_raw                               | table | gssocial_staging |
+     | public            | twitch_video_sample_stats                      | table | gssocial_staging |
+     | public            | twitch_video_source_latest                     | table | gssocial_staging |
+     | public            | twitch_video_stage                             | table | gssocial_staging |
+     | public            | twitter_status_latest                          | table | gssocial_staging |
+     | public            | twitter_status_metadata                        | table | gssocial_staging |
+     | public            | twitter_status_raw                             | table | gssocial_staging |
+     | public            | twitter_status_sample_stats                    | table | gssocial_staging |
+     | public            | twitter_status_source_latest                   | table | gssocial_staging |
+     | public            | twitter_status_stage                           | table | gssocial_staging |
+     | public            | twitter_user_latest                            | table | gssocial_staging |
+     | public            | twitter_user_metadata                          | table | gssocial_staging |
+     | public            | twitter_user_raw                               | table | gssocial_staging |
+     | public            | twitter_user_sample_stats                      | table | gssocial_staging |
+     | public            | twitter_user_source_latest                     | table | gssocial_staging |
+     | public            | twitter_user_stage                             | table | gssocial_staging |
+     | public            | youtube_channel_latest                         | table | gssocial_staging |
+     | public            | youtube_channel_metadata                       | table | gssocial_staging |
+     | public            | youtube_channel_raw                            | table | gssocial_staging |
+     | public            | youtube_channel_sample_stats                   | table | gssocial_staging |
+     | public            | youtube_channel_source_latest                  | table | gssocial_staging |
+     | public            | youtube_channel_stage                          | table | gssocial_staging |
+     | public            | youtube_game_latest                            | table | gssocial_staging |
+     | public            | youtube_game_raw                               | table | gssocial_staging |
+     | public            | youtube_game_sample_stats                      | table | gssocial_staging |
+     | public            | youtube_game_stage                             | table | gssocial_staging |
+     | public            | youtube_video_latest                           | table | gssocial_staging |
+     | public            | youtube_video_metadata                         | table | gssocial_staging |
+     | public            | youtube_video_raw                              | table | gssocial_staging |
+     | public            | youtube_video_sample_stats                     | table | gssocial_staging |
+     | public            | youtube_video_source_latest                    | table | gssocial_staging |
+     | public            | youtube_video_stage                            | table | gssocial_staging |
+
+
+
+    #+BEGIN_SRC sql
+     SELECT count(*) from youtube_game_stage
+     #+END_SRC
+
+     #+RESULTS:
+     | count |
+     |-------|
+     |  9749 |
+
+
+    #+BEGIN_SRC sql
+     SELECT * from youtube_game_stage limit 1
+     #+END_SRC
+
+     #+RESULTS:
+     | request_guid                         | request_timestamp   | game_id                  | game_name      | video_id    |
+     |--------------------------------------+---------------------+--------------------------+----------------+-------------|
+     | 18e070f2-77dc-40b9-a3f1-801aa7c41a25 | 2019-10-18 21:14:48 | UC1WUlp5je93a7xLsA2smQZQ | Hunt: Showdown | 29zNxLb5ZmM |
+
+
+    #+BEGIN_SRC sql
+     SELECT count(*) from youtube_game_raw
+     #+END_SRC
+
+     #+RESULTS:
+     |   count |
+     |---------|
+     | 4277732 |
+
+
+    #+BEGIN_SRC sql
+     SELECT * from youtube_game_raw limit 5
+     #+END_SRC
+
+     #+RESULTS:
+     | request_guid                         | request_timestamp   | game_id                  | game_name         | video_id    |
+     |--------------------------------------+---------------------+--------------------------+-------------------+-------------|
+     | 6ae4d096-44a2-457c-b4c1-7df8cb5177dc | 2019-10-10 00:14:48 | UCOpNcN46UbXVtpKMrmU4Abg | Gaming            | W0baHTKeeCE |
+     | 81916509-258e-445d-aabd-324ca7f41c84 | 2019-10-10 00:14:48 | UCOpNcN46UbXVtpKMrmU4Abg | Gaming            | gjSqC6UFGmk |
+     | 11ac1fe8-995c-42d0-9119-34d5b2536464 | 2019-10-10 00:14:48 | UCZtmNrG53nmbq-Ww2VJrxEQ | League of Legends | VPyAh73y03w |
+     | 46b9d018-5db8-4f85-9995-0483bc46076a | 2019-10-10 00:14:48 | UCZtmNrG53nmbq-Ww2VJrxEQ | League of Legends | GCgs3Ec5l1o |
+     | 787466b8-4ddf-4d6a-ae77-88e3ad8b3610 | 2019-10-10 00:14:48 | UCZtmNrG53nmbq-Ww2VJrxEQ | League of Legends | Z2bTzZaFLU8 |
+
+
+     #+BEGIN_SRC sql
+     SELECT * from tag_latest where content_type = 'youtube_video' limit 2
+     #+END_SRC
+
+     #+RESULTS:
+     | content_type  | content_id  | content_metadata_hash | content_owner_id         | tag_type          | tag_ref_id               | tag_value | weight | first_request_at    | last_request_at     | record_updated_at   |
+     |---------------+-------------+-----------------------+--------------------------+-------------------+--------------------------+-----------+--------+---------------------+---------------------+---------------------|
+     | youtube_video | ronjlaTt4xI |                       | UC--4ptHthLDkp-ManD_mSaA | core:youtube_game | UCRIDNcb4SsgRUQwLHufQXcQ |           |    500 | 2019-10-17 03:44:53 | 2019-10-17 03:44:53 | 2019-10-17 03:49:03 |
+     | youtube_video | E8pc4LHfFns |                       | UC--4ptHthLDkp-ManD_mSaA | core:youtube_game | UCRIDNcb4SsgRUQwLHufQXcQ |           |    500 | 2019-10-17 05:44:53 | 2019-10-17 05:44:53 | 2019-10-17 05:49:02 |
+
+
+     #+BEGIN_SRC sql
+       SELECT video_id
+       FROM youtube_video_latest
+       WHERE youtube_video_latest.channel_id = 'UCoz3Kpu5lv-ALhR4h9bDvcw'
+     #+END_SRC
+
+     #+RESULTS:
+     | video_id    |
+     |-------------|
+     | fDm_4LnjrJw |
+     | 1lDLqUpHb1Q |
+     | kIGmjQkEv7k |
+     | 3Z2bZi8jCYs |
+
+
+
+    #+BEGIN_SRC sql
+      SELECT
+        twitch.game_id as twitch_id,
+        giantbomb.game_id as giantbomb_id,
+        twitch_links.gs_game_id as twitch_link,
+        twitch_links.weight as existing_weight,
+        giantbomb_links.gs_game_id as giantbomb_link
+      FROM twitch_game_latest as twitch
+      LEFT OUTER JOIN giantbomb_game_latest as giantbomb
+        ON twitch.game_giantbomb_id = giantbomb.game_id
+      LEFT OUTER JOIN gs_game_link_latest as twitch_links
+       ON twitch.game_id = twitch_links.twitch_game_id
+      LEFT OUTER JOIN gs_game_link_latest as giantbomb_links
+        ON giantbomb.game_id = giantbomb_links.giantbomb_game_id
+      LIMIT 7
+     #+END_SRC
+
+     #+RESULTS:
+     | twitch_id | giantbomb_id | twitch_link                          | existing_weight | giantbomb_link                       |
+     |-----------+--------------+--------------------------------------+-----------------+--------------------------------------|
+     |       100 |          103 | c53d38f1-ee51-436e-b337-2ec0e65d8a6c |             500 | c53d38f1-ee51-436e-b337-2ec0e65d8a6c |
+     |     10001 |        10896 | a6158899-2149-4e1a-8590-e7549fa1b6ca |             500 | a6158899-2149-4e1a-8590-e7549fa1b6ca |
+     |     10021 |        10921 | 21e72bd0-f07d-4a05-9da4-181d9b8562a3 |             500 | 21e72bd0-f07d-4a05-9da4-181d9b8562a3 |
+     |     10028 |        10930 | 8a815cf8-4d87-46d5-98ec-b85e37f3127a |             500 | 8a815cf8-4d87-46d5-98ec-b85e37f3127a |
+     |     10045 |        10946 | 3e4029d1-951f-4728-a1ef-1b80c7f9a733 |             500 | 3e4029d1-951f-4728-a1ef-1b80c7f9a733 |
+     |     10047 |        10947 | 3b54b264-c163-40e7-b281-dea63609d447 |             500 | 3b54b264-c163-40e7-b281-dea63609d447 |
+     |      1005 |         1096 | 73b7128d-ee9c-49b9-b31d-cd225f37931c |             500 | 73b7128d-ee9c-49b9-b31d-cd225f37931c |
+
+
+
+
 * TODO
 ** Innervate
    [[file:~/repos/innervate/research/README.org::*Gamesight%20Pipeline%20Overview][Research]]
-*** TODO Replace 9volt
-*** TODO Team integration into Org
-
 
 ** Ludic
+
 
 * Emacs
   [[file:README.org][README.org]]
@@ -14,8 +523,10 @@
    ~profiler-start~
    ~profiler-stop~
 
+
 * Org
 ** [[https://orgmode.org/worg/org-contrib/babel/uses.html][Use Cases]]
+
 
 * SQL
 ** ex
@@ -26,6 +537,7 @@
      WHERE published_at => '2018-01-00 00:00:00' and game.name = $game
      GROUP BY game.name, date_bucket
    #+END_SRC
+
 
 * Tables
   #+name: directories

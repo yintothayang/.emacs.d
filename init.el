@@ -10,17 +10,21 @@
 
 (setq gc-cons-threshold #x40000000)
 
-(defmacro k-time (&rest body)
-  "Measure and return the time it takes evaluating BODY."
-  `(let ((time (current-time)))
-     ,@body
-     (float-time (time-since time))))
-
-(defvar k-gc-timer
-  (run-with-idle-timer 15 t
+(run-with-idle-timer 30 t
                        (lambda ()
-                       (message "Garbage Collector has run for %.06fsec"
-                       (k-time (garbage-collect))))))
+                       (garbage-collect)))
+
+;; (defmacro k-time (&rest body)
+;;   "Measure and return the time it takes evaluating BODY."
+;;   `(let ((time (current-time)))
+;;      ,@body
+;;      (float-time (time-since time))))
+
+;; (defvar k-gc-timer
+;;   (run-with-idle-timer 15 t
+;;                        (lambda ()
+;;                        (message "Garbage Collector has run for %.06fsec"
+;;                        (k-time (garbage-collect))))))
 
 (progn
   (setq user-init-file (or load-file-name buffer-file-name))
@@ -170,7 +174,10 @@
         (append '(
                   ".git"
                   ".svn"
+                  ".cache"
+                  ".**"
                   "out"
+                  "docs"
                   "repl"
                   "target"
                   "venv"
@@ -227,6 +234,9 @@
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)))
   ;; (add-hook 'after-init-hook 'global-company-mode))
+
+;; (use-package company-box
+;;   :hook (company-mode . company-box-mode))
 
 (use-package flymake
   :config)
@@ -332,6 +342,29 @@
             (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
             ))
 
+
+
+(defun eshell-here ()
+  "Opens up a new shell in the directory associated with the
+current buffer's file. The eshell is renamed to match that
+directory to make multiple eshell windows easier."
+  (interactive)
+  (let* ((parent (if (buffer-file-name)
+                     (file-name-directory (buffer-file-name))
+                   default-directory))
+         (height (/ (window-total-height) 3))
+         (name   (car (last (split-string parent "/" t)))))
+    (split-window-vertically (- height))
+    (other-window 1)
+    (eshell "new")
+    (rename-buffer (concat "*eshell: " name "*"))
+
+    (insert (concat "ls"))
+    (eshell-send-input)))
+
+(global-set-key (kbd "<C-backspace>") 'eshell-here)
+(setq eshell-history-size 10000)
+
 (add-hook 'emacs-lisp-mode-hook 'company-mode)
 
 (setenv "NODE_PATH"
@@ -363,6 +396,12 @@
    ;; ('typescript-mode . 'company-mode)
    ('typescript-mode . 'subword-mode)))
 
+(use-package json-mode
+  :defer t
+  :mode "\\.json\\'"
+  :init (setq json-indent-level 2)
+  :hook (('json-mode . 'highlight-symbol-mode)))
+
 ;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))
 (setq sql-connection-alist
 '((redshift-gs_prod (sql-product 'postgres)
@@ -386,7 +425,7 @@
 (use-package ox-gfm)
 (use-package ob-async)
 
-(setq org-startup-folded 'showall)
+;; (setq org-startup-folded 'showall)
 (setq org-export-babel-evaluate nil)
 
 (add-hook 'org-mode-hook 'org-bullets-mode)
@@ -451,7 +490,7 @@
       (setq x-super-keysym 'super))
   (progn
     (message "big screen")
-    (set-face-attribute 'default nil :height 115)
+    (set-face-attribute 'default nil :height 130)
     (setq x-meta-keysym 'super)
     (setq x-super-keysym 'meta)))
 
