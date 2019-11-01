@@ -17,3 +17,6 @@ smex-items
 dir
 .lsp*
 .org-id-locations
+session*
+README.el
+notes.org
