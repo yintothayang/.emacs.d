@@ -485,7 +485,7 @@ directory to make multiple eshell windows easier."
 (if (= (display-pixel-width) 2560)
     (progn
       (message "small screen")
-      (set-face-attribute 'default nil :height 134)
+      (set-face-attribute 'default nil :height 144)
       (setq x-meta-keysym 'meta)
       (setq x-super-keysym 'super))
   (progn

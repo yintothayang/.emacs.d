@@ -502,7 +502,16 @@
 * TODO python
    #+BEGIN_SRC emacs-lisp :tangle no
      (use-package virtualenvwrapper)
-     (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+     (use-package python-mode
+       :defer t
+       :mode "\\.py\\'"
+       :init
+       (setq python-indent-offset 2)
+       (setq py-python-command "python3")
+       (setq python-shell-interpreter "python3")
+       :hook (('python-mode . 'highlight-symbol-mode)
+        ('python-mode . 'eglot-ensure)))
+
    #+END_SRC
 
 
