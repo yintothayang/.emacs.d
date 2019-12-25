@@ -81,6 +81,9 @@
 [submodule "flymake"]
 	path = lib/flymake
 	url = git@github.com:emacsmirror/flymake.git
+[submodule "gcmh"]
+	path = lib/gcmh
+	url = git@gitlab.com:koral/gcmh.git
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
@@ -223,6 +226,9 @@
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "vterm"]
+	path = lib/vterm
+	url = git@github.com:akermu/emacs-libvterm.git
 [submodule "vue-html-mode"]
 	path = lib/vue-html-mode
 	url = git@github.com:AdamNiederer/vue-html-mode.git

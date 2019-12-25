@@ -10,21 +10,13 @@
 
 (setq gc-cons-threshold #x40000000)
 
-(run-with-idle-timer 30 t
-                       (lambda ()
-                       (garbage-collect)))
-
-;; (defmacro k-time (&rest body)
-;;   "Measure and return the time it takes evaluating BODY."
-;;   `(let ((time (current-time)))
-;;      ,@body
-;;      (float-time (time-since time))))
-
-;; (defvar k-gc-timer
-;;   (run-with-idle-timer 15 t
+;; (run-with-idle-timer 15 t
 ;;                        (lambda ()
-;;                        (message "Garbage Collector has run for %.06fsec"
-;;                        (k-time (garbage-collect))))))
+;;                        (garbage-collect)))
+
+(use-package gcmh
+  :config
+  (gcmh-mode 1))
 
 (progn
   (setq user-init-file (or load-file-name buffer-file-name))
@@ -244,6 +236,9 @@
 (use-package eglot
   :config)
 
+;; (use-package vterm
+;;   :config)
+
 (use-package undo-tree
   :config
   (global-undo-tree-mode))
@@ -364,6 +359,21 @@ directory to make multiple eshell windows easier."
 
 (global-set-key (kbd "<C-backspace>") 'eshell-here)
 (setq eshell-history-size 10000)
+
+;; (use-package virtualenvwrapper)
+(setq python-indent-offset 2)
+(setq py-python-command "python3")
+(setq python-shell-interpreter "python3")
+
+(use-package python-mode
+  :defer t
+  :mode "\\.py\\'"
+  :init
+  (setq python-indent-offset 2)
+  (setq py-python-command "python3")
+  (setq python-shell-interpreter "python3")
+  :hook (
+   ('python-mode . 'eglot-ensure)))
 
 (add-hook 'emacs-lisp-mode-hook 'company-mode)
 

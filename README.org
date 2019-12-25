@@ -26,21 +26,15 @@
    #+BEGIN_SRC emacs-lisp
      (setq gc-cons-threshold #x40000000)
 
-     (run-with-idle-timer 30 t
-                            (lambda ()
-                            (garbage-collect)))
-
-     ;; (defmacro k-time (&rest body)
-     ;;   "Measure and return the time it takes evaluating BODY."
-     ;;   `(let ((time (current-time)))
-     ;;      ,@body
-     ;;      (float-time (time-since time))))
-
-     ;; (defvar k-gc-timer
-     ;;   (run-with-idle-timer 15 t
+     ;; (run-with-idle-timer 15 t
      ;;                        (lambda ()
-     ;;                        (message "Garbage Collector has run for %.06fsec"
-     ;;                        (k-time (garbage-collect))))))
+     ;;                        (garbage-collect)))
+
+     (use-package gcmh
+       :config
+       (gcmh-mode 1))
+
+
    #+END_SRC
 
 * TODO Init
@@ -361,6 +355,12 @@
        :config)
    #+END_SRC
 
+* vterm
+   #+BEGIN_SRC emacs-lisp
+     ;; (use-package vterm
+     ;;   :config)
+   #+END_SRC
+
 
 * undo-tree
    #+BEGIN_SRC emacs-lisp
@@ -500,8 +500,12 @@
    #+END_SRC
 
 * TODO python
-   #+BEGIN_SRC emacs-lisp :tangle no
-     (use-package virtualenvwrapper)
+   #+BEGIN_SRC emacs-lisp
+     ;; (use-package virtualenvwrapper)
+     (setq python-indent-offset 2)
+     (setq py-python-command "python3")
+     (setq python-shell-interpreter "python3")
+
      (use-package python-mode
        :defer t
        :mode "\\.py\\'"
@@ -509,7 +513,7 @@
        (setq python-indent-offset 2)
        (setq py-python-command "python3")
        (setq python-shell-interpreter "python3")
-       :hook (('python-mode . 'highlight-symbol-mode)
+       :hook (
         ('python-mode . 'eglot-ensure)))
 
    #+END_SRC
