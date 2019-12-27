@@ -130,14 +130,13 @@
 (use-package ivy
   :requires smex
   :config
-
-  ;; (setq ivy-use-virtual-buffers t)
-  ;; (setq enable-recursive-minibuffers t)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-ignore-order)))
   (setq ivy-initial-inputs-alist nil)
-  ;; (setq counsel-async-filter-update-time 10000)
-  ;; (setq ivy-dynamic-exhibit-delay-ms 20)
+  (setq counsel-async-filter-update-time 10000)
+  (setq ivy-dynamic-exhibit-delay-ms 20)
   (global-set-key "\C-s" 'swiper)
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-t") 'complete-symbol)
@@ -145,19 +144,27 @@
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
   (ivy-mode 1))
 
-  ;; https://github.com/Yevgnen/ivy-rich
-  ;; (use-package ivy-rich
-  ;;   :requires ivy
-  ;;   :config
-  ;;   (setq ivy-format-function #'ivy-format-function-line)
-  ;;   (ivy-rich-mode 1))
+;; https://github.com/Yevgnen/ivy-rich
+(use-package ivy-rich
+  :requires ivy
+  :config
+  (setq ivy-format-function #'ivy-format-function-line)
+  (ivy-rich-mode 1))
 
-  (use-package ivy-posframe
-    :requires ivy
-    :config
-    ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
-    (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
-    (ivy-posframe-mode -1))
+(use-package ivy-posframe
+  :requires ivy
+  :config
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-display-functions-alist
+        '((swiper          . ivy-posframe-display-at-frame-center)
+          (complete-symbol . ivy-posframe-display-at-point)
+          (counsel-M-x     . ivy-posframe-display-at-frame-center)
+          (t               . ivy-posframe-display)))
+  (setq ivy-posframe-parameters
+        '((left-fringe . 8)
+          (right-fringe . 8)))
+  (ivy-posframe-mode 1))
 
 (use-package projectile
   :config
@@ -228,9 +235,6 @@
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)))
   ;; (add-hook 'after-init-hook 'global-company-mode))
-
-;; (use-package company-box
-;;   :hook (company-mode . company-box-mode))
 
 (use-package flymake
   :config)
