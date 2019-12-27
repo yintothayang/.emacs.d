@@ -5,11 +5,25 @@
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
 #+PROPERTY: header-args :tangle init.el :results silent
 
-* TODO Tangle and Compile on Save
-   - Tangle code from README.org to init.el
-   - byte-compile init.el
+* Emacs
+** Table of Contents
+  - [[Tangle][Tangle]]
+  - [[Init][Init]]
+  - [[Garbage Collection][Garbage Collection]]
+  - [[borg][borg]]
+  - [[use-package][use-package]]
+  - [[auto-compile]]
+  - [[epkg]]
+  - [[custom]]
+  - [[server]]
+  - [[dash]]
+  - [[diff-hl]]
+
+
+** Tangle
+   - Tangle code from README.org -> init.el
+   - byte-compile init.el -> init.elc
    #+BEGIN_SRC emacs-lisp
-     ;;; -*- lexical-binding: t -*-
      (defun tangle-init ()
      (interactive)
        (when (equal (buffer-file-name)
@@ -18,26 +32,9 @@
            (org-babel-tangle)
            (byte-compile-file (concat user-emacs-directory "init.el"))
            (load-file (concat user-emacs-directory "init.el")))))
-   #+END_SRC
+           #+END_SRC
 
-* TODO Garbage Collection
-   - Increase GC threshold to 1GB
-   - Run GC after 15sec of idle time
-   #+BEGIN_SRC emacs-lisp
-     (setq gc-cons-threshold #x40000000)
-
-     ;; (run-with-idle-timer 15 t
-     ;;                        (lambda ()
-     ;;                        (garbage-collect)))
-
-     (use-package gcmh
-       :config
-       (gcmh-mode 1))
-
-
-   #+END_SRC
-
-* TODO Init
+** Init
    #+BEGIN_SRC emacs-lisp
      (progn
        (setq user-init-file (or load-file-name buffer-file-name))
@@ -55,7 +52,15 @@
        (tooltip-mode 0))
    #+END_SRC
 
-* TODO borg
+** Garbage Collection
+   #+BEGIN_SRC emacs-lisp
+     ;; (setq gc-cons-threshold 100000000)
+     (add-to-list 'load-path (expand-file-name "lib/gcmh" user-emacs-directory))
+     (require 'gcmh)
+     (gcmh-mode 1)
+   #+END_SRC
+
+** borg
    #+BEGIN_SRC emacs-lisp
      (progn
        (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
@@ -63,14 +68,14 @@
        (borg-initialize))
    #+END_SRC
 
-* TODO use-package
+** use-package
    #+BEGIN_SRC emacs-lisp
      (progn ;    `use-package'
        (require  'use-package)
        (setq use-package-verbose t))
    #+END_SRC
 
-* TODO auto-compile
+** auto-compile
    #+BEGIN_SRC emacs-lisp
      (use-package auto-compile
        :demand t
@@ -84,7 +89,7 @@
        (setq auto-compile-update-autoloads             t))
    #+END_SRC
 
-* TODO epkg
+** epkg
    #+BEGIN_SRC emacs-lisp
      (use-package epkg
        :defer t
@@ -92,7 +97,7 @@
                    (expand-file-name "var/epkgs/" user-emacs-directory)))
    #+END_SRC
 
-* TODO custom
+** custom
    #+BEGIN_SRC emacs-lisp
      (use-package custom
        :no-require t
@@ -102,19 +107,19 @@
          (load custom-file)))
    #+END_SRC
 
-* TODO server
+** server
    #+BEGIN_SRC emacs-lisp
      (use-package server
        :config (or (server-running-p) (server-mode)))
    #+END_SRC
 
-* TODO dash
+** dash
    #+BEGIN_SRC emacs-lisp
     (use-package dash
       :config (dash-enable-font-lock))
    #+END_SRC
 
-* TODO diff-hl
+** diff-hl
    #+BEGIN_SRC emacs-lisp
     (use-package diff-hl
       :config
@@ -123,34 +128,34 @@
       (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh t))
    #+END_SRC
 
-* TODO dired
+** dired
    #+BEGIN_SRC emacs-lisp
     (use-package dired
       :defer t
       :config (setq dired-listing-switches "-alh"))
    #+END_SRC
 
-* TODO eldoc
+** eldoc
    #+BEGIN_SRC emacs-lisp
     (use-package eldoc
       :when (version< "25" emacs-version)
       :config (global-eldoc-mode))
    #+END_SRC
 
-* TODO help
+** help
    #+BEGIN_SRC emacs-lisp
     (use-package help
       :defer t
       :config (temp-buffer-resize-mode))
    #+END_SRC
 
-* TODO isearch
+** isearch
    #+BEGIN_SRC emacs-lisp
     (progn ;    `isearch'
       (setq isearch-allow-scroll t))
    #+END_SRC
 
-* TODO lisp-mode
+** lisp-mode
    #+BEGIN_SRC emacs-lisp
     (use-package lisp-mode
       :config
@@ -161,19 +166,19 @@
       (add-hook 'lisp-interaction-mode-hook #'indent-spaces-mode))
    #+END_SRC
 
-* TODO magit
+** magit
    #+BEGIN_SRC emacs-lisp
      (use-package magit
        :bind ("C-x m"   . magit-status)
        :config)
    #+END_SRC
 
-* TODO paren
+** paren
    #+BEGIN_SRC emacs-lisp
     (use-package paren
       :config (show-paren-mode))
    #+END_SRC
-* TODO prog-mode
+** prog-mode
    #+BEGIN_SRC emacs-lisp
     (use-package prog-mode
       :config (global-prettify-symbols-mode)
@@ -182,74 +187,81 @@
       (add-hook 'prog-mode-hook #'indicate-buffer-boundaries-left))
    #+END_SRC
 
-* TODO recentf
+** recentf
    #+BEGIN_SRC emacs-lisp
     (use-package recentf
       :demand t
       :config (add-to-list 'recentf-exclude "^/\\(?:ssh\\|su\\|sudo\\)?:"))
    #+END_SRC
 
-* TODO savehist
+** savehist
    #+BEGIN_SRC emacs-lisp
     (use-package savehist
       :config (savehist-mode))
    #+END_SRC
 
-* TODO saveplace
+** saveplace
    #+BEGIN_SRC emacs-lisp
     (use-package saveplace
       :when (version< "25" emacs-version)
       :config (save-place-mode))
    #+END_SRC
 
-* TODO simple
+** simple
    #+BEGIN_SRC emacs-lisp
     (use-package simple
       :config (column-number-mode))
    #+END_SRC
 
-
-* smex
+** smex
    #+BEGIN_SRC emacs-lisp
      (use-package smex)
    #+END_SRC
 
-* TODO flycheck
+** flycheck
    #+BEGIN_SRC emacs-lisp
     (use-package flycheck
     :config
-      (global-flycheck-mode t))
+    (global-flycheck-mode t))
    #+END_SRC
 
-* ivy
+** ivy
    #+BEGIN_SRC emacs-lisp
-    (use-package ivy
-      :requires smex
-      :config
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t)
-      (setq enable-recursive-minibuffers t)
-      (setq ivy-re-builders-alist
-            '((t . ivy--regex-ignore-order)))
-      (setq ivy-initial-inputs-alist nil)
-      (setq projectile-completion-system 'ivy)
-      (setq counsel-async-filter-update-time 10000)
-      (setq ivy-dynamic-exhibit-delay-ms 20)
-      (global-set-key "\C-s" 'swiper)
-      (global-set-key (kbd "M-x") 'counsel-M-x)
-      (global-set-key (kbd "C-t") 'complete-symbol)
-      (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-      (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
+     (use-package ivy
+       :requires smex
+       :config
 
-      ;; https://github.com/Yevgnen/ivy-rich
-      (use-package ivy-rich
-        :requires ivy
-        :config
-        (setq ivy-format-function #'ivy-format-function-line)
-        (ivy-rich-mode 1))
+       ;; (setq ivy-use-virtual-buffers t)
+       ;; (setq enable-recursive-minibuffers t)
+       (setq ivy-re-builders-alist
+             '((t . ivy--regex-ignore-order)))
+       (setq ivy-initial-inputs-alist nil)
+       ;; (setq counsel-async-filter-update-time 10000)
+       ;; (setq ivy-dynamic-exhibit-delay-ms 20)
+       (global-set-key "\C-s" 'swiper)
+       (global-set-key (kbd "M-x") 'counsel-M-x)
+       (global-set-key (kbd "C-t") 'complete-symbol)
+       (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+       (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+       (ivy-mode 1))
+
+       ;; https://github.com/Yevgnen/ivy-rich
+       ;; (use-package ivy-rich
+       ;;   :requires ivy
+       ;;   :config
+       ;;   (setq ivy-format-function #'ivy-format-function-line)
+       ;;   (ivy-rich-mode 1))
+
+       (use-package ivy-posframe
+         :requires ivy
+         :config
+         ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+         (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
+         (ivy-posframe-mode -1))
+
    #+END_SRC
 
-* projectile
+** projectile
    #+BEGIN_SRC emacs-lisp
      (use-package projectile
        :config
@@ -284,10 +296,11 @@
                        "*-autoloads.el"
                        )
                      projectile-globally-ignored-files))
+       (setq projectile-completion-system 'ivy)
        (projectile-mode))
    #+END_SRC
 
-* counsel-projectile
+** counsel-projectile
    #+BEGIN_SRC emacs-lisp
       (use-package counsel-projectile
         :defines personal-keybindings
@@ -295,7 +308,7 @@
         :bind ("C-x p" . projectile-switch-open-project))
    #+END_SRC
 
-* DONE company
+** company
    #+BEGIN_SRC emacs-lisp
      (use-package company
        :config
@@ -330,7 +343,7 @@
      ;;   :hook (company-mode . company-box-mode))
    #+END_SRC
 
-* TODO lsp
+** lsp
    #+BEGIN_SRC emacs-lisp :tangle no
      (use-package lsp-mode
        :commands lsp
@@ -342,34 +355,32 @@
      (use-package company-lsp)
    #+END_SRC
 
-* TODO flymake
+** flymake
    #+BEGIN_SRC emacs-lisp
      (use-package flymake
        :config)
    #+END_SRC
 
-
-* TODO eglot
+** eglot
    #+BEGIN_SRC emacs-lisp
      (use-package eglot
        :config)
    #+END_SRC
 
-* vterm
+** vterm
    #+BEGIN_SRC emacs-lisp
      ;; (use-package vterm
      ;;   :config)
    #+END_SRC
 
-
-* undo-tree
+** undo-tree
    #+BEGIN_SRC emacs-lisp
       (use-package undo-tree
         :config
         (global-undo-tree-mode))
    #+END_SRC
 
-* polymode
+** polymode
    #+BEGIN_SRC emacs-lisp
      (use-package polymode
        :config
@@ -405,8 +416,7 @@
      (add-to-list 'auto-mode-alist '("\\.vue\\'" . poly-zero-mode))
    #+END_SRC
 
-
-* TODO eshell
+** eshell
    #+BEGIN_SRC emacs-lisp
      (require 'eshell)
      (require 'magit)
@@ -493,13 +503,13 @@
      (setq eshell-history-size 10000)
    #+END_SRC
 
-* TODO kubernetes
+** kubernetes
    #+BEGIN_SRC emacs-lisp :tangle no
      (use-package kubernetes
        :commands (kubernetes-overview))
    #+END_SRC
 
-* TODO python
+** python
    #+BEGIN_SRC emacs-lisp
      ;; (use-package virtualenvwrapper)
      (setq python-indent-offset 2)
@@ -518,13 +528,12 @@
 
    #+END_SRC
 
-
-* elisp
+** elisp
    #+BEGIN_SRC emacs-lisp
      (add-hook 'emacs-lisp-mode-hook 'company-mode)
    #+END_SRC
 
-* javascript
+** javascript
    #+BEGIN_SRC emacs-lisp
      (setenv "NODE_PATH"
        (concat "/home/yin/.node/lib/node_modules" ":" (getenv "NODE_PATH")))
@@ -544,7 +553,7 @@
        ('js2-mode . 'eglot-ensure))
    #+END_SRC
 
-* typescript
+** typescript
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
        :defer t
@@ -559,7 +568,7 @@
         ('typescript-mode . 'subword-mode)))
    #+END_SRC
 
-* json
+** json
    #+BEGIN_SRC emacs-lisp
      (use-package json-mode
        :defer t
@@ -568,7 +577,7 @@
        :hook (('json-mode . 'highlight-symbol-mode)))
    #+END_SRC
 
-* sql
+** sql
    #+BEGIN_SRC emacs-lisp
       ;; (setq sql-postgres-login-params (append sql-mysql-login-params '(port)))
       (setq sql-connection-alist
@@ -579,20 +588,20 @@
               (sql-database "gamesight_prod"))))
    #+END_SRC
 
-* markdown
+** markdown
    #+BEGIN_SRC emacs-lisp
       (use-package markdown-mode
         :mode "\\.md\\'")
    #+END_SRC
 
-* plantuml
+** plantuml
    #+BEGIN_SRC emacs-lisp
      (require 'ob-plantuml)
      (setq org-plantuml-jar-path
            (expand-file-name "~/.plantuml/plantuml.jar"))
    #+END_SRC
 
-* org-mode
+** org-mode
    #+BEGIN_SRC emacs-lisp
      (use-package org-bullets)
      (use-package org-yaml)
@@ -643,7 +652,7 @@
      (setq initial-buffer-choice (concat user-emacs-directory "notes.org"))
    #+END_SRC
 
-* TODO tramp
+** TODO tramp
    #+BEGIN_SRC emacs-lisp :tangle no
      (defconst my-tramp-prompt-regexp "Verification code: ")
 
@@ -669,26 +678,26 @@
          ad-do-it))
    #+END_SRC
 
-* pug
+** pug
    #+BEGIN_SRC emacs-lisp
       (use-package pug-mode
         :config
         (setq pug-tab-width 2))
    #+END_SRC
 
-* stylus
+** stylus
    #+BEGIN_SRC emacs-lisp
       (use-package sws-mode)
    #+END_SRC
 
-* mmm-mode
+** mmm-mode
    #+BEGIN_SRC emacs-lisp
       (use-package mmm-mode
         :config
         (setq mmm-submode-decoration-level 0))
    #+END_SRC
 
-* TODO vue-mode
+** TODO vue-mode
    #+BEGIN_SRC emacs-lisp :tangle no
      ;; (use-package vue-mode
      ;;   :requires mmm-mode
@@ -699,20 +708,20 @@
      ;;          ))
    #+END_SRC
 
-* yaml-mode
+** yaml-mode
    #+BEGIN_SRC emacs-lisp
       (use-package yaml-mode
         :mode "\\.yaml\\'"
         :hook (('yaml-mode . 'highlight-indent-guides-mode)))
    #+END_SRC
 
-* csv-mode
+** csv-mode
    #+BEGIN_SRC emacs-lisp
       (use-package csv-mode
         :mode "\\.csv\\'")
    #+END_SRC
 
-* UI
+** UI
 ** fullscreen
    #+BEGIN_SRC emacs-lisp
      (if (= (display-pixel-width) 2560)
@@ -826,14 +835,14 @@
         (doom-themes-org-config))
     #+END_SRC
 
-* expand-region
+** expand-region
     #+BEGIN_SRC emacs-lisp
       (use-package expand-region
         :config
         (global-set-key (kbd "C-o") 'er/expand-region))
     #+END_SRC
 
-* TODO slack
+** TODO slack
     #+BEGIN_SRC emacs-lisp :tangle no
       (use-package alert)
       (use-package circe)
@@ -862,7 +871,7 @@
         (setq alert-default-style 'notifier))
     #+END_SRC
 
-* Keybindigs
+** Keybindigs
     #+BEGIN_SRC emacs-lisp
       (global-set-key (kbd "C--") 'undo)
       (global-set-key (kbd "C-r") 'redo)
@@ -887,7 +896,7 @@
       (fset 'yes-or-no-p 'y-or-n-p)
     #+END_SRC
 
-* Spotify
+** Spotify
     #+BEGIN_SRC emacs-lisp :tangle no
       (use-package counsel-spotify
         :config
@@ -895,7 +904,7 @@
         (setq counsel-spotify-client-secret "8a64340b996145868a65bee52ed06271"))
     #+END_SRC
 
-* Backups
+** Backups
     #+BEGIN_SRC emacs-lisp
       (setq make-backup-files nil) ; stop creating backup~ files
       (setq auto-save-default nil) ; stop creating #autosave# files

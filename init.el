@@ -1,4 +1,3 @@
-;;; -*- lexical-binding: t -*-
 (defun tangle-init ()
 (interactive)
   (when (equal (buffer-file-name)
@@ -7,16 +6,6 @@
       (org-babel-tangle)
       (byte-compile-file (concat user-emacs-directory "init.el"))
       (load-file (concat user-emacs-directory "init.el")))))
-
-(setq gc-cons-threshold #x40000000)
-
-;; (run-with-idle-timer 15 t
-;;                        (lambda ()
-;;                        (garbage-collect)))
-
-(use-package gcmh
-  :config
-  (gcmh-mode 1))
 
 (progn
   (setq user-init-file (or load-file-name buffer-file-name))
@@ -32,6 +21,11 @@
   (tool-bar-mode 0)
   (menu-bar-mode 0)
   (tooltip-mode 0))
+
+;; (setq gc-cons-threshold 100000000)
+(add-to-list 'load-path (expand-file-name "lib/gcmh" user-emacs-directory))
+(require 'gcmh)
+(gcmh-mode 1)
 
 (progn
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
@@ -131,32 +125,39 @@
 
 (use-package flycheck
 :config
-  (global-flycheck-mode t))
+(global-flycheck-mode t))
 
 (use-package ivy
   :requires smex
   :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
+
+  ;; (setq ivy-use-virtual-buffers t)
+  ;; (setq enable-recursive-minibuffers t)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-ignore-order)))
   (setq ivy-initial-inputs-alist nil)
-  (setq projectile-completion-system 'ivy)
-  (setq counsel-async-filter-update-time 10000)
-  (setq ivy-dynamic-exhibit-delay-ms 20)
+  ;; (setq counsel-async-filter-update-time 10000)
+  ;; (setq ivy-dynamic-exhibit-delay-ms 20)
   (global-set-key "\C-s" 'swiper)
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-t") 'complete-symbol)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
+  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+  (ivy-mode 1))
 
   ;; https://github.com/Yevgnen/ivy-rich
-  (use-package ivy-rich
+  ;; (use-package ivy-rich
+  ;;   :requires ivy
+  ;;   :config
+  ;;   (setq ivy-format-function #'ivy-format-function-line)
+  ;;   (ivy-rich-mode 1))
+
+  (use-package ivy-posframe
     :requires ivy
     :config
-    (setq ivy-format-function #'ivy-format-function-line)
-    (ivy-rich-mode 1))
+    ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+    (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
+    (ivy-posframe-mode -1))
 
 (use-package projectile
   :config
@@ -191,6 +192,7 @@
                   "*-autoloads.el"
                   )
                 projectile-globally-ignored-files))
+  (setq projectile-completion-system 'ivy)
   (projectile-mode))
 
 (use-package counsel-projectile

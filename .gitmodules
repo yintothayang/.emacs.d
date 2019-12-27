@@ -114,6 +114,9 @@
 [submodule "ivy"]
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
+[submodule "ivy-posframe"]
+	path = lib/ivy-posframe
+	url = git@github.com:tumashu/ivy-posframe.git
 [submodule "ivy-rich"]
 	path = lib/ivy-rich
 	url = git@github.com:Yevgnen/ivy-rich.git
@@ -180,6 +183,9 @@
 [submodule "polymode"]
 	path = lib/polymode
 	url = git@github.com:polymode/polymode.git
+[submodule "posframe"]
+	path = lib/posframe
+	url = git@github.com:tumashu/posframe.git
 [submodule "powerline"]
 	path = lib/powerline
 	url = git@github.com:milkypostman/powerline.git
