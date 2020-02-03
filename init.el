@@ -163,8 +163,12 @@
           (t               . ivy-posframe-display-at-frame-center)))
   (setq ivy-posframe-parameters
         '((left-fringe . 8)
-          (right-fringe . 8)))
+          (right-fringe . 8)
+          ))
+
   (ivy-posframe-mode 1))
+
+(setq ivy-initial-inputs-alist nil)
 
 (use-package projectile
   :config
@@ -414,6 +418,7 @@ directory to make multiple eshell windows easier."
    ;; ('typescript-mode . 'highlight-indent-guides-mode)
    ;; ('typescript-mode . 'flycheck-mode)
    ;; ('typescript-mode .  #'lsp)
+   ('typescript-mode .  'color-identifiers-mode)
    ('typescript-mode . 'eglot-ensure)
    ;; ('typescript-mode . 'company-mode)
    ('typescript-mode . 'subword-mode)))
@@ -497,6 +502,8 @@ directory to make multiple eshell windows easier."
   :config
   (setq mmm-submode-decoration-level 0))
 
+(use-package dockerfile-mode)
+
 (use-package yaml-mode
   :mode "\\.yaml\\'"
   :hook (('yaml-mode . 'highlight-indent-guides-mode)))
@@ -576,6 +583,17 @@ directory to make multiple eshell windows easier."
   (load-theme 'doom-vibrant t)
   ;; (load-theme 'doom-one-light t)
   (doom-themes-org-config))
+
+(use-package color-identifiers-mode
+  :config
+
+  (add-to-list
+   'color-identifiers:modes-alist
+   `(typescript-mode . ("[^.][[:space:]]*"
+                "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
+                (nil font-lock-variable-name-face))))
+  )
+(add-hook 'after-init-hook 'global-color-identifiers-mode)
 
 (use-package expand-region
   :config

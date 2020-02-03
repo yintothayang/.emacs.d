@@ -20,3 +20,4 @@ dir
 session*
 README.el
 images/
+tramp

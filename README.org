@@ -263,9 +263,12 @@
                (t               . ivy-posframe-display-at-frame-center)))
        (setq ivy-posframe-parameters
              '((left-fringe . 8)
-               (right-fringe . 8)))
+               (right-fringe . 8)
+               ))
+
        (ivy-posframe-mode 1))
 
+     (setq ivy-initial-inputs-alist nil)
    #+END_SRC
 
 ** projectile
@@ -579,6 +582,7 @@
         ;; ('typescript-mode . 'highlight-indent-guides-mode)
         ;; ('typescript-mode . 'flycheck-mode)
         ;; ('typescript-mode .  #'lsp)
+        ('typescript-mode .  'color-identifiers-mode)
         ('typescript-mode . 'eglot-ensure)
         ;; ('typescript-mode . 'company-mode)
         ('typescript-mode . 'subword-mode)))
@@ -711,6 +715,11 @@
       (use-package mmm-mode
         :config
         (setq mmm-submode-decoration-level 0))
+   #+END_SRC
+
+** docker-mode
+   #+BEGIN_SRC emacs-lisp
+      (use-package dockerfile-mode)
    #+END_SRC
 
 ** TODO vue-mode
@@ -849,6 +858,17 @@
         (load-theme 'doom-vibrant t)
         ;; (load-theme 'doom-one-light t)
         (doom-themes-org-config))
+
+      (use-package color-identifiers-mode
+        :config
+
+        (add-to-list
+         'color-identifiers:modes-alist
+         `(typescript-mode . ("[^.][[:space:]]*"
+                      "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
+                      (nil font-lock-variable-name-face))))
+        )
+      (add-hook 'after-init-hook 'global-color-identifiers-mode)
     #+END_SRC
 
 ** expand-region

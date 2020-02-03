@@ -31,6 +31,9 @@
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
+[submodule "color-identifiers-mode"]
+	path = lib/color-identifiers-mode
+	url = git@github.com:ankurdave/color-identifiers-mode.git
 [submodule "company"]
 	path = lib/company
 	url = git@github.com:company-mode/company-mode.git
@@ -56,6 +59,9 @@
 [submodule "diff-hl"]
 	path = lib/diff-hl
 	url = git@github.com:dgutov/diff-hl.git
+[submodule "dockerfile-mode"]
+	path = lib/dockerfile-mode
+	url = git@github.com:spotify/dockerfile-mode.git
 [submodule "doom-modeline"]
 	path = lib/doom-modeline
 	url = git@github.com:seagle0128/doom-modeline.git
