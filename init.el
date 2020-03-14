@@ -7,6 +7,9 @@
       (byte-compile-file (concat user-emacs-directory "init.el"))
       (load-file (concat user-emacs-directory "init.el")))))
 
+(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+      gc-cons-percentage 0.6)
+
 (progn
   (setq user-init-file (or load-file-name buffer-file-name))
   (setq user-emacs-directory (file-name-directory user-init-file))
@@ -22,10 +25,26 @@
   (menu-bar-mode 0)
   (tooltip-mode 0))
 
-;; (setq gc-cons-threshold 100000000)
-(add-to-list 'load-path (expand-file-name "lib/gcmh" user-emacs-directory))
-(require 'gcmh)
-(gcmh-mode 1)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold 16777216 ; 16mb
+                  gc-cons-percentage 0.1)))
+
+(defun defer-garbage-collection-h ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun restore-garbage-collection-h ()
+  ;; Defer it so that commands launched immediately after will enjoy the
+  ;; benefits.
+  (run-at-time
+   1 nil (lambda () (setq gc-cons-threshold 16777216))))
+
+(add-hook 'minibuffer-setup-hook #'defer-garbage-collection-h)
+(add-hook 'minibuffer-exit-hook #'restore-garbage-collection-h)
+
+;; (add-to-list 'load-path (expand-file-name "lib/gcmh" user-emacs-directory))
+;; (require 'gcmh)
+;; (gcmh-mode 1)
 
 (progn
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
@@ -519,11 +538,11 @@ directory to make multiple eshell windows easier."
       (setq x-super-keysym 'super))
   (progn
     (message "big screen")
-    (set-face-attribute 'default nil :height 130)
+    (set-face-attribute 'default nil :height 100)
     (setq x-meta-keysym 'super)
     (setq x-super-keysym 'meta)))
 
- (set-frame-parameter nil 'fullscreen 'fullboth)
+(set-frame-parameter nil 'fullscreen 'fullboth)
 
 (set-frame-font "Office Code Pro")
 
