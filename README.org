@@ -147,6 +147,12 @@
       (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh t))
    #+END_SRC
 
+** exec-path-from-shell
+   #+BEGIN_SRC emacs-lisp
+     (use-package exec-path-from-shell
+       :init (exec-path-from-shell-initialize))
+   #+END_SRC
+
 ** dired
    #+BEGIN_SRC emacs-lisp
     (use-package dired
@@ -643,6 +649,12 @@
            (expand-file-name "~/.plantuml/plantuml.jar"))
    #+END_SRC
 
+** mermaid
+   #+BEGIN_SRC emacs-lisp
+     (use-package mermaid-mode
+     :mode "\\.mermaid\\'")
+   #+END_SRC
+
 ** org-mode
    #+BEGIN_SRC emacs-lisp
      (use-package org-bullets)
@@ -652,6 +664,7 @@
      (use-package gnuplot-mode)
      (use-package ox-gfm)
      (use-package ob-async)
+     (use-package ob-mermaid)
 
      ;; (setq org-startup-folded 'showall)
      (setq org-export-babel-evaluate nil)

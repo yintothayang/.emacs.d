@@ -84,6 +84,9 @@
 [submodule "evil"]
 	path = lib/evil
 	url = git@github.com:emacs-evil/evil.git
+[submodule "exec-path-from-shell"]
+	path = lib/exec-path-from-shell
+	url = git@github.com:purcell/exec-path-from-shell.git
 [submodule "expand-region"]
 	path = lib/expand-region
 	url = git@github.com:magnars/expand-region.el.git
@@ -174,12 +177,18 @@
 [submodule "memoize"]
 	path = lib/memoize
 	url = git@github.com:skeeto/emacs-memoize.git
+[submodule "mermaid-mode"]
+	path = lib/mermaid-mode
+	url = git@github.com:abrochard/mermaid-mode.git
 [submodule "mmm-mode"]
 	path = lib/mmm-mode
 	url = git@github.com:purcell/mmm-mode.git
 [submodule "ob-async"]
 	path = lib/ob-async
 	url = git@github.com:astahlman/ob-async.git
+[submodule "ob-mermaid"]
+	path = lib/ob-mermaid
+	url = git@github.com:arnm/ob-mermaid.git
 [submodule "ob-typescript"]
 	path = lib/ob-typescript
 	url = git@github.com:lurdan/ob-typescript.git

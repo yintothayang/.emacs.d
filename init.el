@@ -90,6 +90,9 @@
   (global-diff-hl-mode)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh t))
 
+(use-package exec-path-from-shell
+  :init (exec-path-from-shell-initialize))
+
 (use-package dired
   :defer t
   :config (setq dired-listing-switches "-alh"))
@@ -463,6 +466,9 @@ directory to make multiple eshell windows easier."
 (setq org-plantuml-jar-path
       (expand-file-name "~/.plantuml/plantuml.jar"))
 
+(use-package mermaid-mode
+:mode "\\.mermaid\\'")
+
 (use-package org-bullets)
 (use-package org-yaml)
 (use-package ob-typescript)
@@ -470,6 +476,7 @@ directory to make multiple eshell windows easier."
 (use-package gnuplot-mode)
 (use-package ox-gfm)
 (use-package ob-async)
+(use-package ob-mermaid)
 
 ;; (setq org-startup-folded 'showall)
 (setq org-export-babel-evaluate nil)
