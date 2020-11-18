@@ -348,10 +348,11 @@
               (setq xterm-color-preserve-properties t)))
 
   (add-hook 'eshell-mode-hook
-            (lambda ()
-              (setenv "TERM" "xterm-256color")))
+     (lambda () (progn
+       (setq xterm-color-preserve-properties t)
+       (setenv "TERM" "xterm-256color"))))
 
-  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  ;; (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
 (defun eshell-up ()
@@ -477,6 +478,10 @@ directory to make multiple eshell windows easier."
 (use-package ox-gfm)
 (use-package ob-async)
 (use-package ob-mermaid)
+(setq ob-mermaid-cli-path "/usr/lib/node_modules/bin/mmdc")
+
+;;(org-babel-execute:mermaid)
+
 
 ;; (setq org-startup-folded 'showall)
 (setq org-export-babel-evaluate nil)
@@ -498,15 +503,15 @@ directory to make multiple eshell windows easier."
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
- (sql . t)
- (js . t)
- (typescript . t)
- (gnuplot . t)
- (ditaa . t)
- (latex . t)
- (shell . t)
+   (sql . t)
+   (js . t)
+   (typescript . t)
+   (gnuplot . t)
+   (ditaa . t)
+   (latex . t)
+   (shell . t)
 
- (R . t)))
+   (R . t)))
 
 
 ;; LaTex
@@ -545,7 +550,7 @@ directory to make multiple eshell windows easier."
       (setq x-super-keysym 'super))
   (progn
     (message "big screen")
-    (set-face-attribute 'default nil :height 100)
+    (set-face-attribute 'default nil :height 160)
     (setq x-meta-keysym 'super)
     (setq x-super-keysym 'meta)))
 
@@ -579,6 +584,7 @@ directory to make multiple eshell windows easier."
 (setq-default tab-width 2)
 (setq default-tab-width 2)
 
+(setq visible-bell nil)
 (setq ring-bell-function 'ignore)
 
 (use-package smartparens
