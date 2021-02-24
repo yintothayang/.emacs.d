@@ -24,3 +24,6 @@ tramp
 amx-items
 recentf*
 notes.org
+bookmarks
+init.el
+early-init.el
