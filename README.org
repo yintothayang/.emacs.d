@@ -28,7 +28,7 @@
      (setq inhibit-startup-echo-area-message "locutus")
      (setq initial-buffer-choice t)
      (setq load-prefer-newer t)
-     (setq auto-window-vscroll nil)
+
      (scroll-bar-mode 0)
      (tool-bar-mode 0)
      (menu-bar-mode 0)
