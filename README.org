@@ -7,10 +7,15 @@
 
 * Emacs
 
+
+** Lexical scope
+   #+BEGIN_SRC emacs-lisp
+     ;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
+   #+END_SRC
+
 ** Garbage Collection
    #+BEGIN_SRC emacs-lisp
      (setq gc-cons-threshold 100000000)
-
    #+END_SRC
 
 ** Init
@@ -48,10 +53,9 @@
 
 ** Borg
    #+BEGIN_SRC emacs-lisp
-     (progn
-       (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
-       (require  'borg)
-       (borg-initialize))
+     (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
+     (require  'borg)
+     (borg-initialize)
    #+END_SRC
 
 ** use-package

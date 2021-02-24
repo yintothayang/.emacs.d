@@ -1,3 +1,5 @@
+;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
+
 (setq gc-cons-threshold 100000000)
 
 (setq user-init-file (or load-file-name buffer-file-name))
@@ -23,10 +25,9 @@
       (byte-compile-file (concat user-emacs-directory "init.el"))
       (load-file (concat user-emacs-directory "init.el")))))
 
-(progn
-  (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
-  (require  'borg)
-  (borg-initialize))
+(add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
+(require  'borg)
+(borg-initialize)
 
 (progn ;    `use-package'
   (require  'use-package)
