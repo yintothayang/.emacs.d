@@ -16,6 +16,9 @@
 [submodule "all-the-icons-ivy"]
 	path = lib/all-the-icons-ivy
 	url = git@github.com:asok/all-the-icons-ivy.git
+[submodule "amx"]
+	path = lib/amx
+	url = git@github.com:DarwinAwardWinner/amx.git
 [submodule "async"]
 	path = lib/async
 	url = git@github.com:jwiegley/emacs-async.git

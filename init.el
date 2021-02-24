@@ -1,3 +1,19 @@
+(setq gc-cons-threshold 100000000)
+
+(setq user-init-file (or load-file-name buffer-file-name))
+(setq user-emacs-directory (file-name-directory user-init-file))
+(setq package-enable-at-startup nil)
+(setq inhibit-startup-buffer-menu t)
+(setq inhibit-startup-screen t)
+(setq inhibit-startup-echo-area-message "locutus")
+(setq initial-buffer-choice t)
+(setq load-prefer-newer t)
+(setq auto-window-vscroll nil)
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(tooltip-mode 0)
+
 (defun tangle-init ()
 (interactive)
   (when (equal (buffer-file-name)
@@ -6,45 +22,6 @@
       (org-babel-tangle)
       (byte-compile-file (concat user-emacs-directory "init.el"))
       (load-file (concat user-emacs-directory "init.el")))))
-
-(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
-      gc-cons-percentage 0.6)
-
-(progn
-  (setq user-init-file (or load-file-name buffer-file-name))
-  (setq user-emacs-directory (file-name-directory user-init-file))
-  (setq package-enable-at-startup nil)
-  (setq inhibit-startup-buffer-menu t)
-  (setq inhibit-startup-screen t)
-  (setq inhibit-startup-echo-area-message "locutus")
-  (setq initial-buffer-choice t)
-  (setq load-prefer-newer t)
-  (setq auto-window-vscroll nil)
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
-  (menu-bar-mode 0)
-  (tooltip-mode 0))
-
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold 16777216 ; 16mb
-                  gc-cons-percentage 0.1)))
-
-(defun defer-garbage-collection-h ()
-  (setq gc-cons-threshold most-positive-fixnum))
-
-(defun restore-garbage-collection-h ()
-  ;; Defer it so that commands launched immediately after will enjoy the
-  ;; benefits.
-  (run-at-time
-   1 nil (lambda () (setq gc-cons-threshold 16777216))))
-
-(add-hook 'minibuffer-setup-hook #'defer-garbage-collection-h)
-(add-hook 'minibuffer-exit-hook #'restore-garbage-collection-h)
-
-;; (add-to-list 'load-path (expand-file-name "lib/gcmh" user-emacs-directory))
-;; (require 'gcmh)
-;; (gcmh-mode 1)
 
 (progn
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
@@ -143,14 +120,15 @@
 (use-package simple
   :config (column-number-mode))
 
-(use-package smex)
+(use-package amx
+  :config
+  (amx-mode))
 
 (use-package flycheck
 :config
 (global-flycheck-mode t))
 
 (use-package ivy
-  :requires smex
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
@@ -272,7 +250,8 @@
   (setq aw-dispatch-always t))
 
 (use-package eglot
-  :config)
+  :config
+  (setq read-process-output-max (* 1024 1024))) ;; 1mb
 
 ;; (use-package vterm
 ;;   :config)
