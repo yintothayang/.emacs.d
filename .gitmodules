@@ -120,6 +120,9 @@
 [submodule "graphql"]
 	path = lib/graphql
 	url = git@github.com:vermiculus/graphql.el.git
+[submodule "graphql-mode"]
+	path = lib/graphql-mode
+	url = git@github.com:davazp/graphql-mode.git
 [submodule "highlight-symbol"]
 	path = lib/highlight-symbol
 	url = git@github.com:nschum/highlight-symbol.el.git

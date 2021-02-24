@@ -32,7 +32,7 @@
            (org-babel-tangle)
            (byte-compile-file (concat user-emacs-directory "init.el"))
            (load-file (concat user-emacs-directory "init.el")))))
-           #+END_SRC
+   #+END_SRC
 
 ** Init
    #+BEGIN_SRC emacs-lisp
@@ -637,6 +637,13 @@
               (sql-database "gamesight_prod"))))
    #+END_SRC
 
+** graphql
+   #+BEGIN_SRC emacs-lisp
+     (use-package graphql-mode
+       :defer t
+       :mode "\\.graphql\\'")
+   #+END_SRC
+
 ** markdown
    #+BEGIN_SRC emacs-lisp
       (use-package markdown-mode
@@ -802,6 +809,21 @@
          (setq x-super-keysym 'meta)))
 
      (set-frame-parameter nil 'fullscreen 'fullboth)
+
+
+     (defun small-screen ()
+       (interactive)
+       (message "small screen")
+       (set-face-attribute 'default nil :height 144)
+       (setq x-meta-keysym 'meta)
+       (setq x-super-keysym 'super))
+
+     (defun big-screen ()
+       (interactive)
+       (message "big screen")
+       (set-face-attribute 'default nil :height 160)
+       (setq x-meta-keysym 'super)
+       (setq x-super-keysym 'meta))
     #+END_SRC
 ** font
    #+BEGIN_SRC emacs-lisp

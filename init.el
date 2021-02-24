@@ -460,6 +460,10 @@ directory to make multiple eshell windows easier."
         (sql-user "gs_prod")
         (sql-database "gamesight_prod"))))
 
+(use-package graphql-mode
+  :defer t
+  :mode "\\.graphql\\'")
+
 (use-package markdown-mode
   :mode "\\.md\\'")
 
@@ -555,6 +559,21 @@ directory to make multiple eshell windows easier."
     (setq x-super-keysym 'meta)))
 
 (set-frame-parameter nil 'fullscreen 'fullboth)
+
+
+(defun small-screen ()
+  (interactive)
+  (message "small screen")
+  (set-face-attribute 'default nil :height 144)
+  (setq x-meta-keysym 'meta)
+  (setq x-super-keysym 'super))
+
+(defun big-screen ()
+  (interactive)
+  (message "big screen")
+  (set-face-attribute 'default nil :height 160)
+  (setq x-meta-keysym 'super)
+  (setq x-super-keysym 'meta))
 
 (set-frame-font "Office Code Pro")
 
